@@ -1,5 +1,6 @@
 @extends('layouts.home')
-
+@section('title', __('Stardena Works - Home'))
+@section('new-badge', __("We're hiring! 50+ tech positions available"))
 @section('home-content')
 
 <!-- HERO SECTION -->
