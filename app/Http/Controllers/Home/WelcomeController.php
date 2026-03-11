@@ -10,6 +10,7 @@ class WelcomeController extends Controller
 {
     public function index()
     {
+        
         // Get URL from config
         $mainAppUrl = config('api.main_app.api_base');
         

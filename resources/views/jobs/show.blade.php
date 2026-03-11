@@ -1,608 +1,508 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
+@extends('layouts.jobs')
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+@section('title', __('Job Details - Stardena Works'))
+@section('new-badge', __("We're hiring! 50+ tech positions available"))
 
-  <!-- Favicon icon-->
-  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
-
-  <!-- Core Css -->
-  <link rel="stylesheet" href="../assets/css/styles.css" />
-
-  <title>MaterialPro Bootstrap Admin</title>
-  <!-- Owl Carousel  -->
-  <link rel="stylesheet" href="../assets/libs/owl.carousel/dist/assets/owl.carousel.min.css" />
-</head>
-
-<body>
-  <div class="costom-logo-fp preloader">
-    <a href="javascript:void(0)" class="text-nowrap logo-img d-flex align-items-center">
-      <b class="logo-icon">
-        <!-- Dark Logo icon -->
-        <img src="../assets/images/logos/logo-icon.svg" alt="loader" class="dark-logo lds-ripple img-fluid" />
-        <!-- Light Logo icon -->
-        <img src="../assets/images/logos/logo-light-icon.svg" alt="loader" class="light-logo lds-ripple img-fluid" />
-      </b>
-    </a>
-  </div>
-  <!-- ------------------------------------- -->
-  <!-- Top Bar Start -->
-  <!-- ------------------------------------- -->
-  <div class="topbar-image bg-primary py-8 rounded-0 mb-0 alert alert-dismissible fade show" role="alert">
-    <div class="d-flex justify-content-center gap-sm-3 gap-2 align-items-center text-center flex-md-nowrap flex-wrap">
-      <span class="badge bg-white bg-opacity-10 fs-2 fw-semibold px-2">New</span>
-      <p class="mb-0 text-white">Frontend Pages Included!</p>
-    </div>
-    <button type="button" class="btn-close btn-close-white p-3 fs-2" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-
-  <!-- ------------------------------------- -->
-  <!-- Top Bar End -->
-  <!-- ------------------------------------- -->
-
-  <!-- -------------------------------------------- -->
-  <!-- Header start -->
-  <!-- -------------------------------------------- -->
-  <header class="header-fp p-0 w-100 bg-primary-subtle">
-    <nav class="navbar navbar-expand-lg py-10">
-      <div class="container-fluid d-flex justify-content-between">
-        <a href="../main/frontend-landingpage.html" class="text-nowrap logo-img d-flex align-items-center gap-2">
-          <b class="logo-icon">
-            <!-- Dark Logo icon -->
-            <img src="../assets/images/logos/logo-icon.svg" alt="homepage" class="dark-logo" />
-            <!-- Light Logo icon -->
-            <img src="../assets/images/logos/logo-light-icon.svg" alt="homepage" class="light-logo" />
-          </b>
-          <!--End Logo icon -->
-          <!-- Logo text -->
-          <span class="logo-text">
-            <!-- dark Logo text -->
-            <img src="../assets/images/logos/logo-text.svg" alt="homepage" class="dark-logo ps-2" />
-            <!-- Light Logo text -->
-            <img src="../assets/images/logos/logo-light-text.svg" class="light-logo ps-2" alt="homepage" />
-          </span>
-        </a>
-        <button class="navbar-toggler border-0 p-0 shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-          <i class="ti ti-menu-2 fs-8"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mx-auto mb-2 gap-xl-7 gap-8 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link fs-4 text-dark link-primary px-6" href="../main/frontend-aboutpage.html">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fs-4 text-dark link-primary px-6" href="../main/frontend-blogpage.html">Blog</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link fs-4 text-dark link-primary px-6 d-flex gap-2" href="../main/frontend-portfoliopage.html">Portfolio
-                <span class="badge text-white bg-primary fs-2 fw-semibold hstack">New</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fs-4 text-dark link-primary px-6" href="../main/index.html">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fs-4 text-dark link-primary px-6" href="../main/frontend-pricingpage.html">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fs-4 text-dark link-primary px-6" href="../main/frontend-contactpage.html">Contact</a>
-            </li>
-          </ul>
-          <a href="../main/authentication-login.html" class="btn btn-primary">Log In</a>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <!-- -------------------------------------------- -->
-  <!-- Header End -->
-  <!-- -------------------------------------------- -->
-
-  <!-- ------------------------------------- -->
-  <!-- Responsive Header Start -->
-  <!-- ------------------------------------- -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-      <a href="../main/frontend-landingpage.html" class="text-nowrap logo-img d-flex align-items-center gap-2">
-        <b class="logo-icon">
-          <!-- Dark Logo icon -->
-          <img src="../assets/images/logos/logo-icon.svg" alt="homepage" class="dark-logo" />
-          <!-- Light Logo icon -->
-          <img src="../assets/images/logos/logo-light-icon.svg" alt="homepage" class="light-logo" />
-        </b>
-        <!--End Logo icon -->
-        <!-- Logo text -->
-        <span class="logo-text">
-          <!-- dark Logo text -->
-          <img src="../assets/images/logos/logo-text.svg" alt="homepage" class="dark-logo ps-2" />
-          <!-- Light Logo text -->
-          <img src="../assets/images/logos/logo-light-text.svg" class="light-logo ps-2" alt="homepage" />
-        </span>
-      </a>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="list-unstyled ps-0">
-        <li class="mb-1">
-          <a href="../main/frontend-aboutpage.html" class="px-0 fs-4 d-block text-dark link-primary w-100 py-2">
-            About Us
-          </a>
-        </li>
-
-        <li class="mb-1">
-          <a href="../main/frontend-blogpage.html" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">
-            Blog
-          </a>
-        </li>
-
-        <li class="mb-1">
-          <a href="../main/frontend-portfoliopage.html" class="px-0 fs-4 d-flex align-items-center justify-content-start gap-2 w-100 py-2 text-dark link-primary">
-            Portfolio
-            <span class="badge text-white bg-primary fs-2 fw-semibold hstack">New</span>
-          </a>
-        </li>
-
-        <li class="mb-1">
-          <a href="../main/index.html" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">
-            Dashboard
-          </a>
-        </li>
-
-        <li class="mb-1">
-          <a href="../main/frontend-pricingpage.html" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">
-            Pricing
-          </a>
-        </li>
-
-        <li class="mb-1">
-          <a href="../main/frontend-contactpage.html" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">
-            Contact
-          </a>
-        </li>
-        <li class="mt-3">
-          <a href="../main/authentication-login.html" class="btn btn-primary w-100">Log In</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!-- ------------------------------------- -->
-  <!-- Responsive Header End -->
-  <!-- ------------------------------------- -->
+@section('job-content')
 
   <div class="main-wrapper overflow-hidden">
     <!-- ------------------------------------- -->
-    <!-- Banner Start -->
+    <!-- Breadcrumb Banner Start -->
     <!-- ------------------------------------- -->
-    <section class="py-5 py-lg-12 bg-primary-subtle">
+    <section class="py-4 py-lg-6 bg-primary-subtle">
       <div class="container-fluid">
-        <div class="text-center">
-          <div class="d-flex align-items-center justify-content-center gap-6">
-            <a href="../main/frontend-landingpage.html" class="text-muted fw-medium link-primary fs-3 text-uppercase">
-              MaterialPro
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3">
+          <div class="d-flex flex-nowrap align-items-center gap-2 overflow-auto pb-1 w-100" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <a href="{{ route('jobs.index') }}" class="text-muted fw-medium link-primary text-nowrap fs-3">Jobs</a>
+            <i class="bi bi-chevron-right fs-3 text-muted flex-shrink-0"></i>
+            
+            {{-- Job Category --}}
+            @if(isset($job['job_category']) && $job['job_category'])
+            <a href="{{ route('jobs.index', ['category' => $job['job_category']['slug'] ?? $job['job_category']['id']]) }}" class="text-muted fw-medium link-primary text-nowrap fs-3">
+              {{ $job['job_category']['name'] }}
             </a>
-            <iconify-icon icon="solar:alt-arrow-right-outline" class="fs-5 text-muted"></iconify-icon>
-            <a href="../main/frontend-blogpage.html" class="text-muted link-primary fw-medium fs-3 text-uppercase">
-              Blog posts
+            <i class="bi bi-chevron-right fs-3 text-muted flex-shrink-0"></i>
+            @endif
+            
+            {{-- Job Location --}}
+            @if(isset($job['job_location']) && ($job['job_location']['district'] ?? $job['job_location']['country']))
+            <a href="{{ route('jobs.index', ['location' => $job['job_location']['district'] ?? $job['job_location']['country']]) }}" class="text-muted fw-medium link-primary text-nowrap fs-3">
+              {{ $job['job_location']['district'] ?? $job['job_location']['country'] }}
             </a>
-            <iconify-icon icon="solar:alt-arrow-right-outline" class="fs-5 text-muted"></iconify-icon>
-            <a href="#" class="text-primary link-primary fw-medium fs-3 text-uppercase">
-              Web Development
-            </a>
+            <i class="bi bi-chevron-right fs-3 text-muted flex-shrink-0"></i>
+            @endif
+            
+            {{-- Job Title (Current Page) --}}
+            <span class="text-primary fw-medium text-nowrap fs-3">{{ Str::limit($job['job_title'] ?? 'Job Details', 40) }}</span>
           </div>
-          <h2 class="fs-15 fw-semibold my-9">
-            Early Black Friday Amazon deals: cheap TVs, headphones, laptops
-          </h2>
-          <div class="d-flex justify-content-center align-items-center gap-10">
-            <div class="d-flex gap-2">
-              <i class="ti ti-eye fs-5 text-dark"></i>
-              <p class="mb-0 fs-2 fw-semibold">6941</p>
-            </div>
-            <div class="d-flex gap-2">
-              <i class="ti ti-message fs-5 text-dark"></i>
-              <p class="mb-0 fs-2 fw-semibold">3</p>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-              <i class="ti ti-circle fs-2"></i>
-              <p class="mb-0 fs-2 fw-semibold">Tue, May 2</p>
-            </div>
+          
+          {{-- Action Buttons --}}
+          <div class="d-flex flex-nowrap gap-2 flex-shrink-0 w-100 w-lg-auto justify-content-start justify-content-lg-end">
+            <button class="btn btn-outline-primary btn-sm py-1 px-3 text-nowrap" onclick="saveJob({{ $job['id'] }})">
+              <i class="bi bi-bookmark me-1"></i>Save
+            </button>
+            <button class="btn btn-outline-primary btn-sm py-1 px-3 text-nowrap" onclick="shareJob({{ $job['id'] }})">
+              <i class="bi bi-share me-1"></i>Share
+            </button>
           </div>
         </div>
       </div>
     </section>
     <!-- ------------------------------------- -->
-    <!-- Banner End -->
+    <!-- Breadcrumb Banner End -->
     <!-- ------------------------------------- -->
+    @push('scripts')
+      <script>
+      function saveJob(jobId) {
+          // Implement save functionality
+          alert('Job saved to your bookmarks!');
+      }
 
+      function shareJob(jobId) {
+          // Implement share functionality
+          if (navigator.share) {
+              navigator.share({
+                  title: '{{ $job['job_title'] }}',
+                  text: 'Check out this job at {{ $job['company']['name'] ?? 'company' }}',
+                  url: window.location.href,
+              });
+          } else {
+              // Fallback
+              prompt('Copy this link to share:', window.location.href);
+          }
+      }
+      </script>
+    @endpush
+    
     <!-- ------------------------------------- -->
-    <!-- Details Start -->
+    <!-- Job Details Start -->
     <!-- ------------------------------------- -->
-    <section class="pt-md-13 pb-md-11">
+    <section class="py-5 py-lg-8">
       <div class="container-fluid">
-        <div class="my-5">
-          <img src="../assets/images/frontend-pages/blog-detail-banner.jpg" alt="blog detail banner" class="rounded-3 img-fluid w-100">
-        </div>
-        <div class="row">
-          <div class="col-lg-4 mb-7 mb-lg-0">
-            <div class="d-flex flex-column gap-3 bg-white p-7 rounded-3">
-              <div class="d-flex gap-3 pb-3 border-bottom ">
-                <div>
-                  <img src="../assets/images/profile/user-6.jpg" alt="user" class="rounded-circle" width="44px" height="44px">
-                </div>
-                <div class="">
-                  <p class="mb-0 text-dark fs-4 fw-semibold">Zachary Smith</p>
-                  <p class="mb-0 fs-3">Product Manager</p>
-                </div>
-              </div>
-              <div class="py-9 d-flex flex-column gap-3 border-bottom">
-                <h4 class="fs-3 text-uppercase text-muted mb-0 ">Contents</h4>
-                <a href="#mobile-first-approach" class="text-dark fs-4 fw-semibold link-primary">Adopt a
-                  Mobile-First Approach</a>
-                <a href="#fluid-grid-layouts" class="text-dark fs-4 fw-semibold link-primary">Use Fluid
-                  Grid Layouts</a>
-                <a href="#leverage-media" class="text-dark fs-4 fw-semibold link-primary">Leverage Media
-                  Queries</a>
-                <a href="#optimize-images" class="text-dark fs-4 fw-semibold link-primary">Optimize
-                  Images for Different Devices</a>
-                <a href="#conclusion" class="text-dark fs-4 fw-semibold link-primary">Conclusion</a>
-              </div>
-              <div class="py-9">
-                <h4 class="text-uppercase fs-3">Share</h4>
-                <div class="d-flex gap-6">
-                  <a href="#" class="border rounded-circle round-40 hstack justify-content-center" data-bs-toggle="tooltip" data-bs-title="Facebook">
-                    <img src="../assets/images/frontend-pages/icon-facebook-dark.svg" alt="facebook">
-                  </a>
-                  <a href="#" class="border rounded-circle round-40 hstack justify-content-center" data-bs-toggle="tooltip" data-bs-title="Instagram">
-                    <img src="../assets/images/frontend-pages/icon-instagram-dark.svg" alt="instagram">
-                  </a>
-                  <a href="#" class="border rounded-circle round-40 hstack justify-content-center" data-bs-toggle="tooltip" data-bs-title="YouTube">
-                    <img src="../assets/images/frontend-pages/icon-youtube-dark.svg" alt="youtube">
-                  </a>
-                  <a href="#" class="border rounded-circle round-40 hstack justify-content-center" data-bs-toggle="tooltip" data-bs-title="Linckedin">
-                    <img src="../assets/images/frontend-pages/icon-linckedin-dark.svg" alt="linckedin">
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="row g-4">
+          <!-- Main Content - Left Side -->
           <div class="col-lg-8">
-            <div class="d-flex flex-column gap-sm-4 gap-3 bg-white rounded-3 p-7">
-              <div class="">
-                <p class="fs-4 mb-sm-4 mb-3 text-muted">
-                  In today’s digital age, having a responsive website is no longer optional—it’s a
-                  necessity. With the increasing variety of devices used to access the web, from
-                  smartphones and tablets to laptops and large desktop monitors, developers face the
-                  challenge of ensuring a seamless experience across all screen sizes.
-                </p>
-                <p class="fs-4 mb-0 text-muted">
-                  This article offers essential tips and tricks for modern developers to create
-                  responsive
-                  websites that not only look great but also perform efficiently.
-                </p>
-              </div>
-              <div class="" id="mobile-first-approach">
-                <h3 class="fs-7 fw-semibold mb-sm-4 mb-3">
-                  Adopt a Mobile-First Approach
-                </h3>
-                <p class="fs-4 mb-0 text-muted">
-                  Starting with mobile design and then scaling up is a widely recommended approach. By
-                  prioritizing the mobile experience, developers can ensure that the most critical
-                  content is accessible on smaller screens. Once the mobile version is optimized,
-                  expanding to larger screens becomes much easier.
-                </p>
-              </div>
-              <div class="" id="fluid-grid-layouts">
-                <h3 class="fs-7 fw-semibold mb-sm-4 mb-3">
-                  Use Fluid Grid Layouts
-                </h3>
-                <p class="fs-4 mb-0 text-muted">
-                  A fluid grid layout is the backbone of a responsive design. Unlike fixed layouts,
-                  fluid grids use relative units like percentages instead of pixels, allowing the
-                  layout to adjust smoothly across different screen sizes. Popular frameworks like
-                  <a href="https://getbootstrap.com/" class="text-underline text-primary link-primary" target="_blank">Bootstrap</a> and Foundation
-                  offer pre-built grid systems that simplify the
-                  implementation of fluid grids.
-                </p>
-              </div>
-              <div class="" id="leverage-media">
-                <h3 class="fs-7 fw-semibold mb-sm-4 mb-3">
-                  Leverage Media Queries
-                </h3>
-                <p class="fs-4 mb-sm-4 mb-3 text-muted">
-                  Media queries are CSS techniques that apply styles based on the screen size or
-                  device characteristics. By using media queries, developers can create breakpoints in
-                  their design, ensuring that the layout adapts to different screen widths. For
-                  instance, you might want to change the font size or adjust the padding on a smaller
-                  screen. A simple example of a media query is:
-                </p>
-                <ul class="list mb-0">
-                  <li>
-                    <p class="fs-4 mb-1">
-                      <span class="fw-semibold">Set Breakpoints</span>: Define breakpoints for
-                      different screen sizes (e.g., 600px,
-                      768px, 1024px) to adjust the layout and design elements.
-                    </p>
-                  </li>
-                  <li>
-                    <p class="fs-4 mb-1">
-                      <span class="fw-semibold">Adjust Font Sizes</span>: Use media
-                      queries to change font sizes for readability on smaller screens.
-                    </p>
-                  </li>
-                  <li>
-                    <p class="fs-4 mb-1">
-                      <span class="fw-semibold">Modify Layout</span>: Rearrange or
-                      hide certain elements based on the screen size to maintain a clean design.
-                    </p>
-                  </li>
-                  <li>
-                    <p class="fs-4 mb-1">
-                      <span class="fw-semibold">Responsive Images</span>: Serve
-                      different image sizes using media queries to improve loading times.
-                    </p>
-                  </li>
-                  <li>
-                    <p class="fs-4 mb-1">
-                      <span class="fw-semibold">Test Across Devices</span>: Ensure
-                      media queries work as intended on various devices and orientations.
-                    </p>
-                  </li>
-                </ul>
-              </div>
-              <div class="" id="optimize-images">
-                <h3 class="fs-7 fw-semibold mb-sm-4 mb-3">
-                  Optimize Images for Different Devices
-                </h3>
-                <p class="fs-4 mb-sm-4 mb-3 text-muted">
-                  Images can make or break the performance of a website. To ensure that your website
-                  loads quickly on all devices, consider using responsive images. The &lt;picture&gt;
-                  element in HTML5 allows you to serve different images based on the screen size
-                  or resolution. Additionally, tools like
-                  <a href="https://imageoptim.com/" class="text-underline text-primary link-primary" target="_blank">ImageOptim</a>
-                  and
-                  <a href="https://imageoptim.com/" class="text-underline text-primary link-primary" target="_blank">TinyPNG</a>
-                  can help you compress images without sacrificing quality.
-                </p>
-                <p class="fs-4 mb-0 text-muted">
-                  Responsive design isn’t just about screen sizes—it’s also about accessibility. Make
-                  sure your website is usable for people with disabilities by following accessibility
-                  best practices. Use semantic HTML, ensure keyboard navigation works seamlessly, and
-                  provide alternative text for images. The
-                  <a href="https://www.w3.org/WAI/WCAG21/quickref/" class="text-underline text-primary link-primary" target="_blank">Web Content
-                    Accessibility
-                    Guidelines (WCAG)</a>
-                  provide a comprehensive overview of accessibility standards.
-                </p>
-              </div>
-              <div class="" id="conclusion">
-                <h3 class="fs-7 fw-semibold mb-sm-4 mb-3">
-                  Conclusion
-                </h3>
-                <p class="fs-4 mb-sm-4 mb-3 text-muted">
-                  Building responsive websites requires careful planning, testing, and a deep
-                  understanding of both design and development principles. By adopting a mobile-first
-                  approach, leveraging fluid grids and media queries, and optimizing both performance
-                  and accessibility, modern developers can create websites that deliver a seamless
-                  experience across all devices. As the famous saying goes, "A responsive design is
-                  not a luxury; it's a necessity for every website today."
-                </p>
-                <p class="fs-4 mb-0 text-muted">
-                  Incorporating these tips and tricks into your workflow will not only improve the
-                  user experience but also ensure your website stands out in today’s competitive
-                  digital landscape.
-                </p>
-                <div class="my-4 px-9 py-6 bg-primary-subtle text-primary border-3 border-start border-primary">
-                  <p class="fs-4 mb-0">
-                    "A responsive design is not a luxury; it's a necessity for
-                    every website today."
-                  </p>
+            <!-- Job Header Card - Compact -->
+            <div class="card job-card border-0 shadow-sm card-compact mb-4">
+              <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                <div class="d-flex gap-3">
+                  <div class="company-icon-large">
+                    @if(isset($job['company']['logo']) && $job['company']['logo'])
+                      <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] }}" class="rounded-circle" width="64" height="64">
+                    @else
+                      <i class="bi bi-building fs-2 text-primary"></i>
+                    @endif
+                  </div>
+                  <div>
+                    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                      <h1 class="fs-5 fw-semibold mb-0">{{ $job['job_title'] }} at {{ $job['company']['name'] ?? 'Company' }}</h1>
+                      @if($job['is_featured'] ?? false)
+                      <span class="badge bg-primary bg-opacity-10 text-primary px-2 py-1 fs-2">Featured</span>
+                      @endif
+                      @if($job['is_urgent'] ?? false)
+                      <span class="badge bg-danger bg-opacity-10 text-danger px-2 py-1 fs-2">Urgent</span>
+                      @endif
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-1">
+                        <i class="bi bi-building text-muted fs-6"></i>
+                        <span class="fs-3 text-muted">{{ $job['company']['name'] ?? 'Unknown Company' }}</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-1">
+                        <i class="bi bi-geo-alt text-muted fs-6"></i>
+                        <span class="fs-3 text-muted">{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-1">
+                        <i class="bi bi-clock text-muted fs-6"></i>
+                        <span class="fs-3 text-muted">{{ \Carbon\Carbon::parse($job['created_at'])->diffForHumans() }}</span>
+                      </div>
+                      @if(isset($job['view_count']))
+                      <div class="d-flex align-items-center gap-1">
+                        <i class="bi bi-eye text-muted fs-6"></i>
+                        <span class="fs-3 text-muted">{{ number_format($job['view_count']) }} views</span>
+                      </div>
+                      @endif
+                    </div>
+                  </div>
                 </div>
-                <p class="fs-4 mb-0 text-muted">
-                  For more resources on responsive web design, check out the
-                  <a href="https://www.w3.org/WAI/WCAG21/quickref/" class="text-underline text-primary link-primary" target="_blank">
-                    MDN Web Docs and Smashing
-                  </a>
-                  Magazine’s Guide.
-                </p>
+                <div class="text-start text-md-end">
+                  <h4 class="text-primary fw-bold mb-0 fs-5">{{ $job['formatted_salary'] ?? 'Negotiable' }}</h4>
+                  @if(isset($job['salary_range']['name']))
+                  <span class="text-muted fs-2">{{ $job['salary_range']['name'] }}</span>
+                  @endif
+                </div>
+              </div>
+
+              <!-- Quick Action Buttons - Compact -->
+              <div class="d-flex gap-3 mt-4 pt-3 border-top">
+                <a href="#" class="btn btn-primary py-2 px-4 flex-grow-1" style="font-size: 13px;">
+                  <i class="bi bi-send me-2" style="font-size: 12px;"></i>Apply Now
+                </a>
+                <a href="#" class="btn btn-outline-primary py-2 px-4">
+                  <i class="bi bi-envelope me-2"></i>Contact
+                </a>
               </div>
             </div>
+
+            <!-- Job Description - Compact -->
+            <div class="card job-card border-0 shadow-sm card-compact mb-4">
+              <h3 class="fs-5 fw-semibold mb-3">Job Description</h3>
+              <div class="text-muted small mb-3">
+                {!! nl2br(e($job['job_description'] ?? 'No description provided')) !!}
+              </div>
+
+              @if(!empty($job['responsibilities']))
+              <h4 class="fs-6 fw-semibold mb-2 mt-4">Key Responsibilities</h4>
+              <div class="text-muted small mb-4">
+                {!! nl2br(e($job['responsibilities'])) !!}
+              </div>
+              @endif
+
+              @if(!empty($job['qualifications']))
+              <h4 class="fs-6 fw-semibold mb-2">Qualifications</h4>
+              <div class="text-muted small mb-4">
+                {!! nl2br(e($job['qualifications'])) !!}
+              </div>
+              @endif
+            </div>
+
+            <!-- Skills & Technologies - Compact -->
+            @if(!empty($job['skills']))
+            <div class="card job-card border-0 shadow-sm card-compact mb-4">
+              <h3 class="fs-5 fw-semibold mb-3">Required Skills</h3>
+              <div class="d-flex flex-wrap gap-1">
+                @foreach(explode(',', $job['skills']) as $skill)
+                  @if(trim($skill))
+                  <span class="job-type-badge">{{ trim($skill) }}</span>
+                  @endif
+                @endforeach
+              </div>
+            </div>
+            @endif
+
+            <!-- Application Details -->
+            @if(!empty($job['application_procedure']) || !empty($job['email']) || !empty($job['telephone']) || !empty($job['deadline']))
+            <div class="card job-card border-0 shadow-sm card-compact">
+              <h3 class="fs-5 fw-semibold mb-3">Application Details</h3>
+              <div class="row g-3">
+                @if(!empty($job['application_procedure']))
+                <div class="col-12">
+                  <div class="bg-light p-3 rounded-3">
+                    <h6 class="fw-semibold mb-2">How to Apply</h6>
+                    <p class="text-muted small mb-0">{{ $job['application_procedure'] }}</p>
+                  </div>
+                </div>
+                @endif
+                
+                @if(!empty($job['email']) || !empty($job['telephone']))
+                <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                    <h6 class="fw-semibold mb-2">Contact Information</h6>
+                    @if(!empty($job['email']))
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <i class="bi bi-envelope text-primary small"></i>
+                      <a href="mailto:{{ $job['email'] }}" class="text-muted small">{{ $job['email'] }}</a>
+                    </div>
+                    @endif
+                    @if(!empty($job['telephone']))
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="bi bi-telephone text-primary small"></i>
+                      <a href="tel:{{ $job['telephone'] }}" class="text-muted small">{{ $job['telephone'] }}</a>
+                    </div>
+                    @endif
+                  </div>
+                </div>
+                @endif
+                
+                @if(!empty($job['deadline']))
+                <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                    <h6 class="fw-semibold mb-2">Application Deadline</h6>
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="bi bi-calendar text-primary small"></i>
+                      <span class="text-muted small">{{ \Carbon\Carbon::parse($job['deadline'])->format('F j, Y') }}</span>
+                      @php
+                        $daysLeft = \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($job['deadline']), false);
+                      @endphp
+                      @if($daysLeft > 0)
+                      <span class="badge bg-warning bg-opacity-10 text-warning ms-2">{{ round($daysLeft) }} days left</span>
+                      @elseif($daysLeft == 0)
+                      <span class="badge bg-danger bg-opacity-10 text-danger ms-2">Last day</span>
+                      @else
+                      <span class="badge bg-secondary bg-opacity-10 text-secondary ms-2">Expired</span>
+                      @endif
+                    </div>
+                  </div>
+                </div>
+                @endif
+              </div>
+            </div>
+            @endif
+          </div>
+
+          <!-- Sidebar - Right Side -->
+          <div class="col-lg-4">
+            <!-- Company Info - Compact -->
+            @if(isset($job['company']))
+            <div class="card job-card border-0 shadow-sm card-compact-sm mb-4">
+              <h3 class="fs-5 fw-semibold mb-3">About Company</h3>
+              <div class="text-center mb-3">
+                <div class="company-icon-large mx-auto mb-2">
+                  @if(isset($job['company']['logo']))
+                    <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] }}" class="rounded-circle" width="64" height="64">
+                  @else
+                    <i class="bi bi-building fs-2 text-primary"></i>
+                  @endif
+                </div>
+                <h5 class="fw-semibold mb-1">{{ $job['company']['name'] ?? 'Company Name' }}</h5>
+                @if(isset($job['company']['industry']))
+                <p class="text-muted small mb-2">{{ $job['company']['industry']['name'] ?? '' }}</p>
+                @endif
+                <div class="d-flex justify-content-center gap-1">
+                  @if($job['is_verified'] ?? false)
+                  <span class="badge bg-success bg-opacity-10 text-success px-2 py-1 fs-2">Verified</span>
+                  @endif
+                </div>
+              </div>
+              @if(!empty($job['company']['description']))
+              <p class="text-muted small mb-3">{{ Str::limit($job['company']['description'], 100) }}</p>
+              @endif
+              @if(isset($job['company']['website']))
+              <a href="{{ $job['company']['website'] }}" target="_blank" class="btn btn-outline-primary btn-sm w-100 py-2">Visit Website</a>
+              @endif
+            </div>
+            @endif
+
+            <!-- Job Overview - Compact -->
+            <div class="card job-card border-0 shadow-sm card-compact-sm mb-4">
+              <h3 class="fs-5 fw-semibold mb-3">Quick Overview</h3>
+              <div class="d-flex flex-column gap-2">
+                @if(isset($job['job_category']['name']))
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Category:</span>
+                  <span class="fw-semibold small">{{ $job['job_category']['name'] }}</span>
+                </div>
+                @endif
+                
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Type:</span>
+                  <span class="fw-semibold small">{{ $job['job_type']['name'] ?? $job['employment_type'] ?? 'Full Time' }}</span>
+                </div>
+                
+                @if(isset($job['experience_level']['name']))
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Level:</span>
+                  <span class="fw-semibold small">{{ $job['experience_level']['name'] }}</span>
+                </div>
+                @endif
+                
+                @if(isset($job['education_level']['name']))
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Education:</span>
+                  <span class="fw-semibold small">{{ $job['education_level']['name'] }}</span>
+                </div>
+                @endif
+                
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Location:</span>
+                  <span class="fw-semibold small">{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Work Type:</span>
+                  <span class="fw-semibold small">{{ $job['location_type'] ?? 'On-site' }}</span>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Posted:</span>
+                  <span class="fw-semibold small">{{ \Carbon\Carbon::parse($job['created_at'])->format('M d, Y') }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Stats - Compact -->
+            <div class="row g-3 mb-4">
+              <div class="col-3">
+                <div class="info-item-compact">
+                  <i class="bi bi-people text-primary"></i>
+                  <h5 class="fw-semibold">{{ number_format($job['application_count'] ?? 0) }}</h5>
+                  <p class="text-muted mb-0">Applied</p>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="info-item-compact">
+                  <i class="bi bi-eye text-primary"></i>
+                  <h5 class="fw-semibold">{{ number_format($job['view_count'] ?? 0) }}</h5>
+                  <p class="text-muted mb-0">Views</p>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="info-item-compact">
+                  <i class="bi bi-bookmark text-primary"></i>
+                  <h5 class="fw-semibold">{{ number_format($job['application_count'] ?? 0) }}</h5>
+                  <p class="text-muted mb-0">Saved</p>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="info-item-compact">
+                  <i class="bi bi-share text-primary"></i>
+                  <h5 class="fw-semibold">{{ number_format($job['social_shares'] ?? 0) }}</h5>
+                  <p class="text-muted mb-0">Shared</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Similar Jobs - Compact -->
+            @if(isset($similarJobs) && count($similarJobs) > 0)
+            <div class="card job-card border-0 shadow-sm card-compact-sm">
+              <h3 class="fs-5 fw-semibold mb-3">Similar Jobs</h3>
+              <div class="d-flex flex-column gap-2">
+                @foreach($similarJobs as $similarJob)
+                <a href="{{ route('jobs.show', $similarJob['slug'] ?? $similarJob['id']) }}" class="similar-job-card-compact card">
+                  <div class="d-flex gap-2">
+                    <div class="company-icon">
+                      @if(isset($similarJob['company']['logo']))
+                        <img src="{{ $similarJob['company']['logo'] }}" alt="{{ $similarJob['company']['name'] }}" class="rounded-circle" width="40" height="40">
+                      @else
+                        <i class="bi bi-building fs-5 text-primary"></i>
+                      @endif
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-start">
+                        <h6 class="fw-semibold">{{ Str::limit($similarJob['job_title'], 25) }}</h6>
+                        <span class="text-primary small fw-semibold">{{ $similarJob['formatted_salary'] ?? 'N/A' }}</span>
+                      </div>
+                      <p class="text-muted small mb-1">{{ $similarJob['company']['name'] ?? 'Unknown' }}</p>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-light text-dark">{{ $similarJob['job_type']['name'] ?? 'Full Time' }}</span>
+                        <span class="text-muted small"><i class="bi bi-geo-alt"></i> {{ $similarJob['duty_station'] ?? 'Remote' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                @endforeach
+              </div>
+              <a href="{{ route('jobs.index', ['category' => $job['job_category']['slug'] ?? null]) }}" class="btn btn-link text-primary p-0 mt-3 small">View all similar <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+            @endif
           </div>
         </div>
       </div>
     </section>
     <!-- ------------------------------------- -->
-    <!-- Details End -->
+    <!-- Job Details End -->
     <!-- ------------------------------------- -->
 
     <!-- ------------------------------------- -->
-    <!-- Focus Start -->
+    <!-- CTA Start - Compact -->
     <!-- ------------------------------------- -->
-    <section class="bg-primary py-lg-11 py-5 position-relative">
-      <div class="position-absolute top-50 start-0 translate-middle-y">
-        <img src="../assets/images/frontend-pages/screenshot-1.png" alt="image" class="d-xxl-block d-none">
-      </div>
+    <section class="bg-primary py-6 position-relative">
       <div class="container-fluid">
         <div class="row justify-content-center">
-          <div class="col-lg-9 text-center">
-            <div class="header-fp">
-              <a href="javascript:void(0)" class="text-nowrap logo-img d-flex align-items-center justify-content-center gap-2 round-56 mx-auto rounded-2 shadow bg-white">
-                <b class="logo-icon">
-                  <!-- Dark Logo icon -->
-                  <img src="../assets/images/logos/logo-icon.svg" alt="homepage" class="dark-logo" />
-                  <!-- Light Logo icon -->
-                  <img src="../assets/images/logos/logo-light-icon.svg" alt="homepage" class="light-logo" />
-                </b>
+          <div class="col-lg-8 text-center">
+            <h3 class="fs-5 my-3 fw-semibold text-white">Ready to join {{ $job['company']['name'] ?? 'the team' }}?</h3>
+            <p class="text-white small mb-4 opacity-75">Don't miss this opportunity to work as a {{ $job['job_title'] }}</p>
+            <div class="d-flex gap-3 justify-content-center">
+              <a href="#" class="btn btn-light btn-xs px-3 py-1" style="font-size: 13px;">
+                <i class="bi bi-send me-1" style="font-size: 12px;"></i>Apply Now
+              </a>
+              <a href="#" class="btn btn-outline-light btn-xs px-3 py-1" style="font-size: 13px;">
+                <i class="bi bi-bookmark me-1" style="font-size: 12px;"></i>Save Job
               </a>
             </div>
-            <h2 class="fs-15 my-9 fw-semibold text-white text-center lh-sm">
-              Focus on what truly matters—creating stunning, functional designs.
-            </h2>
-            <p class="text-white fs-5 mb-9 px-xl-11">
-              Designed for ease of use and customization, this template help you build professional
-              dashboards
-              faster.
-            </p>
-            <a href="../main/authentication-register.html" class="btn btn-outline-light">
-              Register
-            </a>
           </div>
         </div>
       </div>
-      <div class="position-absolute top-50 end-0 translate-middle-y">
-        <img src="../assets/images/frontend-pages/screenshot-2.png" alt="image" class="d-xxl-block d-none">
-      </div>
     </section>
     <!-- ------------------------------------- -->
-    <!-- Focus End -->
+    <!-- CTA End -->
     <!-- ------------------------------------- -->
   </div>
 
-  <!-- ------------------------------------- -->
-  <!-- Footer Start -->
-  <!-- ------------------------------------- -->
-  <footer class="bg-dark">
-    <div class="container-fluid">
-      <div class="row py-7 py-md-14 py-lg-11">
-        <div class="col-md-3 col-6 mb-7 mb-md-0">
-          <a class="text-nowrap logo-img d-flex align-items-center gap-2" href="../main/frontend-landingpage.html">
-            <b class="logo-icon">
-              <!-- Dark Logo icon -->
-              <img src="../assets/images/logos/logo-light-icon.svg" alt="homepage">
-            </b>
-            <!--End Logo icon -->
-            <!-- Logo text -->
-            <span class="logo-text">
-              <!-- dark Logo text -->
-              <img src="../assets/images/logos/logo-light-text.svg" alt="homepage" class="dark-logo ps-2">
-            </span>
-          </a>
-          <ul class="d-flex flex-column gap-9 mt-7 mb-0">
-            <li>
-              <a href="../main/app-kanban.html" class="fs-4 text-light link-primary">Kanban</a>
-            </li>
-            <li>
-              <a href="../main/app-invoice.html" class="fs-4 text-light link-primary">Invoice
-                List</a>
-            </li>
-            <li>
-              <a href="../main/eco-shop.html" class="fs-4 text-light link-primary">eCommerce</a>
-            </li>
-            <li>
-              <a href="../main/app-chat.html" class="fs-4 text-light link-primary">Chat</a>
-            </li>
-            <li>
-              <a href="../main/app-calendar.html" class="fs-4 text-light link-primary">Calendar</a>
-            </li>
-            <li>
-              <a href="../main/blog-posts.html" class="fs-4 text-light link-primary">Blog</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 col-6 mb-7 mb-md-0">
-          <h3 class="fs-4 text-white fw-semibold mb-7">Forms</h3>
-          <ul class="d-flex flex-column gap-9 mb-0">
-            <li>
-              <a href="../main/form-basic.html" class="fs-4 text-light link-primary">Form
-                Basic</a>
-            </li>
-            <li>
-              <a href="../main/form-horizontal.html" class="fs-4 text-light link-primary">Form
-                Horizontal</a>
-            </li>
-            <li>
-              <a href="../main/form-wizard.html" class="fs-4 text-light link-primary">Form
-                Wizard</a>
-            </li>
-            <li>
-              <a href="../main/form-bootstrap-validation.html" class="fs-4 text-light link-primary">Form Validation
-              </a>
-            </li>
-            <li>
-              <a href="../main/form-editor-quill.html" class="fs-4 text-light link-primary">Quill
-                Editor</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 col-6 mb-7 mb-md-0">
-          <h3 class="fs-4 text-white fw-semibold mb-7">Tables</h3>
-          <ul class="d-flex flex-column gap-9 mb-0">
-            <li>
-              <a href="../main/table-basic.html" class="fs-4 text-light link-primary">Basic
-                Table</a>
-            </li>
-            <li>
-              <a href="../main/table-dark-basic.html" class="fs-4 text-light link-primary">Table
-                Dark Basic</a>
-            </li>
-            <li>
-              <a href="../main/table-sizing.html" class="fs-4 text-light link-primary">Table
-                Sizing</a>
-            </li>
-            <li>
-              <a href="../main/table-layout-coloured.html" class="fs-4 text-light link-primary">Coloured Table</a>
-            </li>
-            <li>
-              <a href="../main/table-datatable-basic.html" class="fs-4 text-light link-primary">Basic Initialisation</a>
-            </li>
-            <li>
-              <a href="../main/table-datatable-api.html" class="fs-4 text-light link-primary">API</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 col-6 mb-7 mb-md-0">
-          <h3 class="fs-4 text-white fw-semibold mb-7">Follow us</h3>
-          <div class="d-flex gap-9">
-            <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-title="Facebook">
-              <img src="../assets/images/frontend-pages/icon-facebook.svg" alt="facebook">
-            </a>
-            <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-title="Twitter">
-              <img src="../assets/images/frontend-pages/icon-twitter.svg" alt="twitter">
-            </a>
-            <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-title="Instagram">
-              <img src="../assets/images/frontend-pages/icon-instagram.svg" alt="instagram">
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-between flex-md-nowrap flex-wrap py-13 border-top border-dark-subtle">
-        <div class="d-flex align-items-center gap-3">
-          <img src="../assets/images/logos/logo-light-icon.svg" alt="logo" width="30">
-          <p class="text-white opacity-50 mb-0">All rights reserved by MaterialPro. </p>
-        </div>
-        <div>
-          <p class="text-white mb-0">
-            <span class="opacity-50">Produced by</span>
-            <a href="https://www.wrappixel.com/" class="text-white link-primary">Wrappixel</a>.
-          </p>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- ------------------------------------- -->
-  <!-- Footer End -->
-  <!-- ------------------------------------- -->
+@endsection
 
-  <!-- Scroll Top -->
-  <a href="javascript:void(0)" class="top-btn btn btn-primary d-flex align-items-center justify-content-center round-54 p-0 rounded-circle">
-    <i class="ti ti-arrow-up fs-7"></i>
-  </a>
-
-  <script src="../assets/js/vendor.min.js"></script>
-  <!-- Import Js Files -->
-  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
-  <script src="../assets/js/theme/app.init.js"></script>
-  <script src="../assets/js/theme/theme.js"></script>
-  <script src="../assets/js/theme/app.min.js"></script>
-  <script src="../assets/js/theme/feather.min.js"></script>
-
-  <!-- solar icons -->
-  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-  <script src="../assets/libs/owl.carousel/dist/owl.carousel.min.js"></script>
-  <script src="../assets/js/frontend-landingpage/homepage.js"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"ceaa0eef431a46f3b195537c6963f062","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-</body>
-
-</html>
+@push('styles')
+<style>
+  .company-icon-large {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--bs-primary-rgb), 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .company-icon-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .company-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--bs-primary-rgb), 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .company-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .job-type-badge {
+    background: rgba(var(--bs-primary-rgb), 0.05);
+    color: var(--bs-primary);
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    display: inline-block;
+  }
+  .info-item-compact {
+    padding: 12px 8px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .info-item-compact i {
+    font-size: 1.2rem;
+  }
+  .info-item-compact h5 {
+    font-size: 0.95rem;
+    margin: 4px 0 0 0;
+  }
+  .info-item-compact p {
+    font-size: 0.65rem;
+    margin: 0;
+  }
+  .benefit-item-compact {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .similar-job-card-compact {
+    transition: all 0.2s ease;
+    border: 1px solid #eef0f2;
+    text-decoration: none;
+    display: block;
+    padding: 12px !important;
+  }
+  .similar-job-card-compact:hover {
+    border-color: var(--bs-primary);
+    transform: translateY(-2px);
+  }
+  .card-compact {
+    padding: 1.25rem !important;
+  }
+  .card-compact-sm {
+    padding: 1rem !important;
+  }
+</style>
+@endpush

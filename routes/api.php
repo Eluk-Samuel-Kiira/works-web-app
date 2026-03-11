@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\WelcomeController;
+use App\Http\Controllers\Home\WelcomeController;
 
 
 Route::post('/view/welcome', [WelcomeController::class, 'welcome']);
