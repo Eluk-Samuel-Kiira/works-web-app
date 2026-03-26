@@ -36,12 +36,12 @@ class JobController extends Controller
             // Get jobs data
             $response = Http::withoutVerifying()
                 ->timeout(30)
-                ->get($mainAppUrl . '/jobs-data-from-main', $params);
+                ->get($mainAppUrl . '/v2/jobs-data-from-main', $params);
             
             // Get popular searches
             $popularResponse = Http::withoutVerifying()
                 ->timeout(10)
-                ->get($mainAppUrl . '/popular-searches');
+                ->get($mainAppUrl . '/v2/popular-searches');
             
             $popularSearches = $popularResponse->successful() 
                 ? $popularResponse->json() 
@@ -114,7 +114,7 @@ class JobController extends Controller
         try {
             $response = Http::withoutVerifying()
                 ->timeout(30)
-                ->get($mainAppUrl . '/jobs-data-from-main/featured');
+                ->get($mainAppUrl . '/v2/jobs-data-from-main/featured');
             
             if ($response->successful()) {
                 return $response->json();
@@ -143,11 +143,12 @@ class JobController extends Controller
         try {
             $response = Http::withoutVerifying()
                 ->timeout(30)
-                ->get($mainAppUrl . '/jobs-data-from-main/' . $slug);
+                ->get($mainAppUrl . '/v2/jobs-data-from-main/' . $slug);
             
             if ($response->successful()) {
                 $data = $response->json();
                 $job = $data;
+                \Log::info($data);
                 $similarJobs = $data['similar_jobs'] ?? [];
                 
                 return view('jobs.show', compact('job', 'similarJobs'));
