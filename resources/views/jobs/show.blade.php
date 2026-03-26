@@ -135,9 +135,9 @@
 
               <!-- Quick Action Buttons - Compact -->
               <div class="d-flex gap-3 mt-4 pt-3 border-top">
-                <a href="#" class="btn btn-primary py-2 px-4 flex-grow-1" style="font-size: 13px;">
-                  <i class="bi bi-send me-2" style="font-size: 12px;"></i>Apply Now
-                </a>
+                <button class="btn btn-primary py-2 px-4 flex-grow-1" style="font-size:13px;" onclick="openApplyModal()">
+                  <i class="bi bi-send me-2" style="font-size:12px;"></i>Apply Now
+                </button>
                 <a href="#" class="btn btn-outline-primary py-2 px-4">
                   <i class="bi bi-envelope me-2"></i>Contact
                 </a>
@@ -148,20 +148,20 @@
             <div class="card job-card border-0 shadow-sm card-compact mb-4">
               <h3 class="fs-5 fw-semibold mb-3">Job Description</h3>
               <div class="text-muted small mb-3">
-                {!! nl2br(e($job['job_description'] ?? 'No description provided')) !!}
+                {!! nl2br($job['job_description'] ?? 'No description provided') !!}
               </div>
 
               @if(!empty($job['responsibilities']))
               <h4 class="fs-6 fw-semibold mb-2 mt-4">Key Responsibilities</h4>
               <div class="text-muted small mb-4">
-                {!! nl2br(e($job['responsibilities'])) !!}
+                {!! nl2br($job['responsibilities']) !!}
               </div>
               @endif
 
               @if(!empty($job['qualifications']))
               <h4 class="fs-6 fw-semibold mb-2">Qualifications</h4>
               <div class="text-muted small mb-4">
-                {!! nl2br(e($job['qualifications'])) !!}
+                {!! nl2br($job['qualifications']) !!}
               </div>
               @endif
             </div>
@@ -403,9 +403,9 @@
             <h3 class="fs-5 my-3 fw-semibold text-white">Ready to join {{ $job['company']['name'] ?? 'the team' }}?</h3>
             <p class="text-white small mb-4 opacity-75">Don't miss this opportunity to work as a {{ $job['job_title'] }}</p>
             <div class="d-flex gap-3 justify-content-center">
-              <a href="#" class="btn btn-light btn-xs px-3 py-1" style="font-size: 13px;">
-                <i class="bi bi-send me-1" style="font-size: 12px;"></i>Apply Now
-              </a>
+              <button class="btn btn-primary py-2 px-4 flex-grow-1" style="font-size:13px;" onclick="openApplyModal()">
+                <i class="bi bi-send me-2" style="font-size:12px;"></i>Apply Now
+              </button>
               <a href="#" class="btn btn-outline-light btn-xs px-3 py-1" style="font-size: 13px;">
                 <i class="bi bi-bookmark me-1" style="font-size: 12px;"></i>Save Job
               </a>
@@ -419,7 +419,41 @@
     <!-- ------------------------------------- -->
   </div>
 
+  <!-- Apply Modal - Using Bootstrap structure (working version) -->
+<div class="modal fade" id="applyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="ti ti-send me-2"></i>
+                    <span id="applyModalTitle">Apply for Job</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="applyModalBody">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">Loading application options...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openApplyModal() {
+  const myModal = new bootstrap.Modal(document.getElementById('applyModal'));
+  myModal.show();
+}
+
+</script>
+  
+@include('jobs.partials.apply-modal', ['job' => $job])
 @endsection
+
 
 @push('styles')
 <style>
