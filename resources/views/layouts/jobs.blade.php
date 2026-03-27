@@ -156,13 +156,15 @@
   <!-- ------------------------------------- -->
   <!-- Top Bar Start -->
   <!-- ------------------------------------- -->
-  <div class="topbar-image bg-primary py-8 rounded-0 mb-0 alert alert-dismissible fade show" role="alert">
-      <div class="d-flex justify-content-center gap-sm-3 gap-2 align-items-center text-center flex-md-nowrap flex-wrap">
-          <span class="badge bg-white bg-opacity-10 fs-2 fw-semibold px-2">{{__('New')}}</span>
-          <p class="mb-0 text-white">@yield('new-badge')</p>
+  {{--
+  <div class="topbar-image bg-primary py-8  rounded-0 mb-0 alert alert-dismissible fade show" role="alert">
+      <div class="d-flex justify-content-center gap-sm-2 gap-1 align-items-center text-center flex-md-nowrap flex-wrap">
+          <span class="badge bg-white bg-opacity-10 fw-semibold px-2" style="font-size:11px">{{__('New')}}</span>
+          <p class="mb-0 text-white" style="font-size:13px">{{__('This is Breaking News')}}</p>
       </div>
-      <button type="button" class="btn-close btn-close-white p-3 fs-2" data-bs-dismiss="alert" aria-label="Close"></button>
+      <button type="button" class="btn-close btn-close-white p-2" style="font-size:10px" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
+  --}}
 
   <!-- ------------------------------------- -->
   <!-- Top Bar End -->
@@ -184,38 +186,40 @@
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">For Job Seekers</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="#" class="text-light small">Browse Jobs</a></li>
-            <li class="mb-2"><a href="#" class="text-light small">Categories</a></li>
-            <li class="mb-2"><a href="#" class="text-light small">Job Alerts</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Browse Jobs</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Categories</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Job Alerts</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">For Employers</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="#" class="text-light small">Post a Job</a></li>
-            <li class="mb-2"><a href="#" class="text-light small">Pricing</a></li>
-            <li class="mb-2"><a href="#" class="text-light small">Resources</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Post a Job</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Pricing</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Resources</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">Company</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="#" class="text-light small">About Us</a></li>
-            <li class="mb-2"><a href="#" class="text-light small">Contact</a></li>
-            <li class="mb-2"><a href="#" class="text-light small">Privacy</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">About Us</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Contact</a></li>
+            <li class="mb-2"><a href="javascript:void(0);" onclick="comingSoon()" class="text-light small">Privacy</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">Follow Us</h6>
           <div class="d-flex gap-3">
-            <a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
-            <a href="#" class="text-light"><i class="bi bi-twitter-x"></i></a>
-            <a href="#" class="text-light"><i class="bi bi-facebook"></i></a>
+            <a href="javascript:void(0);" onclick="comingSoon()" class="text-light"><i class="bi bi-linkedin"></i></a>
+            <a href="javascript:void(0);" onclick="comingSoon()" class="text-light"><i class="bi bi-twitter-x"></i></a>
+            <a href="javascript:void(0);" onclick="comingSoon()" class="text-light"><i class="bi bi-facebook"></i></a>
           </div>
         </div>
       </div>
       <div class="text-center py-3 border-top border-secondary">
-        <p class="text-light small mb-0">© 2024 Stardena Works. All rights reserved.</p>
+        <p class="text-light small mb-0">
+          By<a href="https://stardena.com/" target="_blank" class="text-light"> Stardena</a>
+        </p>
       </div>
     </div>
   </footer>
@@ -248,6 +252,17 @@
         else btn.classList.remove('show');
     });
   </script>
+    <script>
+      function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `position-fixed bottom-0 end-0 m-3 bg-${type === 'success' ? 'success' : 'danger'} text-white px-3 py-2 rounded-3 shadow`;
+        toast.style.zIndex = 9999;
+        toast.style.cursor = 'pointer';
+        toast.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-1"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+    </script>
 
   <script src="{{ web_asset('front/js/vendor.min.js') }}"></script>
   <!-- Import Js Files -->

@@ -148,7 +148,7 @@ class JobController extends Controller
             if ($response->successful()) {
                 $data = $response->json();
                 $job = $data;
-                \Log::info($data);
+                // \Log::info($data);
                 $similarJobs = $data['similar_jobs'] ?? [];
                 
                 return view('jobs.show', compact('job', 'similarJobs'));
