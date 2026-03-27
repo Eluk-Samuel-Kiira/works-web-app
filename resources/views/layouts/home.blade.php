@@ -553,6 +553,17 @@
         const statsSection = document.querySelector('.stats-section');
         if (statsSection) observer.observe(statsSection);
     </script>
+    <script>
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `position-fixed bottom-0 end-0 m-3 bg-${type === 'success' ? 'success' : 'danger'} text-white px-3 py-2 rounded-3 shadow`;
+            toast.style.zIndex = 9999;
+            toast.style.cursor = 'pointer';
+            toast.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-1"></i>${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
 </body>
 </html>
 
