@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Jobs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\ { Log, Artisan, Http };
+use App\Services\StructuredDataService;
 
 class JobController extends Controller
 {
@@ -150,8 +151,9 @@ class JobController extends Controller
                 $job = $data;
                 // \Log::info($data);
                 $similarJobs = $data['similar_jobs'] ?? [];
+                $structuredData = app(StructuredDataService::class)->jobPosting($job);
                 
-                return view('jobs.show', compact('job', 'similarJobs'));
+                return view('jobs.show', compact('job', 'similarJobs', 'structuredData'));
             } else {
                 abort(404, 'Job not found');
             }

@@ -680,7 +680,11 @@ function copyJobLink() {
     });
 }
 </script>
-
+@section('schema')
+  <script type="application/ld+json">
+  {!! json_encode($structuredData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) !!}
+  </script>
+@endsection
 
 @include('jobs.partials.apply-modal')
 @endsection
@@ -735,14 +739,4 @@ function copyJobLink() {
   .cta-share-btn { width: 34px !important; height: 34px !important; }
 }
 </style>
-@endpush
-
-{{-- At the bottom of your jobs/show.blade.php, after all content --}}
-@push('scripts')
-<script type="application/ld+json">
-{!! json_encode(
-    app(\App\Services\StructuredDataService::class)->jobPosting($job),
-    JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-) !!}
-</script>
 @endpush

@@ -146,6 +146,7 @@
         padding: 1rem !important;
       }
     </style>
+    @yield('schema')
 </head>
 
 <body>
