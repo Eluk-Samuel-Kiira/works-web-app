@@ -736,3 +736,13 @@ function copyJobLink() {
 }
 </style>
 @endpush
+
+{{-- At the bottom of your jobs/show.blade.php, after all content --}}
+@push('scripts')
+<script type="application/ld+json">
+{!! json_encode(
+    app(\App\Services\StructuredDataService::class)->jobPosting($job),
+    JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+) !!}
+</script>
+@endpush

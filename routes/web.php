@@ -16,6 +16,23 @@ Route::get('/jobs/{slug}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/jobs/id/{id}', [JobController::class, 'showById'])->name('jobs.show.id');
 
 
+// Serve sitemap by proxying to main app
+Route::get('/sitemap.xml', function () {
+    try {
+        $response = Http::timeout(10)->get(config('api.main_app.url') . '/sitemap.xml');
+        
+        if ($response->successful()) {
+            return response($response->body(), 200)
+                ->header('Content-Type', 'application/xml')
+                ->header('Cache-Control', 'public, max-age=3600');
+        }
+        
+        abort(404);
+    } catch (\Exception $e) {
+        abort(404);
+    }
+});
+
 // Fallback Route (404)
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
