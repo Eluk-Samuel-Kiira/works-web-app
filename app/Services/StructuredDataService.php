@@ -14,7 +14,7 @@ class StructuredDataService
             'datePosted' => $job['created_at'] ?? now()->toAtomString(),
             'validThrough' => $job['deadline'] ?? null,
             'employmentType' => $this->mapEmploymentType($job['employment_type'] ?? 'full-time'),
-            'jobLocationType' => ($job['location_type'] ?? '') === 'remote' ? 'TELECOMMUTE' : ($job['location_type'] ?? null),
+            'jobLocationType' => $this->mapLocationType($job['location_type'] ?? null),
             'url' => config('app.url') . '/jobs/' . ($job['slug'] ?? ''),
             'directApply' => true,
             
@@ -38,7 +38,7 @@ class StructuredDataService
             ],
         ];
         
-        // Add salary (baseSalary) - FIX #1
+        // Add salary
         if (!empty($job['salary_amount'])) {
             $data['baseSalary'] = [
                 '@type' => 'MonetaryAmount',
@@ -70,12 +70,15 @@ class StructuredDataService
             ];
         }
         
-        // Add education requirements
+        // Add education requirements (with proper enum)
         if (!empty($job['education_level']['name'])) {
-            $data['educationRequirements'] = [
-                '@type' => 'EducationalOccupationalCredential',
-                'credentialCategory' => $job['education_level']['name'],
-            ];
+            $educationEnum = $this->mapEducationLevel($job['education_level']['name']);
+            if ($educationEnum) {
+                $data['educationRequirements'] = [
+                    '@type' => 'EducationalOccupationalCredential',
+                    'credentialCategory' => $educationEnum,
+                ];
+            }
         }
         
         // Add skills
@@ -125,6 +128,31 @@ class StructuredDataService
             'temporary' => 'TEMPORARY',
             'volunteer' => 'VOLUNTEER',
             default => 'FULL_TIME',
+        };
+    }
+    
+    private function mapLocationType(?string $type): ?string
+    {
+        return match($type) {
+            'remote' => 'TELECOMMUTE',
+            'hybrid' => 'HYBRID',
+            'on-site', 'onsite' => 'ONSITE',
+            default => null,
+        };
+    }
+    
+    private function mapEducationLevel(?string $level): ?string
+    {
+        $level = strtolower($level ?? '');
+        
+        return match(true) {
+            str_contains($level, 'doctorate') || str_contains($level, 'phd') => 'doctorate',
+            str_contains($level, 'master') || str_contains($level, 'postgraduate') => 'master_degree',
+            str_contains($level, 'bachelor') || str_contains($level, 'degree') => 'bachelor_degree',
+            str_contains($level, 'associate') || str_contains($level, 'diploma') => 'associate_degree',
+            str_contains($level, 'certificate') => 'professional_certificate',
+            str_contains($level, 'high school') || str_contains($level, 'secondary') => 'high_school',
+            default => null,
         };
     }
 }
