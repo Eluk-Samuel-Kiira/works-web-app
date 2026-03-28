@@ -1,623 +1,356 @@
 @extends('layouts.home')
-@section('title', __('Stardena Works - Home'))
-@section('new-badge', __("We're hiring! 50+ tech positions available"))
+@section('title', __('Stardena Works - AI-Powered Job Platform'))
 @section('home-content')
 
-<!-- HERO SECTION -->
-<section class="hero-section">
-  <div class="container position-relative" style="z-index:2;">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-6">
-        <div class="hero-badge">
-          <span class="dot"></span>
-          AI-Powered Talent Matching · Uganda & Africa
+
+{{-- ═══════════════════════════════════════════════════════
+     NOTIFICATION BAR
+═══════════════════════════════════════════════════════ --}}
+{{--
+<div style="background:linear-gradient(90deg,#4f6ef7,#7c3aed);padding:9px 0;">
+  <div class="container">
+    <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+      <span class="badge bg-white text-primary fw-bold px-2" style="font-size:10px;">🚀 NEW</span>
+      <span style="font-size:13px;color:rgba(255,255,255,.9)">AI-powered CV Tailoring is live — get matched to the right job in seconds!</span>
+      <a href="javascript:void(0);" onclick="comingSoon()" style="color:#fff;font-size:13px;font-weight:700;text-decoration:underline;">Try it Free →</a>
+    </div>
+  </div>
+</div>
+--}}
+
+{{-- ═══════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════ --}}
+<section class="hero-mesh">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="container py-5 py-lg-0" style="min-height:calc(100vh - 120px);display:flex;align-items:center;">
+    <div class="row align-items-center g-5 w-100 py-4">
+
+      {{-- Left --}}
+      <div class="col-lg-6 fade-up">
+        <div class="pill-badge mb-4">
+          <span class="pill-dot"></span>
+          AI-Powered Talent Matching · Uganda &amp; Africa
         </div>
-        <h1 class="hero-title">
-          Hire the <span class="text-primary">Top 1%</span><br>of Talent,<br>AI Verified
+
+        <h1 class="hero-h1 mb-4">
+          Hire the <span class="gradient-text">Top 1%</span><br>
+          of Talent,<br>AI&#8202;Verified
         </h1>
-        <p class="hero-subtitle">
+
+        <p style="font-size:1rem;line-height:1.7;color:var(--muted);max-width:480px;margin-bottom:2rem;">
           Stardena Works connects employers with skilled workers using AI. Find full-time jobs, quick gigs, or scan millions of CVs — all in one place.
         </p>
 
-        <!-- Search Bar -->
-        <div class="search-hero">
-          <input type="text" class="form-control" placeholder="🔍  Job title, skill or keyword">
-          <input type="text" class="form-control" placeholder="📍  Kampala, Uganda">
-          <select class="form-control">
-            <option>All Types</option>
-            <option>Full-time</option>
-            <option>Quick Gig</option>
-            <option>Remote</option>
-          </select>
-          <button class="btn btn-primary">Search Jobs</button>
+        {{-- Search --}}
+        <div class="search-glass mb-4">
+          <form action="{{ route('jobs.index') }}" method="GET">
+            <div class="d-flex flex-column flex-sm-row gap-2 align-items-stretch">
+              <div class="d-flex align-items-center flex-grow-1 px-3" style="min-width:0">
+                <i class="bi bi-search me-2" style="color:var(--muted);flex-shrink:0"></i>
+                <input type="text" name="keyword" placeholder="Job title, skill or keyword">
+              </div>
+              <div class="search-divider d-none d-sm-block"></div>
+              <div class="d-flex align-items-center flex-grow-1 px-3" style="min-width:0">
+                <i class="bi bi-geo-alt me-2" style="color:var(--muted);flex-shrink:0"></i>
+                <input type="text" name="location" placeholder="Kampala, Uganda">
+              </div>
+              <button type="submit"
+                      style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:10px 24px;font-weight:600;font-size:14px;white-space:nowrap;flex-shrink:0;">
+                Search Jobs
+              </button>
+            </div>
+          </form>
         </div>
 
-        <!-- Popular Searches -->
-        <div class="mb-4">
-          <span style="font-size:12px;color:#8898aa;font-weight:600;margin-right:8px;">Popular:</span>
-          <span class="tag-pill">Driver</span>
-          <span class="tag-pill">Sales Rep</span>
-          <span class="tag-pill green">Delivery</span>
-          <span class="tag-pill orange">Software Dev</span>
-          <span class="tag-pill red">Nurse</span>
-          <span class="tag-pill">Accountant</span>
+        {{-- Popular tags --}}
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+          <span style="font-size:12px;font-weight:600;color:var(--muted)">Popular:</span>
+          @foreach(['Driver','Sales Rep','Delivery','Software Dev','Nurse','Teacher'] as $tag)
+            <a href="{{ route('jobs.index', ['keyword' => $tag]) }}" class="pop-tag text-decoration-none">{{ $tag }}</a>
+          @endforeach
         </div>
 
-        <!-- Social Proof -->
-        <div class="d-flex align-items-center gap-3 flex-wrap">
-          <div class="avatar-stack d-flex">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="user">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="user">
-            <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="user">
-            <img src="https://randomuser.me/api/portraits/women/17.jpg" alt="user">
+        {{-- Social proof --}}
+        <div class="d-flex align-items-center gap-3">
+          <div class="d-flex">
+            @foreach(['men/48','women/73','men/55','men/83'] as $p)
+              <img src="https://randomuser.me/api/portraits/{{ $p }}.jpg"
+                   class="rounded-circle" width="36" height="36"
+                   style="border:2px solid var(--ink-2);margin-right:-10px;object-fit:cover;">
+            @endforeach
           </div>
           <div>
-            <div class="d-flex gap-1 mb-1">
-              <i class="bi bi-star-fill text-warning" style="font-size:12px;"></i>
-              <i class="bi bi-star-fill text-warning" style="font-size:12px;"></i>
-              <i class="bi bi-star-fill text-warning" style="font-size:12px;"></i>
-              <i class="bi bi-star-fill text-warning" style="font-size:12px;"></i>
-              <i class="bi bi-star-half text-warning" style="font-size:12px;"></i>
+            <div class="text-warning mb-1" style="font-size:12px">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
             </div>
-            <p class="mb-0" style="font-size:13px;color:#5a6a85;font-weight:500;">Trusted by <strong>10,000+</strong> workers & employers</p>
+            <small style="color:var(--muted);font-size:12px">Trusted by <strong style="color:#fff">10,000+</strong> workers &amp; employers</small>
           </div>
         </div>
       </div>
 
-      <!-- Hero Visual Panel -->
-      <div class="col-lg-6 d-none d-lg-block">
-        <div class="hero-visual" style="max-width:420px;margin-left:auto;">
-          <span class="floating-badge">✨ AI Match Active</span>
-          
-          <!-- AI Match Score Card -->
-          <div class="match-score-card">
-            <div class="d-flex align-items-center justify-content-between mb-3">
+      {{-- Right — Live AI panel --}}
+      <div class="col-lg-6 d-none d-lg-block fade-up" style="animation-delay:.15s">
+        <div class="glass-card p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <span style="font-size:12px;font-weight:600;color:var(--muted)">AI MATCH DASHBOARD</span>
+            <span class="pill-badge" style="padding:4px 10px;font-size:11px;">
+              <span class="pill-dot"></span> Live
+            </span>
+          </div>
+
+          {{-- Score card --}}
+          <div style="background:linear-gradient(135deg,rgba(79,110,247,.25),rgba(124,58,237,.2));border:1px solid rgba(79,110,247,.3);border-radius:12px;padding:20px;" class="mb-3">
+            <div class="d-flex align-items-center justify-content-between">
               <div>
-                <p style="font-size:12px;opacity:.8;margin:0 0 4px;">AI Match Score</p>
-                <p style="font-size:16px;font-weight:700;margin:0;">Software Engineer · Kampala</p>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">AI Match Score</div>
+                <div style="font-weight:700;font-size:15px;color:#fff;">Software Engineer · Kampala</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:6px;">3 skills verified · CV tailored · Instantly applied</div>
               </div>
-              <div class="score-circle">92%</div>
+              <div class="score-ring"><span>92%</span></div>
             </div>
-            <div style="background:rgba(255,255,255,.15);border-radius:8px;height:6px;margin-bottom:8px;">
-              <div style="background:#fff;border-radius:8px;height:100%;width:92%;"></div>
-            </div>
-            <p style="font-size:12px;opacity:.75;margin:0;">3 skills verified · CV tailored · Instantly applied</p>
           </div>
 
-          <!-- Mini Job Cards -->
-          <div class="job-mini-card">
-            <div class="company-logo" style="background:linear-gradient(135deg,#5D87FF,#4470f5);">M</div>
-            <div class="flex-grow-1">
-              <p style="font-size:13px;font-weight:700;margin:0;color:#2a3547;">MTN Uganda</p>
-              <p style="font-size:12px;color:#8898aa;margin:0;">Sales Manager · UGX 2.5M/mo</p>
+          {{-- Job rows --}}
+          @foreach([
+            ['M','bg-primary','MTN Uganda','Sales Manager · UGX 2.5M/mo','New','rgba(79,110,247,.2)','#818cf8'],
+            ['A','rgba(239,68,68,.8)','Airtel Uganda','Customer Support · Full-time','Match','rgba(34,197,94,.15)','#4ade80'],
+            ['S','rgba(34,197,94,.8)','Stanbic Bank','IT Officer · UGX 3.8M/mo','Hot','rgba(245,158,11,.15)','#fcd34d'],
+          ] as [$letter,$bg,$name,$sub,$badge,$badgeBg,$badgeColor])
+          <div class="d-flex align-items-center gap-3 mb-2" style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:12px;">
+            <div class="d-flex align-items-center justify-content-center fw-bold text-white rounded-3 flex-shrink-0"
+                 style="width:40px;height:40px;background:{{ $bg }};font-size:15px;">{{ $letter }}</div>
+            <div class="flex-grow-1" style="min-width:0">
+              <div style="font-weight:600;font-size:14px;color:#fff;">{{ $name }}</div>
+              <div style="font-size:12px;color:var(--muted);">{{ $sub }}</div>
             </div>
-            <span class="badge bg-primary-subtle text-primary" style="font-size:11px;">New</span>
+            <span style="background:{{ $badgeBg }};color:{{ $badgeColor }};font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;white-space:nowrap;">{{ $badge }}</span>
           </div>
+          @endforeach
 
-          <div class="job-mini-card">
-            <div class="company-logo" style="background:linear-gradient(135deg,#FA896B,#f4614a);">A</div>
-            <div class="flex-grow-1">
-              <p style="font-size:13px;font-weight:700;margin:0;color:#2a3547;">Airtel Uganda</p>
-              <p style="font-size:12px;color:#8898aa;margin:0;">Customer Support · Full-time</p>
-            </div>
-            <span class="badge" style="background:rgba(19,222,185,.1);color:#13DEB9;font-size:11px;">Match</span>
-          </div>
-
-          <div class="job-mini-card">
-            <div class="company-logo" style="background:linear-gradient(135deg,#13DEB9,#06b599);">S</div>
-            <div class="flex-grow-1">
-              <p style="font-size:13px;font-weight:700;margin:0;color:#2a3547;">Stanbic Bank</p>
-              <p style="font-size:12px;color:#8898aa;margin:0;">IT Officer · UGX 3.8M/mo</p>
-            </div>
-            <span class="badge bg-warning-subtle text-warning" style="font-size:11px;">Hot</span>
-          </div>
-
-          <!-- Quick action -->
           <div class="d-flex gap-2 mt-3">
-            <button class="btn btn-primary flex-fill btn-sm"><i class="ti ti-robot me-2"></i>Tailor My CV</button>
-            <button class="btn btn-outline-secondary flex-fill btn-sm"><i class="bi bi-whatsapp me-2" style="color:#25d366;"></i>Apply via WhatsApp</button>
+            <button onclick="comingSoon()" style="flex:1;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:10px;font-weight:600;font-size:13px;">
+              <i class="bi bi-robot me-1"></i> Tailor My CV
+            </button>
+            <button onclick="comingSoon()" style="flex:1;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80;border-radius:10px;padding:10px;font-weight:600;font-size:13px;">
+              <i class="bi bi-whatsapp me-1"></i> Apply via WhatsApp
+            </button>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- Stats Bar -->
-<section class="stats-section">
+{{-- ═══════════════════════════════════════════════════════
+     STATS
+═══════════════════════════════════════════════════════ --}}
+<section class="stats-section py-5" style="background:var(--ink-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
-    <div class="row justify-content-center text-center g-4">
-      <div class="col-6 col-md-3">
-        <div class="stat-item">
-          <div class="stat-number">15K+</div>
-          <div class="stat-label">Registered Workers</div>
+    <div class="row g-3 text-center">
+      <div class="col-6 col-md-3 fade-up">
+        <div class="stat-card">
+          <div class="stat-num blue mb-1">15K+</div>
+          <div style="font-size:12px;font-weight:600;color:var(--muted)">Registered Workers</div>
         </div>
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-item border-start">
-          <div class="stat-number">2.4K+</div>
-          <div class="stat-label">Companies Hiring</div>
+      <div class="col-6 col-md-3 fade-up" style="transition-delay:.08s">
+        <div class="stat-card">
+          <div class="stat-num purple mb-1">2.4K+</div>
+          <div style="font-size:12px;font-weight:600;color:var(--muted)">Companies Hiring</div>
         </div>
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-item border-start">
-          <div class="stat-number">8.7K+</div>
-          <div class="stat-label">Jobs Filled</div>
+      <div class="col-6 col-md-3 fade-up" style="transition-delay:.16s">
+        <div class="stat-card">
+          <div class="stat-num green mb-1">8.7K+</div>
+          <div style="font-size:12px;font-weight:600;color:var(--muted)">Jobs Filled</div>
         </div>
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-item border-start">
-          <div class="stat-number">500+</div>
-          <div class="stat-label">Quick Gigs Today</div>
+      <div class="col-6 col-md-3 fade-up" style="transition-delay:.24s">
+        <div class="stat-card">
+          <div class="stat-num amber mb-1">500+</div>
+          <div style="font-size:12px;font-weight:600;color:var(--muted)">Quick Gigs Today</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Trusted by -->
-<div class="logos-strip text-center">
-  <div class="container">
-    <p>Trusted by companies across Uganda</p>
-    <div>
-      <span class="partner-logo"><iconify-icon icon="logos:google" width="20"></iconify-icon> Google</span>
-      <span class="partner-logo">🏦 Stanbic Bank</span>
-      <span class="partner-logo">📱 MTN Uganda</span>
-      <span class="partner-logo">✈️ Uganda Airlines</span>
-      <span class="partner-logo">🏥 Nakasero Hospital</span>
-      <span class="partner-logo">🛒 Jinja Supermart</span>
+{{-- ═══════════════════════════════════════════════════════
+     TRUSTED BY
+═══════════════════════════════════════════════════════ --}}
+<div style="background:var(--ink);padding:28px 0;border-bottom:1px solid var(--border);">
+  <div class="container text-center">
+    <p style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:16px;">Trusted by companies across Uganda</p>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <span class="trust-chip">🏢 Stanbic Bank</span>
+      <span class="trust-chip">📱 MTN Uganda</span>
+      <span class="trust-chip">✈️ Uganda Airlines</span>
+      <span class="trust-chip">🏥 Nakasero Hospital</span>
+      <span class="trust-chip">🛒 Jumia Uganda</span>
     </div>
   </div>
 </div>
 
-<!-- FEATURES SECTION -->
-<section class="features-section" id="features">
+{{-- ═══════════════════════════════════════════════════════
+     FEATURES
+═══════════════════════════════════════════════════════ --}}
+<section class="py-5 py-lg-6 fade-up" style="background:var(--ink);">
   <div class="container">
     <div class="text-center mb-5">
-      <span class="section-chip">What We Offer</span>
-      <h2 class="section-title">Everything you need to<br>work or hire smarter</h2>
-      <p class="section-sub">From quick gig alerts on WhatsApp to AI-ranked talent shortlists — Stardena Works handles the heavy lifting.</p>
+      <div class="section-eyebrow mb-2">What We Offer</div>
+      <h2 class="section-h2 mb-2">Everything you need to<br>work or hire smarter</h2>
+      <p style="color:var(--muted);font-size:.9375rem">From quick gig alerts on WhatsApp to AI-ranked talent shortlists</p>
+    </div>
+    <div class="row g-3">
+      @foreach([
+        ['bi-briefcase',   'rgba(79,110,247,.15)',  '#818cf8', 'Job Listings & Direct Apply',   'Browse thousands of verified jobs. Apply directly — no email chains.'],
+        ['bi-clock',       'rgba(34,197,94,.12)',   '#4ade80', 'Quick Gigs — Earn Today',        'Delivery, cleaning, tutoring, coding. Find hourly work near you. Get paid same day.'],
+        ['bi-stars',       'rgba(245,158,11,.12)',  '#fcd34d', 'AI CV Tailoring',                'Upload your CV and our AI rewrites it to match any job description perfectly.'],
+        ['bi-person-search','rgba(239,68,68,.12)',  '#f87171', 'AI Talent Scanner',              'Scan millions of CVs in minutes. Our AI ranks the best-fit candidates.'],
+        ['bi-whatsapp',    'rgba(34,197,94,.12)',   '#4ade80', 'Apply via WhatsApp',             'Receive alerts, apply, and track applications through WhatsApp — no app needed.'],
+        ['bi-bell',        'rgba(99,179,237,.12)',  '#93c5fd', 'Smart Job Alerts',               'Set preferences once. Get personalized alerts when matching jobs are posted.'],
+      ] as [$icon,$bg,$color,$title,$desc])
+      <div class="col-md-6 col-lg-4">
+        <div class="glass-card p-4 h-100 hover-lift">
+          <div class="feat-icon mb-3" style="background:{{ $bg }};">
+            <i class="bi {{ $icon }}" style="color:{{ $color }};"></i>
+          </div>
+          <h6 style="font-weight:700;color:#fff;margin-bottom:8px;">{{ $title }}</h6>
+          <p style="color:var(--muted);font-size:13px;line-height:1.6;margin:0;">{{ $desc }}</p>
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+{{-- ═══════════════════════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════════════════════ --}}
+<section class="py-5 py-lg-6" style="background:var(--ink-2);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="text-center mb-5 fade-up">
+      <div class="section-eyebrow mb-2">How It Works</div>
+      <h2 class="section-h2 mb-2">Up and running in minutes</h2>
+      <p style="color:var(--muted);">Simple steps for workers and employers.</p>
     </div>
     <div class="row g-4">
-      <!-- Feature 1 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon-wrap bg-primary-subtle">
-            <iconify-icon icon="material-symbols:work-outline-rounded" style="color:var(--bs-primary);font-size:28px;"></iconify-icon>
-          </div>
-          <h5>Job Listings & Direct Apply</h5>
-          <p>Browse thousands of verified jobs. Apply directly through the platform — no email chains, no guessing. Get instant confirmation.</p>
+      {{-- Workers --}}
+      <div class="col-lg-6 fade-up">
+        <div class="d-flex align-items-center gap-2 mb-4">
+          <span style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;font-size:12px;font-weight:700;padding:5px 14px;border-radius:100px;">For Workers</span>
         </div>
-      </div>
-      <!-- Feature 2 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background:rgba(19,222,185,.12);">
-            <iconify-icon icon="material-symbols:timer-outline" style="color:#13DEB9;font-size:28px;"></iconify-icon>
-          </div>
-          <h5>Quick Gigs — Earn Today</h5>
-          <p>Delivery, cleaning, tutoring, coding tasks. Register as a casual worker and find hourly work near you. Get paid same day.</p>
-        </div>
-      </div>
-      <!-- Feature 3 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background:rgba(255,174,31,.12);">
-            <iconify-icon icon="material-symbols:auto-awesome" style="color:#FFAE1F;font-size:28px;"></iconify-icon>
-          </div>
-          <h5>AI CV Tailoring</h5>
-          <p>Upload your CV and our AI rewrites it to perfectly match any job description. Boost your interview chances by up to 3x.</p>
-        </div>
-      </div>
-      <!-- Feature 4 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background:rgba(250,137,107,.12);">
-            <iconify-icon icon="material-symbols:person-search-outline" style="color:#FA896B;font-size:28px;"></iconify-icon>
-          </div>
-          <h5>AI Talent Scanner for Employers</h5>
-          <p>Scan millions of CVs in under 5 minutes. Our AI ranks the best-fit candidates so you shortlist only the top 10%.</p>
-        </div>
-      </div>
-      <!-- Feature 5 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background:rgba(37,211,102,.12);">
-            <iconify-icon icon="logos:whatsapp-icon" style="font-size:28px;"></iconify-icon>
-          </div>
-          <h5>Apply via WhatsApp</h5>
-          <p>Data-friendly and accessible. Receive job alerts, apply, and track your applications entirely through WhatsApp — no app needed.</p>
-        </div>
-      </div>
-      <!-- Feature 6 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background:rgba(93,135,255,.12);">
-            <iconify-icon icon="material-symbols:notifications-active-outline" style="color:var(--bs-primary);font-size:28px;"></iconify-icon>
-          </div>
-          <h5>Smart Job Alerts</h5>
-          <p>Set your preferences once. Get personalized email and WhatsApp alerts the moment a matching job is posted.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-section" id="gigs">
-  <div class="container">
-    <div class="text-center mb-5">
-      <span class="section-chip">How It Works</span>
-      <h2 class="section-title">Up and running in minutes</h2>
-      <p class="section-sub">Three simple steps for workers, three for employers. No complicated processes.</p>
-    </div>
-
-    <div class="row g-5">
-      <!-- For Workers -->
-      <div class="col-lg-6">
-        <h5 class="fw-bold mb-4 d-flex align-items-center gap-2">
-          <span class="badge bg-primary rounded-pill">For Workers</span>
-        </h5>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="step-card pt-5">
-              <div class="step-number">1</div>
-              <div class="step-icon" style="background:rgba(93,135,255,.1);">
-                <iconify-icon icon="material-symbols:person-add-outline" style="color:var(--bs-primary);font-size:28px;"></iconify-icon>
-              </div>
-              <h5>Register Free</h5>
-              <p>Create your profile and upload your CV in under 5 minutes.</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="step-card pt-5">
-              <div class="step-number">2</div>
-              <div class="step-icon" style="background:rgba(255,174,31,.1);">
-                <iconify-icon icon="material-symbols:auto-awesome" style="color:#FFAE1F;font-size:28px;"></iconify-icon>
-              </div>
-              <h5>AI Matches You</h5>
-              <p>Our AI scans jobs daily and matches you to the best opportunities.</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="step-card pt-5">
-              <div class="step-number">3</div>
-              <div class="step-icon" style="background:rgba(19,222,185,.1);">
-                <iconify-icon icon="material-symbols:check-circle-outline" style="color:#13DEB9;font-size:28px;"></iconify-icon>
-              </div>
-              <h5>Apply & Get Hired</h5>
-              <p>Apply in one click or directly via WhatsApp. Track every application.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- For Employers -->
-      <div class="col-lg-6">
-        <h5 class="fw-bold mb-4 d-flex align-items-center gap-2">
-          <span class="badge bg-success rounded-pill">For Employers</span>
-        </h5>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="step-card pt-5">
-              <div class="step-number">1</div>
-              <div class="step-icon" style="background:rgba(250,137,107,.1);">
-                <iconify-icon icon="material-symbols:post-add-outline" style="color:#FA896B;font-size:28px;"></iconify-icon>
-              </div>
-              <h5>Post a Job</h5>
-              <p>Describe the role. Our AI writes a compelling job ad for you.</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="step-card pt-5">
-              <div class="step-number">2</div>
-              <div class="step-icon" style="background:rgba(93,135,255,.1);">
-                <iconify-icon icon="material-symbols:manage-search" style="color:var(--bs-primary);font-size:28px;"></iconify-icon>
-              </div>
-              <h5>AI Pre-Screens</h5>
-              <p>AI conducts initial screening. You only see the top verified candidates.</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="step-card pt-5">
-              <div class="step-number">3</div>
-              <div class="step-icon" style="background:rgba(19,222,185,.1);">
-                <iconify-icon icon="material-symbols:groups-outline-rounded" style="color:#13DEB9;font-size:28px;"></iconify-icon>
-              </div>
-              <h5>Hire in Days</h5>
-              <p>Interview a shortlist of 5–10 qualified candidates. Hire faster.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AI SECTION -->
-<section class="ai-section" id="talent">
-  <div class="container">
-    <div class="row g-5 align-items-center">
-      <div class="col-lg-6">
-        <div class="ai-panel">
-          <div class="ai-glow-badge">
-            <iconify-icon icon="material-symbols:auto-awesome" style="font-size:14px;"></iconify-icon>
-            Powered by AI
-          </div>
-          <h2>Stop reading 500 CVs.<br>Let AI do it in 5 mins.</h2>
-          <p>Our AI Talent Scanner reads, ranks, and explains every candidate. You get a shortlist — not a pile of documents.</p>
-
-          <ul class="ai-feature-list">
-            <li>
-              <div class="check-icon"><i class="ti ti-check" style="font-size:10px;"></i></div>
-              <span>AI conducts voice/chat pre-screening with every applicant</span>
-            </li>
-            <li>
-              <div class="check-icon"><i class="ti ti-check" style="font-size:10px;"></i></div>
-              <span>Semantic matching — finds great talent even with non-standard CVs</span>
-            </li>
-            <li>
-              <div class="check-icon"><i class="ti ti-check" style="font-size:10px;"></i></div>
-              <span>Instant rejection with constructive feedback (no more ghosting)</span>
-            </li>
-            <li>
-              <div class="check-icon"><i class="ti ti-check" style="font-size:10px;"></i></div>
-              <span>Candidates ranked with an explainable AI match score</span>
-            </li>
-          </ul>
-
-          <div class="d-flex gap-3 flex-wrap">
-            <a href="/register?type=employer" class="btn btn-primary px-5 py-2">Post a Job Now</a>
-            <a href="#" class="btn btn-outline-light px-4 py-2">Watch Demo</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6">
-        <div class="mb-3">
-          <span class="section-chip">AI Match Dashboard</span>
-          <h3 class="fw-bold mt-2 mb-1" style="font-size:22px;">Live Candidate Rankings</h3>
-          <p class="text-muted" style="font-size:14px;">Top matches for: <strong>Marketing Manager · Kampala</strong></p>
-        </div>
-
-        <!-- Candidate cards -->
         <div class="d-flex flex-column gap-3">
-          <div style="background:#fff;border-radius:14px;padding:16px 20px;border:1px solid #eef0f4;display:flex;align-items:center;gap:14px;">
-            <img src="https://randomuser.me/api/portraits/women/68.jpg" style="width:46px;height:46px;border-radius:50%;object-fit:cover;" alt="">
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <p style="font-size:14px;font-weight:700;margin:0;color:#2a3547;">Sarah Achieng</p>
-                <span class="badge" style="background:rgba(19,222,185,.12);color:#13DEB9;font-size:12px;font-weight:700;">96% Match</span>
-              </div>
-              <p style="font-size:12px;color:#8898aa;margin:0;">5 yrs experience · FMCG background · English fluent</p>
-              <div style="background:#f6f9fc;border-radius:4px;height:4px;margin-top:8px;">
-                <div style="background:#13DEB9;height:100%;border-radius:4px;width:96%;"></div>
-              </div>
+          @foreach([
+            ['1','#4f6ef7','bi-person-plus','Register Free','Create your profile in minutes'],
+            ['2','#7c3aed','bi-stars','AI Matches You','Get matched to the best opportunities'],
+            ['3','#22c55e','bi-check-circle','Apply &amp; Get Hired','One-click apply via WhatsApp'],
+          ] as [$n,$color,$icon,$title,$sub])
+          <div class="glass-card p-4 d-flex gap-4 align-items-start">
+            <div class="step-num" style="background:{{ $color }}1a;border:1px solid {{ $color }}44;color:{{ $color }};">{{ $n }}</div>
+            <div>
+              <i class="bi {{ $icon }} mb-2 d-block" style="font-size:1.5rem;color:{{ $color }};"></i>
+              <div style="font-weight:700;color:#fff;margin-bottom:4px;">{!! $title !!}</div>
+              <div style="font-size:13px;color:var(--muted);">{{ $sub }}</div>
             </div>
           </div>
-          <div style="background:#fff;border-radius:14px;padding:16px 20px;border:1px solid #eef0f4;display:flex;align-items:center;gap:14px;">
-            <img src="https://randomuser.me/api/portraits/men/45.jpg" style="width:46px;height:46px;border-radius:50%;object-fit:cover;" alt="">
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <p style="font-size:14px;font-weight:700;margin:0;color:#2a3547;">David Ochieng</p>
-                <span class="badge bg-primary-subtle text-primary" style="font-size:12px;font-weight:700;">88% Match</span>
-              </div>
-              <p style="font-size:12px;color:#8898aa;margin:0;">4 yrs experience · Telecom sector · Pre-screened ✓</p>
-              <div style="background:#f6f9fc;border-radius:4px;height:4px;margin-top:8px;">
-                <div style="background:var(--bs-primary);height:100%;border-radius:4px;width:88%;"></div>
-              </div>
-            </div>
-          </div>
-          <div style="background:#fff;border-radius:14px;padding:16px 20px;border:1px solid #eef0f4;display:flex;align-items:center;gap:14px;">
-            <img src="https://randomuser.me/api/portraits/women/22.jpg" style="width:46px;height:46px;border-radius:50%;object-fit:cover;" alt="">
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <p style="font-size:14px;font-weight:700;margin:0;color:#2a3547;">Fatuma Nakato</p>
-                <span class="badge" style="background:rgba(255,174,31,.12);color:#FFAE1F;font-size:12px;font-weight:700;">82% Match</span>
-              </div>
-              <p style="font-size:12px;color:#8898aa;margin:0;">3 yrs experience · NGO marketing · Interview ready</p>
-              <div style="background:#f6f9fc;border-radius:4px;height:4px;margin-top:8px;">
-                <div style="background:#FFAE1F;height:100%;border-radius:4px;width:82%;"></div>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
-
-        <div style="background:var(--bs-primary-subtle);border-radius:12px;padding:14px 18px;margin-top:16px;display:flex;align-items:center;gap:12px;">
-          <iconify-icon icon="material-symbols:info-outline" style="color:var(--bs-primary);font-size:20px;flex-shrink:0;"></iconify-icon>
-          <p style="font-size:13px;color:#2a3547;margin:0;">AI scanned <strong>347 CVs</strong> and shortlisted <strong>3 top candidates</strong> in <strong>4 minutes 12 seconds</strong>.</p>
+      </div>
+      {{-- Employers --}}
+      <div class="col-lg-6 fade-up" style="transition-delay:.1s">
+        <div class="d-flex align-items-center gap-2 mb-4">
+          <span style="background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3);font-size:12px;font-weight:700;padding:5px 14px;border-radius:100px;">For Employers</span>
+        </div>
+        <div class="d-flex flex-column gap-3">
+          @foreach([
+            ['1','#ef4444','bi-pencil-square','Post a Job','Describe the role — AI writes the ad'],
+            ['2','#4f6ef7','bi-search','AI Pre-Screens','See only top verified candidates'],
+            ['3','#a78bfa','bi-people','Hire in Days','Interview a shortlist of top candidates'],
+          ] as [$n,$color,$icon,$title,$sub])
+          <div class="glass-card p-4 d-flex gap-4 align-items-start">
+            <div class="step-num" style="background:{{ $color }}1a;border:1px solid {{ $color }}44;color:{{ $color }};">{{ $n }}</div>
+            <div>
+              <i class="bi {{ $icon }} mb-2 d-block" style="font-size:1.5rem;color:{{ $color }};"></i>
+              <div style="font-weight:700;color:#fff;margin-bottom:4px;">{{ $title }}</div>
+              <div style="font-size:13px;color:var(--muted);">{{ $sub }}</div>
+            </div>
+          </div>
+          @endforeach
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING SECTION -->
-<section class="pricing-section" id="pricing">
+{{-- ═══════════════════════════════════════════════════════
+     AI SECTION
+═══════════════════════════════════════════════════════ --}}
+<section class="py-5 py-lg-6 fade-up" style="background:var(--ink);border-top:1px solid var(--border);">
   <div class="container">
-    <div class="text-center mb-5">
-      <span class="section-chip">Pricing</span>
-      <h2 class="section-title">Fair pricing for every business</h2>
-      <p class="section-sub">Start free. Only pay when you find value. Built for Ugandan SMEs and large enterprises alike.</p>
-      
-      <!-- Pricing toggle -->
-      <div class="d-inline-flex align-items-center gap-3 bg-white rounded-pill px-4 py-2 border mt-3">
-        <span style="font-size:13px;font-weight:600;color:#5a6a85;">For Workers</span>
-        <div class="form-check form-switch mb-0">
-          <input class="form-check-input" type="checkbox" id="pricingToggle">
-        </div>
-        <span style="font-size:13px;font-weight:600;color:#2a3547;">For Employers</span>
-      </div>
-    </div>
-
-    <!-- Worker Pricing -->
-    <div id="workerPricing">
-      <div class="row g-4 justify-content-center">
-        <div class="col-xl-3 col-md-6">
-          <div class="plan-card">
-            <h4 style="font-size:18px;font-weight:800;color:#2a3547;margin-bottom:6px;">Free Seeker</h4>
-            <p style="font-size:13px;color:#8898aa;margin-bottom:20px;">Browse jobs, apply directly, get email alerts.</p>
-            <div class="plan-price">UGX 0 <span>/ forever</span></div>
-            <ul class="plan-features">
-              <li><i class="ti ti-circle-check"></i> Browse all job listings</li>
-              <li><i class="ti ti-circle-check"></i> Direct application on site</li>
-              <li><i class="ti ti-circle-check"></i> WhatsApp job alerts</li>
-              <li><i class="ti ti-circle-check"></i> Basic CV profile</li>
-              <li class="muted"><i class="ti ti-circle-x"></i> AI CV Tailoring</li>
-              <li class="muted"><i class="ti ti-circle-x"></i> Priority listing</li>
-            </ul>
-            <a href="/register" class="btn btn-outline-dark w-100 mt-auto">Get Started Free</a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-          <div class="plan-card featured">
-            <h4 style="font-size:18px;font-weight:800;color:#2a3547;margin-bottom:6px;">Pro Worker <span class="plan-badge">Popular</span></h4>
-            <p style="font-size:13px;color:#8898aa;margin-bottom:20px;">Get hired faster with AI-powered tools.</p>
-            <div class="plan-price">UGX 15K <span>/ month</span></div>
-            <ul class="plan-features">
-              <li><i class="ti ti-circle-check"></i> Everything in Free</li>
-              <li><i class="ti ti-circle-check"></i> AI CV Tailoring (10/mo)</li>
-              <li><i class="ti ti-circle-check"></i> Mock AI Interview practice</li>
-              <li><i class="ti ti-circle-check"></i> Priority profile listing</li>
-              <li><i class="ti ti-circle-check"></i> WhatsApp apply + tracking</li>
-              <li><i class="ti ti-circle-check"></i> Skills verification badge</li>
-            </ul>
-            <a href="/register" class="btn btn-primary w-100 mt-auto">Start Pro — Free 14 Days</a>
-          </div>
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="pill-badge mb-4"><i class="bi bi-stars me-1"></i> Powered by AI</div>
+        <h2 class="section-h2 mb-3">Stop reading 500 CVs.<br>Let AI do it in 5 mins.</h2>
+        <p style="color:var(--muted);line-height:1.7;margin-bottom:1.75rem;">Our AI Talent Scanner reads, ranks, and explains every candidate. You get a shortlist — not a pile of documents.</p>
+        <ul class="list-unstyled mb-4 d-flex flex-column gap-3">
+          @foreach([
+            'AI conducts voice/chat pre-screening with every applicant',
+            'Semantic matching — finds great talent even with non-standard CVs',
+            'Instant rejection with constructive feedback',
+            'Candidates ranked with explainable AI match score',
+          ] as $feat)
+          <li class="d-flex gap-3 align-items-start">
+            <i class="bi bi-check-circle-fill text-success flex-shrink-0" style="margin-top:2px;"></i>
+            <span style="font-size:14px;color:var(--muted);">{{ $feat }}</span>
+          </li>
+          @endforeach
+        </ul>
+        <div class="d-flex gap-2 flex-wrap">
+          <button onclick="comingSoon()" style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:11px 24px;font-weight:600;font-size:14px;">Post a Job Now</button>
+          <button onclick="comingSoon()" style="background:transparent;border:1px solid var(--border);color:#fff;border-radius:10px;padding:11px 24px;font-weight:600;font-size:14px;">Watch Demo</button>
         </div>
       </div>
-    </div>
 
-    <!-- Employer Pricing (hidden by default) -->
-    <div id="employerPricing" style="display:none;">
-      <div class="row g-4">
-        <div class="col-xl-3 col-md-6">
-          <div class="plan-card">
-            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px;">Pay Per Match</h4>
-            <p style="font-size:13px;color:#8898aa;margin-bottom:20px;">Only pay when you find a candidate you like.</p>
-            <div class="plan-price">UGX 0 <span>to post</span></div>
-            <ul class="plan-features">
-              <li><i class="ti ti-circle-check"></i> Post unlimited jobs free</li>
-              <li><i class="ti ti-circle-check"></i> Pay UGX 20K per unlock</li>
-              <li><i class="ti ti-circle-check"></i> Basic AI ranking</li>
-              <li><i class="ti ti-circle-check"></i> Email notifications</li>
-              <li class="muted"><i class="ti ti-circle-x"></i> AI pre-screening</li>
-              <li class="muted"><i class="ti ti-circle-x"></i> Priority listing</li>
-            </ul>
-            <a href="/register?type=employer" class="btn btn-outline-dark w-100 mt-auto">Post Free</a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-          <div class="plan-card">
-            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px;">SME Plan</h4>
-            <p style="font-size:13px;color:#8898aa;margin-bottom:20px;">Perfect for growing Ugandan businesses.</p>
-            <div class="plan-price">UGX 150K <span>/ month</span></div>
-            <ul class="plan-features">
-              <li><i class="ti ti-circle-check"></i> 5 active job posts</li>
-              <li><i class="ti ti-circle-check"></i> AI CV scanning (100/mo)</li>
-              <li><i class="ti ti-circle-check"></i> Shortlist of top 10 candidates</li>
-              <li><i class="ti ti-circle-check"></i> Email + WhatsApp alerts</li>
-              <li class="muted"><i class="ti ti-circle-x"></i> AI pre-screening calls</li>
-              <li class="muted"><i class="ti ti-circle-x"></i> Dedicated account manager</li>
-            </ul>
-            <a href="/register?type=employer" class="btn btn-outline-dark w-100 mt-auto">Get SME Plan</a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-          <div class="plan-card featured">
-            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px;">Growth <span class="plan-badge">Popular</span></h4>
-            <p style="font-size:13px;color:#8898aa;margin-bottom:20px;">AI-powered hiring at scale.</p>
-            <div class="plan-price">UGX 450K <span>/ month</span></div>
-            <ul class="plan-features">
-              <li><i class="ti ti-circle-check"></i> 20 active job posts</li>
-              <li><i class="ti ti-circle-check"></i> Unlimited AI CV scanning</li>
-              <li><i class="ti ti-circle-check"></i> AI voice pre-screening</li>
-              <li><i class="ti ti-circle-check"></i> Priority featured listings</li>
-              <li><i class="ti ti-circle-check"></i> Branded employer page</li>
-              <li><i class="ti ti-circle-check"></i> Analytics dashboard</li>
-            </ul>
-            <a href="/register?type=employer" class="btn btn-primary w-100 mt-auto">Start Growth Plan</a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-          <div class="plan-card">
-            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px;">Enterprise</h4>
-            <p style="font-size:13px;color:#8898aa;margin-bottom:20px;">Custom solutions for large organizations.</p>
-            <div class="plan-price" style="font-size:28px;">Custom</div>
-            <ul class="plan-features">
-              <li><i class="ti ti-circle-check"></i> Everything in Growth</li>
-              <li><i class="ti ti-circle-check"></i> Dedicated account manager</li>
-              <li><i class="ti ti-circle-check"></i> ATS/HRMS integration</li>
-              <li><i class="ti ti-circle-check"></i> Mobile Money billing</li>
-              <li><i class="ti ti-circle-check"></i> Custom AI model training</li>
-              <li><i class="ti ti-circle-check"></i> SLA & priority support</li>
-            </ul>
-            <a href="/contact" class="btn btn-outline-dark w-100 mt-auto">Contact Sales</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Payment methods -->
-    <div class="text-center mt-5">
-      <p style="font-size:13px;color:#8898aa;margin-bottom:16px;">🔒 Secure payment via MTN Mobile Money · Airtel Money · Visa · Mastercard</p>
-      <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
-        <span class="partner-logo">📱 MTN MoMo</span>
-        <span class="partner-logo">📱 Airtel Money</span>
-        <span class="partner-logo">💳 Visa</span>
-        <span class="partner-logo">💳 Mastercard</span>
-        <span class="partner-logo">💰 PayPal</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials-section">
-  <div class="container">
-    <div class="text-center mb-5">
-      <span class="section-chip">Testimonials</span>
-      <h2 class="section-title">Real stories from real people</h2>
-    </div>
-    <div class="row g-4">
-      <div class="col-lg-4 col-md-6">
-        <div class="testimonial-card">
-          <div class="quote-mark"><i class="bi bi-quote"></i></div>
-          <div class="stars">★★★★★</div>
-          <p>"The AI tailored my CV and I got an interview within 3 days. Something I had been trying for 6 months on my own. Game changer!"</p>
-          <div class="d-flex align-items-center gap-3">
-            <img src="https://randomuser.me/api/portraits/women/55.jpg" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" alt="">
+      <div class="col-lg-6">
+        <div class="glass-card p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
             <div>
-              <p class="reviewer-name">Grace Namukasa</p>
-              <p class="reviewer-title">Software Developer, Kampala</p>
+              <span class="section-eyebrow">AI Match Dashboard</span>
+              <div style="font-weight:700;color:#fff;margin-top:4px;">Live Candidate Rankings</div>
+              <div style="font-size:12px;color:var(--muted);">Top matches for: <strong style="color:#818cf8">Marketing Manager · Kampala</strong></div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="testimonial-card">
-          <div class="quote-mark"><i class="bi bi-quote"></i></div>
-          <div class="stars">★★★★★</div>
-          <p>"We posted a role and the AI shortlisted 8 amazing candidates out of 300+ applications. We hired in 10 days. Incredible efficiency."</p>
-          <div class="d-flex align-items-center gap-3">
-            <img src="https://randomuser.me/api/portraits/men/78.jpg" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" alt="">
-            <div>
-              <p class="reviewer-name">James Mutumba</p>
-              <p class="reviewer-title">HR Manager, Kampala SME</p>
+          @foreach([
+            ['women/30','Sarah Achieng','5 yrs experience · FMCG background','96%','var(--green)'],
+            ['men/59','Wamala Peterson','4 yrs experience · Telecom sector','88%','#818cf8'],
+            ['women/16','Lydia Nakato','3 yrs experience · Banking sector','81%','#fcd34d'],
+          ] as [$portrait,$name,$sub,$score,$color])
+          <div class="cand-row mb-2">
+            <div class="d-flex gap-3 align-items-center">
+              <img src="https://randomuser.me/api/portraits/{{ $portrait }}.jpg"
+                   class="rounded-circle flex-shrink-0" width="44" height="44" style="object-fit:cover;">
+              <div class="flex-grow-1" style="min-width:0">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span style="font-weight:600;font-size:14px;color:#fff;">{{ $name }}</span>
+                  <span style="font-size:12px;font-weight:700;color:{{ $color }};">{{ $score }}</span>
+                </div>
+                <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">{{ $sub }}</div>
+                <div class="match-track"><div class="match-fill" style="width:{{ $score }};background:{{ $color }};"></div></div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="testimonial-card">
-          <div class="quote-mark"><i class="bi bi-quote"></i></div>
-          <div class="stars">★★★★☆</div>
-          <p>"I got a delivery gig through WhatsApp in 20 minutes. Stardena Works is perfect for people like me who need income fast."</p>
-          <div class="d-flex align-items-center gap-3">
-            <img src="https://randomuser.me/api/portraits/men/23.jpg" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" alt="">
-            <div>
-              <p class="reviewer-name">Paul Ssekindi</p>
-              <p class="reviewer-title">Casual Worker, Mukono</p>
+          @endforeach
+          <div style="background:rgba(79,110,247,.08);border:1px solid rgba(79,110,247,.2);border-radius:8px;padding:12px;margin-top:12px;">
+            <div class="d-flex gap-2 align-items-center">
+              <i class="bi bi-info-circle" style="color:#818cf8;flex-shrink:0;"></i>
+              <small style="color:var(--muted);">AI scanned <strong style="color:#fff">347 CVs</strong> and shortlisted <strong style="color:#fff">3 candidates</strong> in <strong style="color:#fff">4 minutes</strong></small>
             </div>
           </div>
         </div>
@@ -626,33 +359,61 @@
   </div>
 </section>
 
-<!-- CTA SECTION -->
-<section class="cta-section">
-  <div class="container position-relative" style="z-index:2;">
-    <div class="text-center mb-5">
-      <h2>Start your journey today</h2>
-      <p>Join thousands of workers and employers on Stardena Works — the smart way to hire and be hired in Uganda.</p>
-    </div>
-    <div class="cta-cards-row">
-      <a href="/register?type=worker" class="cta-mini-card text-decoration-none">
-        <div class="icon">👷</div>
-        <h5>I'm a Worker</h5>
-        <p>Find jobs, quick gigs, and let AI boost your CV</p>
-      </a>
-      <a href="/register?type=employer" class="cta-mini-card text-decoration-none">
-        <div class="icon">🏢</div>
-        <h5>I'm an Employer</h5>
-        <p>Post jobs and find top talent with AI</p>
-      </a>
-      <a href="#" class="cta-mini-card text-decoration-none">
-        <div class="icon" style="color:#25d366;">
-          <i class="bi bi-whatsapp"></i>
-        </div>
-        <h5>Apply on WhatsApp</h5>
-        <p>Find gigs and jobs without leaving WhatsApp</p>
-      </a>
+{{-- ═══════════════════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════════════════ --}}
+<section class="cta-section py-5 py-lg-6">
+  <div class="container text-center">
+    <div class="pill-badge mb-4 mx-auto" style="width:fit-content">🇺🇬 Built in Uganda, for Africa</div>
+    <h2 class="section-h2 mb-3">Start your journey today</h2>
+    <p style="color:var(--muted);font-size:.9375rem;margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto;">
+      Join thousands of workers and employers on Stardena Works — the smart way to hire and be hired.
+    </p>
+    <div class="d-flex flex-wrap gap-3 justify-content-center">
+      <button onclick="comingSoon()" style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:13px 28px;font-weight:700;font-size:14px;">
+        <i class="bi bi-person me-2"></i>I'm a Worker
+      </button>
+      <button onclick="comingSoon()" style="background:transparent;border:1px solid var(--border);color:#fff;border-radius:10px;padding:13px 28px;font-weight:700;font-size:14px;">
+        <i class="bi bi-building me-2"></i>I'm an Employer
+      </button>
+      <button onclick="comingSoon()" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80;border-radius:10px;padding:13px 28px;font-weight:700;font-size:14px;">
+        <i class="bi bi-whatsapp me-2"></i>Apply on WhatsApp
+      </button>
     </div>
   </div>
 </section>
+
+{{-- ── Scroll-triggered fade-up ── --}}
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: .12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Stat counter animation
+  const statObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const targets = { '15K+': 15000, '2.4K+': 2400, '8.7K+': 8700, '500+': 500 };
+      document.querySelectorAll('.stat-num').forEach(el => {
+        const raw = el.textContent.trim();
+        const target = targets[raw];
+        if (!target) return;
+        let count = 0;
+        const suffix = raw.includes('K') ? 'K+' : '+';
+        const divisor = raw.includes('K') ? 1000 : 1;
+        const step = target / 60;
+        const timer = setInterval(() => {
+          count += step;
+          if (count >= target) { count = target; clearInterval(timer); }
+          el.textContent = (count / divisor).toFixed(count < target ? 1 : 0).replace('.0','') + suffix;
+        }, 25);
+      });
+      statObserver.disconnect();
+    });
+  }, { threshold: .5 });
+  const statsSection = document.querySelector('.stats-section');
+  if (statsSection) statObserver.observe(statsSection);
+</script>
 
 @endsection
