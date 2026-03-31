@@ -35,14 +35,14 @@ class StructuredDataService
 
             'jobLocation' => [
                 '@type'   => 'Place',
-                'address' => [
+                'address' => array_filter([   // ← add array_filter here
                     '@type'           => 'PostalAddress',
                     'streetAddress'   => $job['street_address'] ?? $job['duty_station'] ?? null,
                     'addressLocality' => $job['job_location']['district'] ?? $job['duty_station'] ?? null,
                     'addressRegion'   => $job['job_location']['district'] ?? null,
                     'addressCountry'  => $job['job_location']['country'] ?? 'UG',
                     'postalCode'      => $job['job_location']['postal_code'] ?? null,
-                ],
+                ], fn($v) => $v !== null && $v !== ''),
             ],
         ];
 
