@@ -21,13 +21,13 @@
 {{-- ═══════════════════════════════════════════════════════
      HERO
 ═══════════════════════════════════════════════════════ --}}
-<section class="hero-mesh">
+<section class="hero-mesh" style="border-bottom:1px solid var(--border);">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
 
-  <div class="container py-5 py-lg-0" style="min-height:calc(100vh - 120px);display:flex;align-items:center;">
-    <div class="row align-items-center g-5 w-100 py-4">
+  <div class="container py-4 py-lg-6" style="display:flex;align-items:center;">    
+    <div class="row align-items-center g-4 g-lg-5 w-100">
 
       {{-- Left --}}
       <div class="col-lg-6 fade-up">
@@ -38,7 +38,7 @@
 
         <h1 class="hero-h1 mb-4">
           Hire the <span class="gradient-text">Top 1%</span><br>
-          of Talent,<br>AI&#8202;Verified
+          of Talent,<br>AI &#8202;Verified
         </h1>
 
         <p style="font-size:1rem;line-height:1.7;color:var(--muted);max-width:480px;margin-bottom:2rem;">

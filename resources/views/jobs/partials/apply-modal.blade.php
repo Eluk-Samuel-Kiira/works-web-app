@@ -94,13 +94,22 @@
         const hasEmail    = !empty(job.email);
 
         let externalUrl = null, hasExternalLink = false;
+
+        // Better URL extraction
         if (!empty(job.application_procedure)) {
-            const m = job.application_procedure.match(/(https?:\/\/[^\s]+)/);
-            if (m) { externalUrl = m[0]; hasExternalLink = true; }
+            // Match URLs without capturing HTML attributes
+            const urlMatches = job.application_procedure.match(/https?:\/\/[^\s<>"']+/g);
+            if (urlMatches && urlMatches.length > 0) {
+                externalUrl = urlMatches[0];
+                hasExternalLink = true;
+            }
         }
         if (!hasExternalLink && !empty(job.job_description)) {
-            const m = job.job_description.match(/(https?:\/\/[^\s]+)/);
-            if (m) { externalUrl = m[0]; hasExternalLink = true; }
+            const urlMatches = job.job_description.match(/https?:\/\/[^\s<>"']+/g);
+            if (urlMatches && urlMatches.length > 0) {
+                externalUrl = urlMatches[0];
+                hasExternalLink = true;
+            }
         }
 
         let html = '';
@@ -131,8 +140,12 @@
 
         html += '<div class="d-flex flex-column gap-3">';
 
+        // ── Stardena Works Attribution Banner (for non-external link methods) ──
+        let hasApplicationMethod = false;
+        
         // ── WhatsApp ─────────────────────────────────────────
         if (hasWhatsapp && !empty(job.telephone)) {
+            hasApplicationMethod = true;
             const clean = job.telephone.replace(/[^0-9+]/g, '').replace(/^\+?0*/, '');
             const waMsg = encodeURIComponent(`Hello, I'm interested in the ${job.job_title} position at ${job.company?.name || 'your company'}. I'd like to apply.`);
             html += `
@@ -162,6 +175,7 @@
 
         // ── Phone ─────────────────────────────────────────────
         if (hasPhone && !empty(job.telephone)) {
+            hasApplicationMethod = true;
             const phone = job.telephone.replace(/[^0-9+]/g, '');
             html += `
             <div class="card border-0 bg-body-secondary rounded-3">
@@ -190,6 +204,7 @@
 
         // ── Email ─────────────────────────────────────────────
         if (hasEmail) {
+            hasApplicationMethod = true;
             html += `
             <div class="card border-0 bg-body-secondary rounded-3">
                 <div class="card-body p-3">
@@ -217,7 +232,13 @@
 
         // ── External Link ─────────────────────────────────────
         if (hasExternalLink && externalUrl) {
-            const displayUrl = externalUrl.length > 45 ? externalUrl.substring(0, 42) + '...' : externalUrl;
+            hasApplicationMethod = true;
+            // Clean the URL to remove any HTML artifacts
+            let cleanUrl = externalUrl;
+            // Remove any trailing HTML tags or quotes
+            cleanUrl = cleanUrl.replace(/['">]+$/, '').replace(/^['"]+/, '');
+            
+            const displayUrl = cleanUrl.length > 45 ? cleanUrl.substring(0, 42) + '...' : cleanUrl;
             html += `
             <div class="card border-0 bg-body-secondary rounded-3">
                 <div class="card-body p-3">
@@ -228,22 +249,33 @@
                         <div class="flex-grow-1 min-w-0">
                             <h6 class="fw-bold mb-1" style="font-size:.875rem">Apply on External Site</h6>
                             <p class="text-muted mb-2" style="font-size:12px">You'll be redirected to the company's application page</p>
-                            <a href="${externalUrl}" target="_blank" class="text-decoration-none d-block mb-2">
-                                <code class="small bg-white rounded px-2 py-1 d-block text-break border text-primary" style="word-break:break-all">
-                                    <i class="bi bi-link-45deg me-1"></i>${displayUrl}
-                                </code>
-                            </a>
+                            <div class="bg-white rounded p-2 mb-2 border text-break" style="word-break:break-all; font-size:12px">
+                                <i class="bi bi-link-45deg me-1 text-primary"></i>
+                                <a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="text-primary text-decoration-none">
+                                    ${escapeHtml(displayUrl)}
+                                </a>
+                            </div>
                             <div class="d-flex gap-2 flex-wrap">
-                                <a href="${externalUrl}" target="_blank" class="btn btn-sm btn-info">
+                                <a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-info">
                                     <i class="bi bi-box-arrow-up-right me-1"></i>Continue to Apply
                                 </a>
-                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('${externalUrl}')">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('${cleanUrl}')">
                                     <i class="bi bi-copy me-1"></i>Copy Link
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>`;
+        }
+
+        // ── Stardena Works Attribution Banner ─────────────────
+        // Show attribution for all non-external-link methods
+        if (hasApplicationMethod && !hasExternalLink) {
+            html += `
+            <div class="alert alert-primary bg-primary bg-opacity-10 border-0 rounded-3 py-2 px-3 d-flex align-items-center gap-2" style="font-size: 0.75rem;">
+                <i class="bi bi-check-circle-fill text-primary flex-shrink-0"></i>
+                <span class="small">This application is being sent through <strong>Stardena Works</strong> — mention that you found this opportunity on Stardena Works to increase your chances!</span>
             </div>`;
         }
 
@@ -261,6 +293,7 @@
         // ── Fallback ──────────────────────────────────────────
         if (!hasWhatsapp && !hasPhone && !hasEmail && !hasExternalLink) {
             if (!empty(job.telephone)) {
+                hasApplicationMethod = true;
                 html += `
                 <div class="card border-0 bg-body-secondary rounded-3">
                     <div class="card-body p-3">
@@ -284,6 +317,14 @@
                         </div>
                     </div>
                 </div>`;
+                
+                // Add attribution for fallback phone method
+                html += `
+                <div class="alert alert-primary bg-primary bg-opacity-10 border-0 rounded-3 py-2 px-3 d-flex align-items-center gap-2" style="font-size: 0.75rem;">
+                    <i class="bi bi-check-circle-fill text-primary flex-shrink-0"></i>
+                    <span class="small">This application is being sent through <strong>Stardena Works</strong> — mention that you found this opportunity on Stardena Works to increase your chances!</span>
+                </div>`;
+                
             } else if (!empty(job.company?.website)) {
                 html += `
                 <div class="text-center py-4">
@@ -341,7 +382,7 @@
 
     function openEmailForm(email, jobTitle, companyName) {
         const subject = encodeURIComponent(`Application for ${jobTitle} position at ${companyName || 'your company'}`);
-        const body = encodeURIComponent(`Dear Hiring Manager,\n\nI am writing to apply for the ${jobTitle} position at ${companyName || 'your company'}.\n\n[Your cover letter here]\n\nBest regards,\n[Your Name]`);
+        const body = encodeURIComponent(`Dear Hiring Manager,\n\nI am writing to apply for the ${jobTitle} position at ${companyName || 'your company'}.\n\n[Your cover letter here]\n\nBest regards,\n[Your Name]\n\n---\nFound via Stardena Works`);
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
         if (modal) modal.hide();
@@ -401,57 +442,167 @@
 </script>
 
 <style>
-/* ── Apply Modal — Mobile / Tablet responsive ─────────── */
+    /* ── Apply Modal — Fully Responsive ─────────── */
 
-/* Phones: slide up from bottom as a sheet */
-@media (max-width: 575.98px) {
-    #applyModal .modal-dialog {
-        max-width: 100% !important;
-        width: 100% !important;
-        margin: 0 !important;
-        display: flex;
-        align-items: flex-end;
-        min-height: 100%;
-    }
+    /* Base modal styles */
     #applyModal .modal-content {
-        border-radius: 1.25rem 1.25rem 0 0 !important;
-        max-height: 92dvh;
-        max-height: 92vh; /* fallback */
+        border: none;
+        overflow: hidden;
     }
-    #applyModal .modal-body  { padding: .875rem !important; }
-    #applyModal .modal-footer { padding: .5rem .875rem .875rem !important; }
-    #applyModal .card-body   { padding: .75rem !important; }
-    #applyModal .btn-sm {
-        font-size: .75rem;
-        padding: .35rem .65rem;
+
+    /* Phones: slide up from bottom as a sheet */
+    @media (max-width: 575.98px) {
+        #applyModal .modal-dialog {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+            display: flex;
+            align-items: flex-end;
+            min-height: 100%;
+        }
+        #applyModal .modal-content {
+            border-radius: 1.25rem 1.25rem 0 0 !important;
+            max-height: 85dvh;
+            max-height: 85vh;
+        }
+        #applyModal .modal-body {
+            padding: 1rem !important;
+            overflow-y: auto;
+        }
+        #applyModal .modal-footer {
+            padding: 0.75rem 1rem 1rem !important;
+        }
+        #applyModal .card-body {
+            padding: 0.875rem !important;
+        }
+        #applyModal .btn-sm {
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+        }
+        #applyModal h6 {
+            font-size: 0.875rem !important;
+        }
+        #applyModal .text-muted {
+            font-size: 0.75rem !important;
+        }
     }
-}
 
-/* Tablets: comfortable centred dialog, not full-width */
-@media (min-width: 576px) and (max-width: 991.98px) {
-    #applyModal .modal-dialog { max-width: 520px; }
-    #applyModal .modal-content { border-radius: 1rem !important; }
-}
-
-/* Desktop: existing large dialog is fine */
-@media (min-width: 992px) {
-    #applyModal .modal-content { border-radius: 1rem !important; }
-}
-
-/* Code blocks never overflow on any screen */
-#applyModal code {
-    font-family: monospace;
-    word-break: break-all;
-    overflow-wrap: anywhere;
-    white-space: normal;
-}
-
-/* Very small phones (< 360px) */
-@media (max-width: 359.98px) {
-    #applyModal .btn-sm {
-        font-size: .7rem;
-        padding: .3rem .5rem;
+    /* Tablets: comfortable centred dialog */
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        #applyModal .modal-dialog {
+            max-width: 540px;
+            margin: 1.75rem auto;
+        }
+        #applyModal .modal-content {
+            border-radius: 1rem !important;
+        }
+        #applyModal .modal-body {
+            padding: 1.25rem !important;
+        }
     }
-    #applyModal h6 { font-size: .8rem !important; }
-}
+
+    /* Desktop */
+    @media (min-width: 992px) {
+        #applyModal .modal-dialog {
+            max-width: 680px;
+        }
+        #applyModal .modal-content {
+            border-radius: 1rem !important;
+        }
+        #applyModal .modal-body {
+            padding: 1.5rem !important;
+        }
+    }
+
+    /* Code blocks and long text handling */
+    #applyModal code,
+    #applyModal .bg-white.rounded.p-2 {
+        font-family: monospace;
+        word-break: break-all;
+        overflow-wrap: break-word;
+        white-space: normal;
+        display: block;
+    }
+
+    #applyModal .text-break {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    #applyModal a {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Card spacing and alignment */
+    #applyModal .card {
+        transition: all 0.2s ease;
+    }
+
+    #applyModal .card:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Alert styling */
+    #applyModal .alert {
+        font-size: 0.8125rem;
+    }
+
+    /* Button group wrapping */
+    #applyModal .d-flex.gap-2 {
+        flex-wrap: wrap;
+    }
+
+    /* Very small phones (< 360px) */
+    @media (max-width: 359.98px) {
+        #applyModal .modal-body {
+            padding: 0.75rem !important;
+        }
+        
+        #applyModal .btn-sm {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+        }
+        
+        #applyModal h6 {
+            font-size: 0.8125rem !important;
+        }
+        
+        #applyModal .card-body {
+            padding: 0.75rem !important;
+        }
+        
+        #applyModal .bg-white.rounded.p-2 {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Landscape mode on phones */
+    @media (max-width: 896px) and (orientation: landscape) {
+        #applyModal .modal-content {
+            max-height: 90vh;
+        }
+        
+        #applyModal .modal-body {
+            max-height: calc(90vh - 120px);
+            overflow-y: auto;
+        }
+        
+        #applyModal .card {
+            margin-bottom: 0.75rem;
+        }
+    }
+
+    /* Fix for iOS Safari */
+    @supports (-webkit-touch-callout: none) {
+        #applyModal .modal-content {
+            max-height: 85vh;
+        }
+    }
+
+    /* Ensure proper scrolling */
+    #applyModal .modal-body {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 </style>

@@ -1,21 +1,21 @@
 <!-- -------------------------------------------- -->
-<!-- Header start -->
+<!-- Header start - Hide on scroll down, show on scroll up -->
 <!-- -------------------------------------------- -->
 <header class="header-fp p-0 w-100 header-sticky" id="main-header">
-  <nav class="navbar navbar-expand-lg" style="padding:12px 0;">
+  <nav class="navbar navbar-expand-lg" style="padding:12px 0; min-height: auto;">
     <div class="container d-flex justify-content-between align-items-center">
 
       <!-- Logo -->
-      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/" style="flex-shrink: 0;">
         <img src="{{ getFavicon() }}" alt="logo" style="width:22px;height:auto;"/>
-        <span style="font-size:17px;font-weight:700;letter-spacing:-.3px;color:#fff;">
+        <span style="font-size:17px;font-weight:700;letter-spacing:-.3px;color:#fff; white-space: nowrap;">
           {{__('Stardena')}} <span style="background:linear-gradient(135deg,#818cf8,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{__('Works')}}</span>
         </span>
       </a>
 
       <!-- Mobile Toggle -->
       <button class="navbar-toggler border-0 p-1 shadow-none mobile-menu-button" type="button"
-              data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="flex-shrink: 0;">
         <i class="bi bi-list" style="font-size:22px;color:#818cf8;"></i>
       </button>
 
@@ -46,11 +46,11 @@
         </ul>
         <div class="d-flex gap-2 align-items-center">
           <a href="javascript:void(0);" onclick="comingSoon()"
-             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:background .15s,border-color .15s;"
+             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:background .15s,border-color .15s; white-space: nowrap;"
              onmouseover="this.style.background='rgba(255,255,255,.13)'"
              onmouseout="this.style.background='rgba(255,255,255,.08)'">Sign Up</a>
           <a href="javascript:void(0);" onclick="comingSoon()"
-             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;text-decoration:none;">Log In</a>
+             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;text-decoration:none; white-space: nowrap;">Log In</a>
         </div>
       </div>
 
@@ -58,8 +58,8 @@
   </nav>
 </header>
 
-<!-- Spacer -->
-<!-- <div id="header-spacer"></div> -->
+<!-- Spacer to prevent content jump when header hides -->
+<div id="header-spacer" style="display: block; width: 100%;"></div>
 
 <!-- -------------------------------------------- -->
 <!-- Mobile Offcanvas -->
@@ -125,19 +125,38 @@
 </div>
 
 <style>
-/* ── Sticky dark header ── */
+/* ── Sticky dark header with hide/show animation ── */
 .header-fp.header-sticky {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1030;
-  background: rgba(11,12,26,.85);
+  background: rgba(11,12,26,.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255,255,255,.08);
+  width: 100%;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
 }
+
+/* Hidden state */
+.header-fp.header-sticky.header-hidden {
+  transform: translateY(-100%);
+}
+
 .header-fp.header-sticky .navbar {
   min-height: unset !important;
   height: auto !important;
+  padding: 12px 0;
+}
+
+/* Spacer to prevent content jump */
+#header-spacer {
+  display: block;
+  width: 100%;
+  transition: height 0.3s ease-in-out;
 }
 
 /* ── Nav links ── */
@@ -148,6 +167,7 @@
   border-radius: 6px;
   color: rgba(255,255,255,.7) !important;
   transition: background .15s, color .15s;
+  white-space: nowrap;
 }
 .nav-item-link:hover {
   background: rgba(79,110,247,.1);
@@ -161,33 +181,117 @@
   color: #818cf8 !important;
 }
 
-/* ── Spacer ── */
-/* #header-spacer { display: block; width: 100%; } */
+/* Mobile specific styles */
+@media (max-width: 991.98px) {
+  .header-fp.header-sticky .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .header-fp.header-sticky .navbar-brand {
+    max-width: 70%;
+  }
+  
+  .header-fp.header-sticky .navbar-brand span {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  
+  .header-fp.header-sticky .navbar {
+    padding: 10px 0 !important;
+  }
+  
+  .mobile-menu-button {
+    display: block !important;
+  }
+  
+  .desktop-menu {
+    display: none !important;
+  }
+}
 
-/* ── Responsive ── */
+/* Very small screens */
+@media (max-width: 480px) {
+  .header-fp.header-sticky .navbar-brand span {
+    font-size: 14px;
+  }
+  
+  .header-fp.header-sticky .navbar {
+    padding: 8px 0 !important;
+  }
+}
+
 @media (min-width: 992px) {
   .mobile-menu-button { display: none !important; }
   .desktop-menu { display: flex !important; }
   .mobile-offcanvas { display: none !important; }
 }
-@media (max-width: 991.98px) {
-  .mobile-menu-button { display: block !important; }
-  .desktop-menu { display: none !important; }
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .header-fp.header-sticky {
+    position: fixed;
+    top: 0;
+  }
 }
 </style>
 
 <script>
-  (function () {
-    function syncSpacer() {
-      var h = document.getElementById('main-header');
-      // var s = document.getElementById('header-spacer');
-      if (h) s.style.height = h.offsetHeight + 'px';
+  (function() {
+    var header = document.getElementById('main-header');
+    var spacer = document.getElementById('header-spacer');
+    var lastScrollTop = 0;
+    var ticking = false;
+    
+    // Set spacer height to match header
+    function updateSpacer() {
+      if (header && spacer) {
+        var headerHeight = header.offsetHeight;
+        spacer.style.height = headerHeight + 'px';
+      }
     }
-    syncSpacer();
-    window.addEventListener('load', syncSpacer);
-    window.addEventListener('resize', syncSpacer);
+    
+    // Handle scroll hide/show
+    function handleScroll() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          // Always show header at the very top
+          if (scrollTop <= 10) {
+            header.classList.remove('header-hidden');
+          }
+          // Hide on scroll down, show on scroll up
+          else if (scrollTop > lastScrollTop && scrollTop > 50) {
+            // Scrolling down - hide header
+            header.classList.add('header-hidden');
+          } else if (scrollTop < lastScrollTop) {
+            // Scrolling up - show header
+            header.classList.remove('header-hidden');
+          }
+          
+          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    
+    // Initialize
+    function init() {
+      updateSpacer();
+      window.addEventListener('load', updateSpacer);
+      window.addEventListener('resize', updateSpacer);
+      window.addEventListener('scroll', handleScroll);
+      
+      // Also update after any font loading
+      setTimeout(updateSpacer, 100);
+      setTimeout(updateSpacer, 300);
+    }
+    
+    init();
   })();
-
+  
   function comingSoon() {
     var el = document.getElementById('comingSoonModal');
     if (el) new bootstrap.Modal(el).show();
