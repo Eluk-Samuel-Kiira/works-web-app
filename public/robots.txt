@@ -1,4 +1,48 @@
 User-agent: *
-Disallow:
+
+# Allow important pages
+Allow: /
+Allow: /jobs
+Allow: /jobs/
+
+# Block URLs that create duplicate/thin content
+Disallow: /api/
+Disallow: /internal/
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /settings
+
+# Block filter/search URLs (duplicate content)
+Disallow: /jobs?
+Disallow: /search?
+Disallow: /*?page=
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?category=
+Disallow: /*?location=
+Disallow: /*?type=
+
+# Block utility paths
+Disallow: /storage/
+Disallow: /_ignition/
+Disallow: /telescope/
 
 Sitemap: https://works.stardena.org/sitemap.xml
+```
+
+---
+
+The most important blocks for your job board are the **filter/search URLs**. When someone visits:
+```
+/jobs?category=ngo&location=kampala&type=full-time
+```
+Google sees that as a separate page with the same job listings — duplicate content that splits your ranking power across hundreds of URL combinations instead of concentrating it on `/jobs` and individual job slugs.
+
+---
+
+Place this in your **frontend app's** `public/robots.txt` since that's what `works.stardena.org` serves. Then verify it's accessible at:
+```
+https://works.stardena.org/robots.txt
