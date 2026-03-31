@@ -14,7 +14,7 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
-    <style>
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
 
     :root {
@@ -42,10 +42,24 @@
         radial-gradient(ellipse 60% 50% at 85% 70%, rgba(124,58,237,.18) 0%, transparent 55%),
         radial-gradient(ellipse 40% 40% at 50% 50%, rgba(34,197,94,.06) 0%, transparent 60%),
         var(--ink);
-        min-height: 100vh;
         position: relative;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 100vh;
     }
+
+    /* ADD this media query */
+    @media (max-width: 991.98px) {
+        .hero-mesh {
+            min-height: auto;
+            align-items: flex-start;
+        }
+    }
+
+
     .hero-mesh::before {
         content:'';
         position: absolute; inset: 0;
@@ -54,6 +68,14 @@
         linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
         background-size: 48px 48px;
         pointer-events: none;
+    }
+
+    /* Ensure row is properly centered */
+    .hero-mesh .row {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        justify-content: center;
     }
 
     /* ── Glow orbs ── */
@@ -94,13 +116,25 @@
         border-radius: var(--radius);
         backdrop-filter: blur(12px);
         padding: 6px;
+        overflow: hidden;
     }
+
     .search-glass input {
         background: transparent; border: none; outline: none;
         color: #fff; font-size: 14px; width: 100%;
     }
     .search-glass input::placeholder { color: var(--muted); }
     .search-divider { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+
+    @media (max-width: 575.98px) {
+        .search-glass .d-flex {
+            flex-direction: column !important;
+        }
+        .search-glass button {
+            width: 100%;
+            border-radius: 8px !important;
+        }
+    }
 
     /* ── Glass card ── */
     .glass-card {
@@ -219,7 +253,7 @@
     footer { background: #07080f !important; border-top: 1px solid var(--border); }
     footer a { transition: color .15s; }
     footer a:hover { color: #818cf8 !important; }
-    </style>
+</style>
 
 </head>
 <body>

@@ -692,51 +692,100 @@ function copyJobLink() {
 
 @push('styles')
 <style>
-.container-xl { max-width: 1280px; }
+  .container-xl { max-width: 1280px; }
 
-/* Sticky sidebar — desktop only */
-@media (min-width: 992px) {
-  .js-sidebar-sticky {
-    position: sticky;
-    top: 72px;
+  /* Sticky sidebar — desktop only */
+  @media (min-width: 992px) {
+    .js-sidebar-sticky {
+      position: sticky;
+      top: 72px;
+    }
   }
-}
 
-/* Share button hover */
-.share-btn { transition: background .15s, transform .15s; }
-.share-btn:hover { transform: translateY(-2px); }
-.share-btn:active { transform: none; }
+  /* Share button hover */
+  .share-btn { transition: background .15s, transform .15s; }
+  .share-btn:hover { transform: translateY(-2px); }
+  .share-btn:active { transform: none; }
 
-/* CTA share buttons */
-.cta-share-btn {
-  border-radius: 8px;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.3);
-  cursor: pointer;
-  transition: background .15s, transform .15s;
-}
-.cta-share-btn:hover {
-  background: rgba(255,255,255,.28);
-  transform: translateY(-2px);
-}
-.cta-share-btn:active { transform: none; }
+  /* CTA share buttons */
+  .cta-share-btn {
+    border-radius: 8px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.3);
+    cursor: pointer;
+    transition: background .15s, transform .15s;
+  }
+  .cta-share-btn:hover {
+    background: rgba(255,255,255,.28);
+    transform: translateY(-2px);
+  }
+  .cta-share-btn:active { transform: none; }
 
-/* Similar job link */
-.similar-job-link { transition: border-color .15s, background .15s; }
-.similar-job-link:hover { border-color: var(--bs-primary) !important; background: rgba(var(--bs-primary-rgb),.04); }
+  /* Similar job link */
+  .similar-job-link { transition: border-color .15s, background .15s; }
+  .similar-job-link:hover { border-color: var(--bs-primary) !important; background: rgba(var(--bs-primary-rgb),.04); }
 
-/* Job description prose */
-.job-prose { font-size: .875rem; line-height: 1.75; }
-.job-prose ul, .job-prose ol { padding-left: 1.25rem; margin-bottom: .5rem; }
-.job-prose li { margin-bottom: .25rem; }
+  /* Job description prose */
+  .job-prose { font-size: .875rem; line-height: 1.75; }
+  .job-prose ul, .job-prose ol { padding-left: 1.25rem; margin-bottom: .5rem; }
+  .job-prose li { margin-bottom: .25rem; }
 
-/* Breadcrumb clean */
-.breadcrumb-item + .breadcrumb-item::before { color: var(--bs-secondary-color); }
+  /* Breadcrumb clean */
+  .breadcrumb-item + .breadcrumb-item::before { color: var(--bs-secondary-color); }
 
-/* Mobile: stack salary above CTA cleanly */
-@media (max-width: 575px) {
-  .share-btn { width: 34px !important; height: 34px !important; }
-  .cta-share-btn { width: 34px !important; height: 34px !important; }
-}
+  /* Mobile: stack salary above CTA cleanly */
+  @media (max-width: 575px) {
+    .share-btn { width: 34px !important; height: 34px !important; }
+    .cta-share-btn { width: 34px !important; height: 34px !important; }
+  }
+
+  /* Fix text overflow issues */
+  .job-prose {
+      font-size: .875rem;
+      line-height: 1.75;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+  }
+
+  .job-prose p,
+  .job-prose div,
+  .job-prose span {
+      max-width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+  }
+
+  .job-prose a {
+      word-break: break-all;
+      overflow-wrap: break-word;
+  }
+
+  /* Fix any long URLs or text in the job description */
+  .job-prose a,
+  .job-prose code,
+  .job-prose pre {
+      word-break: break-all;
+      white-space: normal;
+      max-width: 100%;
+      display: inline-block;
+  }
+
+  /* Ensure all text containers wrap properly */
+  .card-body {
+      overflow-x: hidden;
+  }
+
+  /* Fix similar jobs links */
+  .similar-job-link {
+      word-break: break-word;
+      overflow-wrap: break-word;
+  }
+
+  .similar-job-link .text-truncate {
+      white-space: normal;
+      word-break: break-word;
+  }
 </style>
 @endpush
