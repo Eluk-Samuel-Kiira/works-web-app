@@ -20,13 +20,13 @@
             ['bi-linkedin',  'comingSoon()'],
             ['bi-instagram', 'comingSoon()'],
           ] as [$icon, $fn])
-          <a href="javascript:void(0);" onclick="{{ $fn }}"
+          <a href="#" onclick="{{ $fn }}"
              class="footer-social-btn"
              style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);text-decoration:none;transition:background .15s,color .15s,border-color .15s;">
             <i class="bi {{ $icon }}" style="font-size:14px;"></i>
           </a>
           @endforeach
-          <a href="javascript:void(0);" onclick="comingSoon()"
+          <a href="#" onclick="comingSoon()"
              style="width:34px;height:34px;border-radius:8px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;color:#4ade80;text-decoration:none;transition:background .15s;">
             <i class="bi bi-whatsapp" style="font-size:14px;"></i>
           </a>
@@ -44,7 +44,7 @@
             ['Job Alerts',    'comingSoon()'],
           ] as [$label, $fn])
           <li class="mb-2">
-            <a href="javascript:void(0);" onclick="{{ $fn }}" class="footer-link" style="font-size:13px;color:rgba(255,255,255,.42);text-decoration:none;transition:color .15s;">{{ $label }}</a>
+            <a href="#" onclick="{{ $fn }}" class="footer-link" style="font-size:13px;color:rgba(255,255,255,.42);text-decoration:none;transition:color .15s;">{{ $label }}</a>
           </li>
           @endforeach
         </ul>
@@ -61,7 +61,7 @@
             ['AI CV Scanner', 'comingSoon()'],
           ] as [$label, $fn])
           <li class="mb-2">
-            <a href="javascript:void(0);" onclick="{{ $fn }}" class="footer-link" style="font-size:13px;color:rgba(255,255,255,.42);text-decoration:none;transition:color .15s;">{{ $label }}</a>
+            <a href="#" onclick="{{ $fn }}" class="footer-link" style="font-size:13px;color:rgba(255,255,255,.42);text-decoration:none;transition:color .15s;">{{ $label }}</a>
           </li>
           @endforeach
         </ul>
@@ -99,7 +99,7 @@
       </span>
       <div class="d-flex gap-3">
         @foreach(['Privacy Policy','Terms of Service','Cookie Policy'] as $p)
-        <a href="javascript:void(0);" onclick="comingSoon()" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">{{ $p }}</a>
+        <a href="#" onclick="comingSoon()" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">{{ $p }}</a>
         @endforeach
       </div>
     </div>
@@ -107,7 +107,7 @@
 </footer>
 
 <!-- WhatsApp Float -->
-<a href="javascript:void(0);" onclick="comingSoon()"
+<a href="#" onclick="comingSoon()"
    style="position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;z-index:1000;text-decoration:none;box-shadow:0 4px 20px rgba(34,197,94,.4);animation:wa-pulse 2.5s infinite;">
   <i class="bi bi-whatsapp text-white" style="font-size:1.35rem;"></i>
 </a>
