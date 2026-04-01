@@ -7,3 +7,8 @@ use App\Http\Controllers\Home\WelcomeController;
 Route::post('/view/welcome', [WelcomeController::class, 'welcome']);
 Route::post('/view/{view}', [WelcomeController::class, 'show']);
 
+
+
+
+
+

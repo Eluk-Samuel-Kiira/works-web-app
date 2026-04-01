@@ -225,7 +225,10 @@
                       style="width:36px;height:36px;border-radius:8px"
                       onclick="copyJobLink()"
                       title="Copy link">
-                <i class="bi bi-link-45deg text-body-secondary fs-5"></i>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
               </button>
             </div>
 
@@ -641,7 +644,10 @@
                       style="width:36px;height:36px;border-radius:8px"
                       onclick="copyJobLink()"
                       title="Copy link">
-                <i class="bi bi-link-45deg text-body-secondary fs-5"></i>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
               </button>
           </div>
         </div>
