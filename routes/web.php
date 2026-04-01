@@ -15,6 +15,9 @@ Route::get('/jobs/search', [JobController::class, 'search'])->name('jobs.search'
 Route::get('/jobs/{slug}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/jobs/id/{id}', [JobController::class, 'showById'])->name('jobs.show.id');
 
+Route::get('/coming-soon', function () {
+    return view('jobs.coming-soon');
+})->name('coming-soon');
 
 Route::get('/sitemap.xml', function () { 
     try {

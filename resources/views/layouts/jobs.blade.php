@@ -206,33 +206,33 @@
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">For Job Seekers</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Browse Jobs</a></li>
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Categories</a></li>
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Job Alerts</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Browse Jobs</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Categories</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Job Alerts</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">For Employers</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Post a Job</a></li>
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Pricing</a></li>
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Resources</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Post a Job</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Pricing</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Resources</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">Company</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">About Us</a></li>
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Contact</a></li>
-            <li class="mb-2"><a href="#" onclick="comingSoon()" class="text-light small">Privacy</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">About Us</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Contact</a></li>
+            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Privacy</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">Follow Us</h6>
           <div class="d-flex gap-3">
-            <a href="#" onclick="comingSoon()" class="text-light"><i class="bi bi-linkedin"></i></a>
-            <a href="#" onclick="comingSoon()" class="text-light"><i class="bi bi-twitter-x"></i></a>
-            <a href="#" onclick="comingSoon()" class="text-light"><i class="bi bi-facebook"></i></a>
+            <a href="/coming-soon" onclick="comingSoon()" class="text-light"><i class="bi bi-linkedin"></i></a>
+            <a href="/coming-soon" onclick="comingSoon()" class="text-light"><i class="bi bi-twitter-x"></i></a>
+            <a href="/coming-soon" onclick="comingSoon()" class="text-light"><i class="bi bi-facebook"></i></a>
           </div>
         </div>
       </div>
