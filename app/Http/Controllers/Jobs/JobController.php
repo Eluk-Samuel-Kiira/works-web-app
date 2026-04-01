@@ -50,58 +50,61 @@ class JobController extends Controller
             
             if ($response->successful()) {
                 $data = $response->json();
-                
-                // Handle paginated response
+        
                 if (isset($data['data'])) {
-                    $jobs = $data['data'];
-                    $pagination = [
-                        'current_page' => $data['current_page'],
-                        'last_page' => $data['last_page'],
-                        'per_page' => $data['per_page'],
-                        'total' => $data['total'],
-                    ];
+                        $jobs = $data['data'];
+                        $pagination = [
+                            'current_page' => $data['current_page'],
+                            'last_page'    => $data['last_page'],
+                            'per_page'     => $data['per_page'],
+                            'total'        => $data['total'],
+                        ];
+                    } else {
+                        $jobs = $data;
+                        $pagination = [
+                            'current_page' => 1,
+                            'last_page'    => 1,
+                            'per_page'     => count($jobs),
+                            'total'        => count($jobs),
+                        ];
+                    }
+
+                    $totalJobs   = $pagination['total'];  // ← add this
+                    $featuredJobs = $this->getFeaturedJobs();
+
+                    return view('jobs.index', compact(
+                        'jobs', 'featuredJobs', 'pagination',
+                        'popularSearches', 'totalJobs'          // ← add totalJobs here
+                    ));
+
                 } else {
-                    $jobs = $data;
-                    $pagination = [
-                        'current_page' => 1,
-                        'last_page' => 1,
-                        'per_page' => count($jobs),
-                        'total' => count($jobs),
-                    ];
-                }
-                
-                // Get featured jobs separately
-                $featuredJobs = $this->getFeaturedJobs();
-                
-                return view('jobs.index', compact('jobs', 'featuredJobs', 'pagination', 'popularSearches'));
-            } else {
                 Log::error('Failed to fetch jobs: ' . $response->status());
-                
-                $jobs = [];
+
+                $jobs         = [];
                 $featuredJobs = [];
-                $pagination = [
-                    'current_page' => 1,
-                    'last_page' => 1,
-                    'per_page' => 0,
-                    'total' => 0,
-                ];
-                $error = 'Unable to fetch jobs at this time.';
-                return view('jobs.index', compact('jobs', 'featuredJobs', 'pagination', 'error', 'popularSearches'));
+                $totalJobs    = 0;                          // ← add this
+                $pagination   = ['current_page'=>1,'last_page'=>1,'per_page'=>0,'total'=>0];
+                $error        = 'Unable to fetch jobs at this time.';
+
+                return view('jobs.index', compact(
+                    'jobs', 'featuredJobs', 'pagination',
+                    'error', 'popularSearches', 'totalJobs' // ← add totalJobs here
+                ));
             }
         } catch (\Exception $e) {
             Log::error('Exception fetching jobs: ' . $e->getMessage());
-            
-            $jobs = [];
-            $featuredJobs = [];
-            $pagination = [
-                'current_page' => 1,
-                'last_page' => 1,
-                'per_page' => 0,
-                'total' => 0,
-            ];
-            $error = 'Unable to fetch jobs at this time.';
+
+            $jobs            = [];
+            $featuredJobs    = [];
+            $totalJobs       = 0;                       // ← add this
+            $pagination      = ['current_page'=>1,'last_page'=>1,'per_page'=>0,'total'=>0];
+            $error           = 'Unable to fetch jobs at this time.';
             $popularSearches = ['Remote', 'Full Stack', 'Product Manager', 'Data Scientist', 'UX Designer', 'Developer'];
-            return view('jobs.index', compact('jobs', 'featuredJobs', 'pagination', 'error', 'popularSearches'));
+
+            return view('jobs.index', compact(
+                'jobs', 'featuredJobs', 'pagination',
+                'error', 'popularSearches', 'totalJobs' // ← add totalJobs here
+            ));
         }
     }
     
