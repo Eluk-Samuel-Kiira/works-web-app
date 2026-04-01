@@ -35,8 +35,6 @@ Route::get('/sitemap.xml', function () {
     }
 });
 
-    Route::get('/clear-cache', [JobController::class, 'clearCache']);
-    Route::get('/clear-job-cache/{slug}', [JobController::class, 'clearJobCache']);
 
 
 // Fallback Route (404)
