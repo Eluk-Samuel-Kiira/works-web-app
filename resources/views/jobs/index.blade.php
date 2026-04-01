@@ -1,7 +1,7 @@
 @extends('layouts.jobs')
 
-@section('title', 'Jobs in Uganda — Browse ' . ($totalJobs ?? '423') . ' Opportunities | Stardena Works')
-@section('meta_description', 'Browse the latest jobs, internships, opportunities and careers in Uganda. Find full-time, part-time and remote opportunities across all industries on Stardena Works.')
+@section('title', 'Jobs in Uganda — Browse ' . number_format($totalJobs ?? 0) . ' Opportunities | Stardena Works')
+@section('meta_description', 'Browse ' . number_format($totalJobs ?? 0) . ' latest jobs, internships and careers in Uganda. Find full-time, part-time and remote opportunities on Stardena Works.')
 @section('canonical', url('/jobs'))
 @section('og_title', 'Jobs in Uganda | Stardena Works')
 @section('og_description', 'Browse the latest jobs and careers in Uganda on Stardena Works.')
