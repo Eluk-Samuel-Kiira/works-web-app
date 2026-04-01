@@ -16,7 +16,7 @@ Route::get('/jobs/{slug}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/jobs/id/{id}', [JobController::class, 'showById'])->name('jobs.show.id');
 
 
-Route::get('/sitemap.xml', function () {
+Route::get('/sitemap.xml', function () { 
     try {
         $response = Http::timeout(10)->get(config('api.main_app.url') . '/sitemap.xml');
 
@@ -34,6 +34,9 @@ Route::get('/sitemap.xml', function () {
         abort(404);
     }
 });
+
+    Route::get('/clear-cache', [JobController::class, 'clearCache']);
+    Route::get('/clear-job-cache/{slug}', [JobController::class, 'clearJobCache']);
 
 
 // Fallback Route (404)

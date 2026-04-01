@@ -119,48 +119,55 @@ class JobController extends Controller
 
         try {
             // Cache individual job for 10 minutes
-            // Expired/inactive jobs are also cached so we don't hammer the API
-            $data = Cache::remember("job_{$slug}", now()->addMinutes(10), function () use ($mainAppUrl, $slug) {
+            $cachedData = Cache::remember("job_{$slug}", now()->addMinutes(10), function () use ($mainAppUrl, $slug) {
                 $response = Http::withoutVerifying()->timeout(30)
                     ->get($mainAppUrl . '/v2/jobs-data-from-main/' . $slug);
 
-                // Store the HTTP status alongside data so we can act on it after cache retrieval
                 return [
                     'status' => $response->status(),
-                    'body'   => $response->successful() ? $response->json() : null,
+                    'data'   => $response->successful() ? $response->json() : null,
+                    'body'   => $response->body(),
                 ];
             });
 
-            // Job completely gone (hard deleted) → forget cache + 301
-            if ($data['status'] === 404) {
+            // Check if job exists
+            if ($cachedData['status'] === 404 || !$cachedData['data']) {
                 Cache::forget("job_{$slug}");
-                return redirect()->route('jobs.index', [], 301);
+                abort(404, 'Job not found');
             }
 
-            // Any other non-success → 301
-            if (!$data['body']) {
-                Cache::forget("job_{$slug}");
-                return redirect()->route('jobs.index', [], 301);
+            $job = $cachedData['data'];
+            
+            // Debug: Log the job to see what's coming
+            Log::info('Job data retrieved', ['slug' => $slug, 'has_data' => !empty($job)]);
+            
+            // If job is empty or doesn't have job_title, something is wrong
+            if (empty($job['job_title'])) {
+                Log::error('Invalid job data', ['slug' => $slug, 'data' => $job]);
+                abort(404, 'Job not found');
             }
 
-            $job            = $data['body'];
-            $similarJobs    = $job['similar_jobs'] ?? [];
+            $similarJobs = $job['similar_jobs'] ?? [];
             $structuredData = app(StructuredDataService::class)->jobPosting($job);
 
-            $isExpired = ($job['is_expired'] ?? false) || ($job['is_inactive'] ?? false);
+            $isExpired = ($job['deadline'] ?? null) && now()->isAfter(\Carbon\Carbon::parse($job['deadline']));
+            $isActive = ($job['is_active'] ?? true);
 
             $view = view('jobs.show', compact('job', 'similarJobs', 'structuredData'));
 
-            // Expired jobs — serve page but tell Google not to index
-            if ($isExpired) {
+            // Expired or inactive jobs — serve page but tell Google not to index
+            if ($isExpired || !$isActive) {
                 return $view->header('X-Robots-Tag', 'noindex, follow');
             }
 
             return $view;
 
         } catch (\Exception $e) {
-            Log::error('Error fetching job: ' . $e->getMessage());
-            return redirect()->route('jobs.index', [], 301);
+            Log::error('Error fetching job: ' . $e->getMessage(), [
+                'slug' => $slug,
+                'trace' => $e->getTraceAsString()
+            ]);
+            abort(404, 'Job not found');
         }
     }
     
