@@ -39,6 +39,11 @@ Route::get('/sitemap.xml', function () {
 });
 
 
+use App\Http\Controllers\Admin\ArtisanCommandController;
+
+Route::get('/admin/artisan', [ArtisanCommandController::class, 'index']);
+Route::post('/admin/command-run', [ArtisanCommandController::class, 'run']);
+
 
 // Fallback Route (404)
 Route::fallback(function () {
