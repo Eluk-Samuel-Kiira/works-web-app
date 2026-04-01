@@ -1,32 +1,53 @@
 @extends('layouts.jobs')
 
 @php
-    $companyName  = $job['company']['name'] ?? '';
-    $jobTitle     = $job['job_title'] ?? 'Job Opportunity';
-    $location     = $job['duty_station'] 
+    $isExpired = ($job['is_expired'] ?? false) || ($job['is_inactive'] ?? false);
+    $companyName = $job['company']['name'] ?? '';
+    $jobTitle    = $job['job_title'] ?? 'Job Opportunity';
+    $location    = $job['duty_station'] 
                     ?? $job['job_location']['district'] 
                     ?? $job['job_location']['country'] 
                     ?? 'Uganda';
-    $description  = strip_tags($job['job_description'] ?? '');
-    $metaDesc     = Str::limit($description, 155) 
-                    ?: "{$jobTitle} at {$companyName} in {$location}. Apply now on Stardena Works before deadline.";
-    $canonical    = url('/jobs/' . ($job['slug'] ?? ''));
-    $ogImage      = $job['company']['logo_url'] 
+    $description = strip_tags($job['job_description'] ?? '');
+    $metaDesc    = Str::limit($description, 155) 
+                    ?: "{$jobTitle} at {$companyName} in {$location}. Apply on Stardena Works.";
+    $canonical   = url('/jobs/' . ($job['slug'] ?? ''));
+    $ogImage     = $job['company']['logo_url'] 
                     ?? $job['company']['logo'] 
                     ?? asset('front/images/og-default.png');
-    $isExpired    = isset($job['deadline']) 
-                    && \Carbon\Carbon::parse($job['deadline'])->isPast();
 @endphp
 
-@section('title', "{$jobTitle} at {$companyName} | Stardena Works")
+@section('title',            "{$jobTitle} at {$companyName} | Stardena Works")
 @section('meta_description', $metaDesc)
-@section('canonical', $canonical)
-@section('robots', $isExpired ? 'noindex, follow' : 'index, follow')
+@section('canonical',        $canonical)
+@section('robots',           $isExpired ? 'noindex, follow' : 'index, follow')
+@section('og_type',          'article')
+@section('og_title',         "{$jobTitle} at {$companyName}")
+@section('og_description',   $metaDesc)
+@section('og_image',         $ogImage)
+```
 
-@section('og_type',        'article')
-@section('og_title',       "{$jobTitle} at {$companyName}")
-@section('og_description', $metaDesc)
-@section('og_image',       $ogImage)
+---
+
+## The full flow now
+```
+Google hits /jobs/expired-slug
+        ↓
+Main app returns job data + is_expired: true
+        ↓
+Frontend serves the page (200) with noindex header
+        ↓
+Google sees the page but doesn't index it
+        ↓
+User sees expired banner + similar jobs
+        ↓
+After 45 days job is hard deleted
+        ↓
+Main app returns 404
+        ↓
+Frontend 301 redirects to /jobs
+        ↓
+Google transfers any ranking to /jobs
 
 
 @section('schema')
@@ -87,6 +108,21 @@
   <style>
   .breadcrumb::-webkit-scrollbar { display: none; }
   </style>
+
+  @if(($job['is_expired'] ?? false) || ($job['is_inactive'] ?? false))
+  <div class="bg-warning-subtle border border-warning rounded-3 p-3 mb-4 mx-3 mx-md-4 mt-3">
+      <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-exclamation-triangle text-warning fs-5"></i>
+          <div>
+              <div class="fw-semibold text-warning-emphasis">This job has expired</div>
+              <div class="text-body-secondary small">
+                  The application deadline has passed. 
+                  <a href="{{ route('jobs.index') }}" class="text-primary">Browse similar jobs →</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  @endif
 
   {{-- ─────────────────────────────────────────────────────
        AD SLOT 1 — LEADERBOARD (above fold, highest CPM)
