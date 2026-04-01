@@ -431,10 +431,10 @@
           <h2 class="text-white fw-semibold fs-4 mb-2">Ready to start your career journey?</h2>
           <p class="text-white-50 small mb-4">Join thousands of professionals who found their dream jobs through Stardena Works.</p>
           <div class="d-flex flex-wrap align-items-center justify-content-center gap-2">
-            <a href="#" onclick="comingSoon()" class="btn btn-light fw-semibold px-4">
+            <a href="/coming-soon" onclick="comingSoon()" class="btn btn-light fw-semibold px-4">
               <i class="bi bi-person-plus me-2"></i>Create Account
             </a>
-            <a href="#" onclick="comingSoon()" class="btn btn-outline-light fw-semibold px-4">
+            <a href="/coming-soon" onclick="comingSoon()" class="btn btn-outline-light fw-semibold px-4">
               <i class="bi bi-briefcase me-2"></i>Post a Job
             </a>
           </div>
