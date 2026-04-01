@@ -22,26 +22,26 @@
             <a class="nav-link fs-4 text-dark link-primary px-6" href="{{ route('jobs.index') }}">Find Jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6" href="javascript:void(0);" onclick="comingSoon()">Companies</a>
+            <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Companies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6 d-flex gap-2" href="javascript:void(0);" onclick="comingSoon()">Career Advice
+            <a class="nav-link fs-4 text-dark link-primary px-6 d-flex gap-2" href="/coming-soon" onclick="comingSoon()">Career Advice
               <span class="badge text-white bg-primary fs-2 fw-semibold hstack">New</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6" href="javascript:void(0);" onclick="comingSoon()">Post a Job</a>
+            <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Post a Job</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6" href="javascript:void(0);" onclick="comingSoon()">Pricing</a>
+            <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Pricing</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6" href="javascript:void(0);" onclick="comingSoon()">Contact</a>
+            <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Contact</a>
           </li>
         </ul>
         <div class="d-flex gap-3">
-          <a href="javascript:void(0);" onclick="comingSoon()" class="btn btn-outline-primary">Sign Up</a>
-          <a href="javascript:void(0);" onclick="comingSoon()" class="btn btn-primary">Log In</a>
+          <a href="/coming-soon" onclick="comingSoon()" class="btn btn-outline-primary">Sign Up</a>
+          <a href="/coming-soon" onclick="comingSoon()" class="btn btn-primary">Log In</a>
         </div>
       </div>
     </div>
@@ -68,28 +68,28 @@
         <a href="{{ route('jobs.index') }}" class="px-0 fs-4 d-block text-dark link-primary w-100 py-2">Find Jobs</a>
       </li>
       <li class="mb-1">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Companies</a>
+        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Companies</a>
       </li>
       <li class="mb-1">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="px-0 fs-4 d-flex align-items-center justify-content-start gap-2 w-100 py-2 text-dark link-primary">
+        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-flex align-items-center justify-content-start gap-2 w-100 py-2 text-dark link-primary">
           Career Advice
           <span class="badge text-white bg-primary fs-2 fw-semibold hstack">New</span>
         </a>
       </li>
       <li class="mb-1">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Post a Job</a>
+        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Post a Job</a>
       </li>
       <li class="mb-1">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Pricing</a>
+        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Pricing</a>
       </li>
       <li class="mb-1">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Contact</a>
+        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Contact</a>
       </li>
       <li class="mt-3">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="btn btn-primary w-100">Log In</a>
+        <a href="/coming-soon" onclick="comingSoon()" class="btn btn-primary w-100">Log In</a>
       </li>
       <li class="mt-2">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="btn btn-outline-primary w-100">Sign Up</a>
+        <a href="/coming-soon" onclick="comingSoon()" class="btn btn-outline-primary w-100">Sign Up</a>
       </li>
     </ul>
   </div>
