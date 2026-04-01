@@ -9,6 +9,7 @@
 
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/png" href="{{ getFavicon() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ web_asset('front/css/styles.css') }}" />
