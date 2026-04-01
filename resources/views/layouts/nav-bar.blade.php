@@ -26,30 +26,30 @@
             <a class="nav-link nav-item-link" href="{{ route('jobs.index') }}">Find Jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="javascript:void(0);" onclick="comingSoon()">Companies</a>
+            <a class="nav-link nav-item-link" href="/coming-soon" onclick="comingSoon()">Companies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="javascript:void(0);" onclick="comingSoon()">
+            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="/coming-soon" onclick="comingSoon()">
               Career Advice
               <span style="background:rgba(79,110,247,.2);border:1px solid rgba(79,110,247,.4);color:#818cf8;font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="javascript:void(0);" onclick="comingSoon()">Post a Job</a>
+            <a class="nav-link nav-item-link" href="/coming-soon" onclick="comingSoon()">Post a Job</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="javascript:void(0);" onclick="comingSoon()">Pricing</a>
+            <a class="nav-link nav-item-link" href="/coming-soon" onclick="comingSoon()">Pricing</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="javascript:void(0);" onclick="comingSoon()">Contact</a>
+            <a class="nav-link nav-item-link" href="/coming-soon" onclick="comingSoon()">Contact</a>
           </li>
         </ul>
         <div class="d-flex gap-2 align-items-center">
-          <a href="javascript:void(0);" onclick="comingSoon()"
+          <a href="/coming-soon" onclick="comingSoon()"
              style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:background .15s,border-color .15s; white-space: nowrap;"
              onmouseover="this.style.background='rgba(255,255,255,.13)'"
              onmouseout="this.style.background='rgba(255,255,255,.08)'">Sign Up</a>
-          <a href="javascript:void(0);" onclick="comingSoon()"
+          <a href="/coming-soon" onclick="comingSoon()"
              style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;text-decoration:none; white-space: nowrap;">Log In</a>
         </div>
       </div>
@@ -78,23 +78,23 @@
   <div class="offcanvas-body pt-3">
     <ul class="list-unstyled ps-0">
       <li class="mb-1"><a href="{{ route('jobs.index') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Find Jobs</a></li>
-      <li class="mb-1"><a href="javascript:void(0);" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Companies</a></li>
+      <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Companies</a></li>
       <li class="mb-1">
-        <a href="javascript:void(0);" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">
+        <a href="/coming-soon" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">
           Career Advice
           <span style="background:rgba(79,110,247,.2);border:1px solid rgba(79,110,247,.4);color:#818cf8;font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
         </a>
       </li>
-      <li class="mb-1"><a href="javascript:void(0);" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Post a Job</a></li>
-      <li class="mb-1"><a href="javascript:void(0);" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Pricing</a></li>
-      <li class="mb-1"><a href="javascript:void(0);" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Contact</a></li>
+      <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Post a Job</a></li>
+      <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Pricing</a></li>
+      <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Contact</a></li>
       <li class="mt-4">
-        <a href="javascript:void(0);" onclick="comingSoon()"
+        <a href="/coming-soon" onclick="comingSoon()"
            class="d-block text-center text-white text-decoration-none py-2 rounded-3 fw-600"
            style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);font-size:14px;font-weight:600;">Log In</a>
       </li>
       <li class="mt-2">
-        <a href="javascript:void(0);" onclick="comingSoon()"
+        <a href="/coming-soon" onclick="comingSoon()"
            class="d-block text-center text-decoration-none py-2 rounded-3"
            style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:600;">Sign Up</a>
       </li>
