@@ -25,30 +25,6 @@
 @section('og_title',         "{$jobTitle} at {$companyName}")
 @section('og_description',   $metaDesc)
 @section('og_image',         $ogImage)
-```
-
----
-
-## The full flow now
-```
-Google hits /jobs/expired-slug
-        ↓
-Main app returns job data + is_expired: true
-        ↓
-Frontend serves the page (200) with noindex header
-        ↓
-Google sees the page but doesn't index it
-        ↓
-User sees expired banner + similar jobs
-        ↓
-After 45 days job is hard deleted
-        ↓
-Main app returns 404
-        ↓
-Frontend 301 redirects to /jobs
-        ↓
-Google transfers any ranking to /jobs
-
 
 @section('schema')
   <script type="application/ld+json">
