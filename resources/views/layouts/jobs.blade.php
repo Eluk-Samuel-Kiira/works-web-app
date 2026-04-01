@@ -13,7 +13,27 @@
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ web_asset('front/css/styles.css') }}" />
 
-    <title>@yield('title')</title>
+    <title>@yield('title', 'Stardena Works — Jobs in Uganda')</title>
+    <meta name="description"        content="@yield('meta_description', 'Find the latest jobs in Uganda on Stardena Works.')">
+    <meta name="robots"             content="@yield('robots', 'index, follow')">
+    <link rel="canonical"           href="@yield('canonical', url()->current())">
+
+    {{-- Open Graph --}}
+    <meta property="og:type"        content="@yield('og_type', 'website')">
+    <meta property="og:title"       content="@yield('og_title', 'Stardena Works')">
+    <meta property="og:description" content="@yield('og_description', 'Find the latest jobs in Uganda on Stardena Works.')">
+    <meta property="og:url"         content="@yield('canonical', url()->current())">
+    <meta property="og:image"       content="@yield('og_image', asset('front/images/og-default.png'))">
+    <meta property="og:site_name"   content="Stardena Works">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="@yield('og_title', 'Stardena Works')">
+    <meta name="twitter:description" content="@yield('og_description', 'Find the latest jobs in Uganda on Stardena Works.')">
+    <meta name="twitter:image"       content="@yield('og_image', asset('front/images/og-default.png'))">
+
+    @yield('schema')
+
     <!-- Owl Carousel  -->
     <link rel="stylesheet" href="{{ web_asset('front/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
     <!-- Bootstrap Icons -->
@@ -146,7 +166,6 @@
         padding: 1rem !important;
       }
     </style>
-    @yield('schema')
 </head>
 
 <body>
