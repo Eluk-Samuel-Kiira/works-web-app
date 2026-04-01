@@ -1,6 +1,40 @@
 @extends('layouts.jobs')
 
-@section('title', __('Job Details - Stardena Works'))
+@php
+    $companyName  = $job['company']['name'] ?? '';
+    $jobTitle     = $job['job_title'] ?? 'Job Opportunity';
+    $location     = $job['duty_station'] 
+                    ?? $job['job_location']['district'] 
+                    ?? $job['job_location']['country'] 
+                    ?? 'Uganda';
+    $description  = strip_tags($job['job_description'] ?? '');
+    $metaDesc     = Str::limit($description, 155) 
+                    ?: "{$jobTitle} at {$companyName} in {$location}. Apply now on Stardena Works before deadline.";
+    $canonical    = url('/jobs/' . ($job['slug'] ?? ''));
+    $ogImage      = $job['company']['logo_url'] 
+                    ?? $job['company']['logo'] 
+                    ?? asset('front/images/og-default.png');
+    $isExpired    = isset($job['deadline']) 
+                    && \Carbon\Carbon::parse($job['deadline'])->isPast();
+@endphp
+
+@section('title', "{$jobTitle} at {$companyName} | Stardena Works")
+@section('meta_description', $metaDesc)
+@section('canonical', $canonical)
+@section('robots', $isExpired ? 'noindex, follow' : 'index, follow')
+
+@section('og_type',        'article')
+@section('og_title',       "{$jobTitle} at {$companyName}")
+@section('og_description', $metaDesc)
+@section('og_image',       $ogImage)
+
+
+@section('schema')
+  <script type="application/ld+json">
+  {!! json_encode($structuredData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) !!}
+  </script>
+@endsection
+
 
 {{-- @section('new-badge', __("We're hiring! 50+ tech positions available")) --}}
 
@@ -680,11 +714,6 @@ function copyJobLink() {
     });
 }
 </script>
-@section('schema')
-  <script type="application/ld+json">
-  {!! json_encode($structuredData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) !!}
-  </script>
-@endsection
 
 @include('jobs.partials.apply-modal')
 @endsection
