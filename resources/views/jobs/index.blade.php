@@ -130,7 +130,7 @@
                 <div class="d-flex align-items-center justify-content-between gap-2">
                   @if(!empty($job['company']['logo']))
                     <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] }}"
-                         width="48" height="48" class="rounded-2 border" style="object-fit:cover">
+                         width="48" height="48" class="rounded-2 border" style="object-fit:cover" loading="lazy">
                   @else
                     <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center"
                          style="width:48px;height:48px;flex-shrink:0">

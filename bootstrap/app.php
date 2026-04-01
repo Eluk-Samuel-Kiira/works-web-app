@@ -10,10 +10,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Exclude internal machine-to-machine routes from CSRF
-        $middleware->validateCsrfTokens(except: [
-            '/internal/sitemap/store',
-        ]);
+        $middleware->appendToGroup('web', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

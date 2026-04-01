@@ -141,7 +141,7 @@
                       alt="{{ $job['company']['name'] }}"
                       width="60" height="60"
                       class="rounded-2 border"
-                      style="object-fit:cover">
+                      style="object-fit:cover" loading="lazy">
                 @else
                   <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
                     <i class="bi bi-building fs-4 text-primary"></i>
@@ -491,7 +491,7 @@
                 <div class="flex-shrink-0">
                   @if(isset($job['company']['logo']) && $job['company']['logo'])
                     <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] }}"
-                        width="48" height="48" class="rounded-2 border" style="object-fit:cover">
+                        width="48" height="48" class="rounded-2 border" style="object-fit:cover" loading="lazy">
                   @else
                     <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:48px;height:48px">
                       <i class="bi bi-building text-primary fs-5"></i>
@@ -537,7 +537,7 @@
                       @if(isset($sj['company']['logo']) && $sj['company']['logo'])
                         <img src="{{ $sj['company']['logo'] }}" alt="{{ $sj['company']['name'] }}"
                             width="36" height="36" class="rounded-2 border w-100 h-100"
-                            style="object-fit:cover;display:block">
+                            style="object-fit:cover;display:block" loading="lazy">
                       @else
                         <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center w-100 h-100">
                           <i class="bi bi-building text-primary" style="font-size:14px"></i>

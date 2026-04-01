@@ -37,7 +37,7 @@
     <!-- Owl Carousel  -->
     <link rel="stylesheet" href="{{ web_asset('front/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
       /* Reusing styles from the listing page */
       .job-card {
@@ -284,19 +284,19 @@
       }
     </script>
 
-  <script src="{{ web_asset('front/js/vendor.min.js') }}"></script>
+  <script defer src="{{ web_asset('front/js/vendor.min.js') }}"></script>
   <!-- Import Js Files -->
-  <script src="{{ web_asset('front/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ web_asset('front/libs/simplebar/dist/simplebar.min.js') }}"></script>
-  <script src="{{ web_asset('front/js/theme/app.init.js') }}"></script>
-  <script src="{{ web_asset('front/js/theme/theme.js') }}"></script>
-  <script src="{{ web_asset('front/js/theme/app.min.js') }}"></script>
-  <script src="{{ web_asset('front/js/theme/feather.min.js') }}"></script>
+  <script defer src="{{ web_asset('front/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+  <script defer src="{{ web_asset('front/libs/simplebar/dist/simplebar.min.js') }}"></script>
+  <script defer src="{{ web_asset('front/js/theme/app.init.js') }}"></script>
+  <script defer src="{{ web_asset('front/js/theme/theme.js') }}"></script>
+  <script defer src="{{ web_asset('front/js/theme/app.min.js') }}"></script>
+  <script defer src="{{ web_asset('front/js/theme/feather.min.js') }}"></script>
 
   <!-- solar icons -->
-  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-  <script src="{{ web_asset('front/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-  <script src="{{ web_asset('front/js/frontend-landingpage/homepage.js') }}"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+  <script defer src="{{ web_asset('front/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
+  <script defer src="{{ web_asset('front/js/frontend-landingpage/homepage.js') }}"></script>
 </body>
 
 </html>
