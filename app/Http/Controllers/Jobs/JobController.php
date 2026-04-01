@@ -143,26 +143,39 @@ class JobController extends Controller
     public function show(Request $request, $slug)
     {
         $mainAppUrl = config('api.main_app.api_base');
-        
+
         try {
             $response = Http::withoutVerifying()
                 ->timeout(30)
                 ->get($mainAppUrl . '/v2/jobs-data-from-main/' . $slug);
-            
+
+            // Job completely gone (hard deleted) → 301 to /jobs
+            if ($response->status() === 404) {
+                return redirect()->route('jobs.index', [], 301);
+            }
+
             if ($response->successful()) {
-                $data = $response->json();
-                $job = $data;
-                // \Log::info($data);
+                $data        = $response->json();
+                $job         = $data;
                 $similarJobs = $data['similar_jobs'] ?? [];
                 $structuredData = app(StructuredDataService::class)->jobPosting($job);
-                
+
+                // Job expired or inactive → show expired view (keep URL alive for SEO)
+                if (($data['is_expired'] ?? false) || ($data['is_inactive'] ?? false)) {
+                    return view('jobs.show', compact('job', 'similarJobs', 'structuredData'))
+                        ->header('X-Robots-Tag', 'noindex, follow'); // tell Google don't index
+                }
+
                 return view('jobs.show', compact('job', 'similarJobs', 'structuredData'));
+
             } else {
-                abort(404, 'Job not found');
+                // Any other error → redirect to jobs list
+                return redirect()->route('jobs.index', [], 301);
             }
+
         } catch (\Exception $e) {
             Log::error('Error fetching job: ' . $e->getMessage());
-            abort(404, 'Job not found');
+            return redirect()->route('jobs.index', [], 301);
         }
     }
     
