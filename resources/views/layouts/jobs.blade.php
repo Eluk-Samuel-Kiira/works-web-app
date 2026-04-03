@@ -226,6 +226,7 @@
             <li class="mb-2"><a href="{{ route('about') }}" class="text-light small">About Us</a></li>
             <li class="mb-2"><a href="{{ route('contact') }}" class="text-light small">Contact</a></li>
             <li class="mb-2"><a href="{{ route('privacy-policy') }}" class="text-light small">Privacy</a></li>
+            <li class="mb-2"><a href="{{ route('terms-of-service') }}" class="text-light small">Terms</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
