@@ -95,12 +95,12 @@
     {{-- Bottom bar --}}
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
       <span style="font-size:12px;color:rgba(255,255,255,.25);">
-        · By - <a href="https://stardena.com/" target="_blank" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">  Stardena</a> 
+        · By - <a href="https://stardena.org/" target="_blank" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">  Stardena</a> 
       </span>
       <div class="d-flex gap-3">
-        @foreach(['Privacy Policy','Terms of Service','Cookie Policy'] as $p)
-        <a href="/coming-soon" onclick="comingSoon()" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">{{ $p }}</a>
-        @endforeach
+          <a href="{{ route('about') }}" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">About Us</a>
+          <a href="{{ route('contact') }}" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">Contact</a>
+          <a href="{{ route('privacy-policy') }}" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">Privacy Policy</a>
       </div>
     </div>
   </div>

@@ -128,13 +128,18 @@
               {{-- Header --}}
               <div class="d-flex flex-column gap-2">
                 <div class="d-flex align-items-center justify-content-between gap-2">
-                  @if(!empty($job['company']['logo']))
-                    <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] }}"
-                         width="48" height="48" class="rounded-2 border" style="object-fit:cover" loading="lazy">
+                  @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                  @if($logoUrl)
+                    <img src="{{ $logoUrl }}"
+                        alt="{{ $job['company']['name'] ?? 'Company' }}"
+                        width="60" height="60"
+                        class="rounded-2 border"
+                        style="object-fit:contain; background:#fff; padding:4px;"
+                        loading="lazy"
+                        onerror="this.src='{{ asset('default-logo.png') }}';">
                   @else
-                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center"
-                         style="width:48px;height:48px;flex-shrink:0">
-                      <i class="bi bi-building fs-5 text-primary"></i>
+                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
+                      <i class="bi bi-building fs-4 text-primary"></i>
                     </div>
                   @endif
                   <span class="badge text-bg-primary fw-normal ms-auto" style="font-size:11px">Featured</span>
@@ -267,17 +272,19 @@
                 {{-- Header --}}
                 <div class="d-flex flex-column gap-2">
                   <div class="d-flex align-items-center justify-content-between gap-2">
-                    @if(!empty($job['company']['logo']))
-                      <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] }}"
-                           width="40" height="40" class="rounded-2 border" style="object-fit:cover" loading="lazy">
+                    @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                    @if($logoUrl)
+                      <img src="{{ $logoUrl }}"
+                          alt="{{ $job['company']['name'] ?? 'Company' }}"
+                          width="60" height="60"
+                          class="rounded-2 border"
+                          style="object-fit:contain; background:#fff; padding:4px;"
+                          loading="lazy"
+                          onerror="this.src='{{ asset('default-logo.png') }}';">
                     @else
-                      <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center"
-                           style="width:40px;height:40px;flex-shrink:0">
-                        <i class="bi bi-building text-primary" style="font-size:14px"></i>
+                      <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
+                        <i class="bi bi-building fs-4 text-primary"></i>
                       </div>
-                    @endif
-                    @if($job['is_urgent'] ?? false)
-                      <span class="badge text-bg-danger fw-normal ms-auto" style="font-size:11px">Urgent</span>
                     @endif
                   </div>
                   <div class="min-w-0">

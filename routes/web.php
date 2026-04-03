@@ -44,6 +44,24 @@ use App\Http\Controllers\Admin\ArtisanCommandController;
 Route::get('/admin/artisan', [ArtisanCommandController::class, 'index']);
 Route::post('/admin/command-run', [ArtisanCommandController::class, 'run']);
 
+Route::get('/privacy-policy', fn() => view('pages.privacy-policy'))->name('privacy-policy');
+Route::get('/about',          fn() => view('pages.about'))->name('about');
+Route::get('/contact',        fn() => view('pages.contact'))->name('contact');
+
+Route::post('/contact', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'name'    => 'required|string|max:100',
+        'email'   => 'required|email',
+        'subject' => 'nullable|string',
+        'message' => 'required|string|min:10|max:2000',
+    ]);
+
+    // Log it for now — add Mail::to() when you set up email
+    \Log::info('Contact form submission', $request->only(['name', 'email', 'subject', 'message']));
+
+    return back()->with('success', 'Thank you! We will get back to you within 24 hours.');
+})->name('contact.send');
+
 
 // Fallback Route (404)
 Route::fallback(function () {

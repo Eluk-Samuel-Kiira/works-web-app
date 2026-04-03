@@ -141,6 +141,8 @@ class JobController extends Controller
             // Debug: Log the job to see what's coming
             Log::info('Job data retrieved', ['slug' => $slug, 'has_data' => !empty($job)]);
             
+            // \Log::info($job);
+            
             // If job is empty or doesn't have job_title, something is wrong
             if (empty($job['job_title'])) {
                 Log::error('Invalid job data', ['slug' => $slug, 'data' => $job]);
