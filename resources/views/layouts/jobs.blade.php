@@ -38,7 +38,7 @@
     <!-- Owl Carousel  -->
     <link  href="{{ web_asset('front/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
     <!-- Bootstrap Icons -->
-    <link  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
       /* Reusing styles from the listing page */
       .job-card {
@@ -223,9 +223,9 @@
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">Company</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">About Us</a></li>
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Contact</a></li>
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Privacy</a></li>
+            <li class="mb-2"><a href="{{ route('about') }}" class="text-light small">About Us</a></li>
+            <li class="mb-2"><a href="{{ route('contact') }}" class="text-light small">Contact</a></li>
+            <li class="mb-2"><a href="{{ route('privacy-policy') }}" class="text-light small">Privacy</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">

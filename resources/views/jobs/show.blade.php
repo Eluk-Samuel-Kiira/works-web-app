@@ -136,17 +136,20 @@
             {{-- Company logo + title row --}}
             <div class="d-flex flex-column flex-sm-row gap-3 mb-3">
               <div class="flex-shrink-0">
-                @if(isset($job['company']['logo']) && $job['company']['logo'])
-                  <img src="{{ $job['company']['logo'] }}"
-                      alt="{{ $job['company']['name'] }}"
-                      width="60" height="60"
-                      class="rounded-2 border"
-                      style="object-fit:cover" loading="lazy">
-                @else
-                  <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
-                    <i class="bi bi-building fs-4 text-primary"></i>
-                  </div>
-                @endif
+                @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                  @if($logoUrl)
+                    <img src="{{ $logoUrl }}"
+                        alt="{{ $job['company']['name'] ?? 'Company' }}"
+                        width="60" height="60"
+                        class="rounded-2 border"
+                        style="object-fit:contain; background:#fff; padding:4px;"
+                        loading="lazy"
+                        onerror="this.src='{{ asset('default-logo.png') }}';">
+                  @else
+                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
+                      <i class="bi bi-building fs-4 text-primary"></i>
+                    </div>
+                  @endif
               </div>
               <div class="min-w-0 flex-grow-1">
                 <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
@@ -492,12 +495,18 @@
               <h3 class="h6 fw-semibold mb-3 pb-2 border-bottom">About the Company</h3>
               <div class="d-flex flex-column flex-sm-row gap-3 mb-3">
                 <div class="flex-shrink-0">
-                  @if(isset($job['company']['logo']) && $job['company']['logo'])
-                    <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] }}"
-                        width="48" height="48" class="rounded-2 border" style="object-fit:cover" loading="lazy">
+                  @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                  @if($logoUrl)
+                    <img src="{{ $logoUrl }}"
+                        alt="{{ $job['company']['name'] ?? 'Company' }}"
+                        width="60" height="60"
+                        class="rounded-2 border"
+                        style="object-fit:contain; background:#fff; padding:4px;"
+                        loading="lazy"
+                        onerror="this.src='{{ asset('default-logo.png') }}';">
                   @else
-                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:48px;height:48px">
-                      <i class="bi bi-building text-primary fs-5"></i>
+                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
+                      <i class="bi bi-building fs-4 text-primary"></i>
                     </div>
                   @endif
                 </div>
@@ -537,12 +546,18 @@
 
                     {{-- Logo --}}
                     <div style="width:36px;height:36px;flex-shrink:0">
-                      @if(isset($sj['company']['logo']) && $sj['company']['logo'])
-                        <img src="{{ $sj['company']['logo'] }}" alt="{{ $sj['company']['name'] }}"
-                            width="36" height="36" class="rounded-2 border w-100 h-100"
-                            style="object-fit:cover;display:block" loading="lazy">
+                      @php $similarLogo = companyLogo($sj['company'] ?? null); @endphp
+                      @if($similarLogo)
+                        <img src="{{ $similarLogo }}" 
+                            alt="{{ $sj['company']['name'] ?? 'Company' }}"
+                            width="36" height="36" 
+                            class="rounded-2 border"
+                            style="width:36px;height:36px;object-fit:contain;background:#fff;padding:2px;display:block;" 
+                            loading="lazy"
+                            onerror="this.src='{{ asset('default-logo.png') }}';">
                       @else
-                        <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center w-100 h-100">
+                        <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" 
+                            style="width:36px;height:36px;flex-shrink:0">
                           <i class="bi bi-building text-primary" style="font-size:14px"></i>
                         </div>
                       @endif
