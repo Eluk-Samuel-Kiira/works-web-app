@@ -101,6 +101,7 @@
           <a href="{{ route('about') }}" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">About Us</a>
           <a href="{{ route('contact') }}" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">Contact</a>
           <a href="{{ route('privacy-policy') }}" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">Privacy Policy</a>
+          <a href="{{ route('terms-of-service') }}" class="footer-link" style="font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .15s;">Terms</a>
       </div>
     </div>
   </div>

@@ -47,6 +47,7 @@ Route::post('/admin/command-run', [ArtisanCommandController::class, 'run']);
 Route::get('/privacy-policy', fn() => view('pages.privacy-policy'))->name('privacy-policy');
 Route::get('/about',          fn() => view('pages.about'))->name('about');
 Route::get('/contact',        fn() => view('pages.contact'))->name('contact');
+Route::get('/terms-of-service', fn() => view('pages.terms'))->name('terms-of-service');
 
 Route::post('/contact', function (\Illuminate\Http\Request $request) {
     $request->validate([
