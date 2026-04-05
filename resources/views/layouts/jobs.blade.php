@@ -196,6 +196,7 @@
   <!-- end navigation -->
 
   @yield('job-content')
+  @include('layouts.social-media')
 
   
   <!-- ------------------------------------- -->
@@ -261,6 +262,30 @@
       }
       .scroll-top.show { display: flex; }
   </style>
+
+
+  <!-- Social Media Float Button -->
+  <style>
+  @keyframes wa-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(93,135,255,0.5); }
+      70%  { box-shadow: 0 0 0 16px rgba(93,135,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(93,135,255,0); }
+  }
+  @keyframes ring-outer {
+      0%   { box-shadow: 0 0 0 0 rgba(93,135,255,0.3), 0 0 0 0 rgba(93,135,255,0.15); }
+      70%  { box-shadow: 0 0 0 18px rgba(93,135,255,0), 0 0 0 32px rgba(93,135,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(93,135,255,0.3), 0 0 0 0 rgba(93,135,255,0.15); }
+  }
+  </style>
+
+  <button onclick="openSocialModal()"
+      style="position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;
+            background:var(--bs-primary);border:none;
+            display:flex;align-items:center;justify-content:center;z-index:1000;
+            cursor:pointer;animation:ring-outer 2.2s infinite;
+            box-shadow:0 4px 20px rgba(93,135,255,.45);">
+      <i class="bi bi-share-fill text-white" style="font-size:1.35rem;"></i>
+  </button>
   
   <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
       <i class="bi bi-arrow-up"></i>

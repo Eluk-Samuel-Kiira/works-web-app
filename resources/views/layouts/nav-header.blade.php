@@ -201,3 +201,53 @@
     }
   }
 </script>
+<script>
+  // ── Active nav highlighting ──────────────────────────────
+  (function () {
+    const current = window.location.pathname;
+
+    document.querySelectorAll('.navbar-nav .nav-link, .mobile-offcanvas .list-unstyled a').forEach(link => {
+      try {
+        const linkPath = new URL(link.href, window.location.origin).pathname;
+
+        // Exact match OR starts-with for sub-routes (e.g. /jobs/some-slug highlights Find Jobs)
+        const isActive = linkPath !== '/' && current.startsWith(linkPath)
+                      || linkPath === '/' && current === '/';
+
+        if (isActive) {
+          link.classList.add('active-nav');
+        }
+      } catch (_) {}
+    });
+  })();
+</script>
+
+<style>
+  /* ── Desktop nav active link ── */
+  .navbar-nav .nav-link.active-nav {
+    color: var(--bs-primary) !important;
+    font-weight: 600;
+    position: relative;
+  }
+  .navbar-nav .nav-link.active-nav::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
+    background: var(--bs-primary);
+    border-radius: 99px;
+  }
+
+  /* ── Mobile offcanvas active link ── */
+  .mobile-offcanvas .list-unstyled a.active-nav {
+    color: var(--bs-primary) !important;
+    font-weight: 600;
+    border-left: 3px solid var(--bs-primary);
+    padding-left: 10px !important;
+    background: rgba(var(--bs-primary-rgb), 0.05);
+    border-radius: 0 8px 8px 0;
+  }
+</style>
