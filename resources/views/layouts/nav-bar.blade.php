@@ -26,7 +26,7 @@
             <a class="nav-link nav-item-link" href="{{ route('jobs.index') }}">Find Jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="/coming-soon" onclick="comingSoon()">Companies</a>
+            <a class="nav-link nav-item-link" href="{{ route('companies') }}">Companies</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="/coming-soon" onclick="comingSoon()">
@@ -78,7 +78,7 @@
   <div class="offcanvas-body pt-3">
     <ul class="list-unstyled ps-0">
       <li class="mb-1"><a href="{{ route('jobs.index') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Find Jobs</a></li>
-      <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Companies</a></li>
+      <li class="mb-1"><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Companies</a></li>
       <li class="mb-1">
         <a href="/coming-soon" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">
           Career Advice

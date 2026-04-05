@@ -37,8 +37,8 @@
 
     <!-- Owl Carousel  -->
     <link  href="{{ web_asset('front/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
-    <!-- Bootstrap Icons -->
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstrap Icons -->    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
       /* Reusing styles from the listing page */
       .job-card {

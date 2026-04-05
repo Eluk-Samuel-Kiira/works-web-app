@@ -22,7 +22,7 @@
             <a class="nav-link fs-4 text-dark link-primary px-6" href="{{ route('jobs.index') }}">Find Jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Companies</a>
+            <a class="nav-link fs-4 text-dark link-primary px-6" href="{{ route('companies') }}">Companies</a>
           </li>
           <li class="nav-item">
             <a class="nav-link fs-4 text-dark link-primary px-6 d-flex gap-2" href="/coming-soon" onclick="comingSoon()">Career Advice
@@ -68,7 +68,7 @@
         <a href="{{ route('jobs.index') }}" class="px-0 fs-4 d-block text-dark link-primary w-100 py-2">Find Jobs</a>
       </li>
       <li class="mb-1">
-        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Companies</a>
+        <a href="{{ route('companies') }}" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Companies</a>
       </li>
       <li class="mb-1">
         <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-flex align-items-center justify-content-start gap-2 w-100 py-2 text-dark link-primary">

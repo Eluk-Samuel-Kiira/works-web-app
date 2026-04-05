@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\ { WelcomeController };
-use App\Http\Controllers\Jobs\ { JobController };
+use App\Http\Controllers\Jobs\ { JobController, JobCategoryController };
 use Illuminate\Support\Facades\Http;
 
 
@@ -62,6 +62,21 @@ Route::post('/contact', function (\Illuminate\Http\Request $request) {
 
     return back()->with('success', 'Thank you! We will get back to you within 24 hours.');
 })->name('contact.send');
+
+
+// Category landing pages
+Route::get('/jobs/category/{slug}', [JobCategoryController::class, 'category'])->name('jobs.category');
+
+// Industry landing pages  
+Route::get('/jobs/industry/{slug}', [JobCategoryController::class, 'industry'])->name('jobs.industry');
+
+// Location landing pages
+Route::get('/jobs/location/{slug}', [JobCategoryController::class, 'location'])->name('jobs.location');
+
+// Companies directory
+Route::get('/companies', [JobCategoryController::class, 'companies'])->name('companies');
+Route::get('/companies/{slug}', [JobCategoryController::class, 'company'])->name('companies.show');
+
 
 
 // Fallback Route (404)
