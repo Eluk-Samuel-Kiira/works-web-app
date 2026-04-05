@@ -23,7 +23,16 @@ class JobController extends Controller
                 'sort'     => $request->get('sort'),
                 'keyword'  => $request->get('keyword'),
                 'location' => $request->get('location'),
+                'category' => $request->get('category'),
+                'company'  => $request->get('company'),   
+                'industry' => $request->get('industry'),  
+                'featured' => $request->get('featured'),  
+                'type'     => $request->get('type'),
             ]);
+
+            if ($request->has('featured')) {
+                $params['featured'] = $request->get('featured');
+            }
 
             $isDefaultRequest = !$request->hasAny(['keyword', 'location', 'sort'])
                                 && $request->get('page', 1) == 1;
@@ -58,6 +67,18 @@ class JobController extends Controller
                     : ['Remote', 'NGO', 'Finance', 'Health', 'Education', 'Manager'];
             });
 
+            // Fetch categories with job counts — cached for 1 hour
+            $categories = Cache::remember('job_categories_with_count', now()->addHour(), function () use ($mainAppUrl) {
+                $response = Http::withoutVerifying()->timeout(10)
+                    ->get($mainAppUrl . '/v2/job-by-category');
+                if ($response->successful()) {
+                    $cats = $response->json();
+                    // Handle both paginated and plain array responses
+                    return isset($cats['data']) ? $cats['data'] : $cats;
+                }
+                return [];
+            });
+
             // Featured jobs — cache for 10 minutes
             $featuredJobs = Cache::remember('featured_jobs', now()->addMinutes(10), function () {
                 return $this->getFeaturedJobs();
@@ -86,7 +107,7 @@ class JobController extends Controller
 
                 return view('jobs.index', compact(
                     'jobs', 'featuredJobs', 'pagination',
-                    'popularSearches', 'totalJobs'
+                    'popularSearches', 'totalJobs', 'categories'
                 ));
             }
 

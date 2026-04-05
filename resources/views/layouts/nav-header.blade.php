@@ -22,7 +22,7 @@
             <a class="nav-link fs-4 text-dark link-primary px-6" href="{{ route('jobs.index') }}">Find Jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Companies</a>
+            <a class="nav-link fs-4 text-dark link-primary px-6" href="{{ route('companies') }}">Companies</a>
           </li>
           <li class="nav-item">
             <a class="nav-link fs-4 text-dark link-primary px-6 d-flex gap-2" href="/coming-soon" onclick="comingSoon()">Career Advice
@@ -68,7 +68,7 @@
         <a href="{{ route('jobs.index') }}" class="px-0 fs-4 d-block text-dark link-primary w-100 py-2">Find Jobs</a>
       </li>
       <li class="mb-1">
-        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Companies</a>
+        <a href="{{ route('companies') }}" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Companies</a>
       </li>
       <li class="mb-1">
         <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-flex align-items-center justify-content-start gap-2 w-100 py-2 text-dark link-primary">
@@ -201,3 +201,53 @@
     }
   }
 </script>
+<script>
+  // ── Active nav highlighting ──────────────────────────────
+  (function () {
+    const current = window.location.pathname;
+
+    document.querySelectorAll('.navbar-nav .nav-link, .mobile-offcanvas .list-unstyled a').forEach(link => {
+      try {
+        const linkPath = new URL(link.href, window.location.origin).pathname;
+
+        // Exact match OR starts-with for sub-routes (e.g. /jobs/some-slug highlights Find Jobs)
+        const isActive = linkPath !== '/' && current.startsWith(linkPath)
+                      || linkPath === '/' && current === '/';
+
+        if (isActive) {
+          link.classList.add('active-nav');
+        }
+      } catch (_) {}
+    });
+  })();
+</script>
+
+<style>
+  /* ── Desktop nav active link ── */
+  .navbar-nav .nav-link.active-nav {
+    color: var(--bs-primary) !important;
+    font-weight: 600;
+    position: relative;
+  }
+  .navbar-nav .nav-link.active-nav::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
+    background: var(--bs-primary);
+    border-radius: 99px;
+  }
+
+  /* ── Mobile offcanvas active link ── */
+  .mobile-offcanvas .list-unstyled a.active-nav {
+    color: var(--bs-primary) !important;
+    font-weight: 600;
+    border-left: 3px solid var(--bs-primary);
+    padding-left: 10px !important;
+    background: rgba(var(--bs-primary-rgb), 0.05);
+    border-radius: 0 8px 8px 0;
+  }
+</style>
