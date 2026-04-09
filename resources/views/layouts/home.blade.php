@@ -10,6 +10,14 @@
       gtag('config', 'G-VT1BQTKZZ5');
     </script>
 
+    <script src="https://cdn.cookiehub.eu/c2/53aa6329.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+        var cpm = {};
+        window.cookiehub.load(cpm);
+        });
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>@yield('title', 'Stardena Works — Jobs & Talent in Uganda')</title>
