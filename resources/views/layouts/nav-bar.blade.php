@@ -23,7 +23,7 @@
       <div class="collapse navbar-collapse desktop-menu" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto mb-0 gap-1">
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="{{ route('jobs.index') }}">Find Jobs</a>
+            <a class="nav-link nav-item-link" href="{{ route('jobs.index') }}" target="_blank">Find Jobs</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-item-link" href="{{ route('companies') }}">Companies</a>
@@ -77,7 +77,7 @@
   </div>
   <div class="offcanvas-body pt-3">
     <ul class="list-unstyled ps-0">
-      <li class="mb-1"><a href="{{ route('jobs.index') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Find Jobs</a></li>
+      <li class="mb-1"><a href="{{ route('jobs.index') }}" target="_blank" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Find Jobs</a></li>
       <li class="mb-1"><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Companies</a></li>
       <li class="mb-1">
         <a href="/coming-soon" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">
