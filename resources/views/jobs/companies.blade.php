@@ -12,13 +12,16 @@
   <div class="bg-body border-bottom py-1 text-center">
     <div class="container-fluid">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="1111111111"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
+      <!-- AD SLOT 1 company -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="8711079786"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
   </div>
 
   {{-- Hero --}}
@@ -71,12 +74,16 @@
     {{-- AD SLOT 2 --}}
     <div class="mb-4 text-center">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block;text-align:center"
-           data-ad-layout="in-article"
-           data-ad-format="fluid"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="2222222222"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- AD SLOT 2 company -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="7731567855"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
 
     @if(!empty($search))
@@ -95,12 +102,16 @@
         <div class="col-12">
           <div class="border rounded-3 py-1 px-3 text-center bg-body">
             <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-            <ins class="adsbygoogle" style="display:block"
-                 data-ad-client="ca-pub-3587587638253109"
-                 data-ad-slot="3333333333"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <!-- AD every 12 companies -->
+            <ins class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-3587587638253109"
+              data-ad-slot="2939878350"
+              data-ad-format="auto"
+              data-full-width-responsive="true"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </div>
         </div>
         @endif
@@ -281,12 +292,15 @@
     {{-- AD SLOT 4 --}}
     <div class="mt-4 text-center">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="4444444444"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="8447986790"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
 
   </div>
