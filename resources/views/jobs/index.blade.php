@@ -18,12 +18,16 @@
   <div class="bg-body border-bottom py-1 text-center">
     <div class="container-xl px-3 px-md-4">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="1111111111"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- Leaderboard-1 -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="1832373916"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
   </div>
 
@@ -333,12 +337,16 @@
   <div class="bg-body border-bottom py-1 text-center">
     <div class="container-xl px-3 px-md-4">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block;text-align:center"
-           data-ad-layout="in-article"
-           data-ad-format="fluid"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="2222222222"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- featured-after -->
+      <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-3587587638253109"
+          data-ad-slot="8206210573"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
   </div>
 
@@ -388,12 +396,16 @@
           <div class="col-12">
             <div class="border rounded-3 py-1 px-3 text-center bg-body">
               <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-              <ins class="adsbygoogle" style="display:block"
-                   data-ad-client="ca-pub-3587587638253109"
-                   data-ad-slot="3333333333"
-                   data-ad-format="auto"
-                   data-full-width-responsive="true"></ins>
-              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+              <!-- Mid-list native -->
+              <ins class="adsbygoogle"
+                  style="display:block"
+                  data-ad-client="ca-pub-3587587638253109"
+                  data-ad-slot="8014638881"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"></ins>
+              <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
             </div>
           </div>
           @endif
@@ -551,12 +563,16 @@
   <div class="bg-body border-top border-bottom py-2 text-center">
     <div class="container-xl px-3 px-md-4">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="4444444444"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- 4 — Pre-CTA -->
+      <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-3587587638253109"
+          data-ad-slot="9822544573"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
   </div>
 
@@ -589,12 +605,16 @@
   <div class="bg-body border-top py-2 text-center">
     <div class="container-xl px-3 px-md-4">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="5555555555"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- Footer banner-2 -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="5875560702"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
   </div>
 

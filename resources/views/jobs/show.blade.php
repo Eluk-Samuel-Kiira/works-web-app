@@ -12,9 +12,6 @@
     $metaDesc    = Str::limit($description, 155) 
                     ?: "{$jobTitle} at {$companyName} in {$location}. Apply on Stardena Works.";
     $canonical   = url('/jobs/' . ($job['slug'] ?? ''));
-    $ogImage     = $job['company']['logo_url'] 
-                    ?? $job['company']['logo'] 
-                    ?? asset('default-logo.png');
 @endphp
 
 @section('title',            "{$jobTitle} at {$companyName} | Stardena Works")
@@ -24,7 +21,17 @@
 @section('og_type',          'article')
 @section('og_title',         "{$jobTitle} at {$companyName}")
 @section('og_description',   $metaDesc)
-@section('og_image',         $ogImage)
+@php
+    $ogImage = $job['company']['logo']      // API returns 'logo' key
+            ?? $job['company']['logo_url']  // fallback
+            ?? asset('default-logo.png');   // final fallback
+
+    // Make sure it's an absolute URL
+    if ($ogImage && !filter_var($ogImage, FILTER_VALIDATE_URL)) {
+        $ogImage = companyLogo($job['company']) ?? asset('default-logo.png');
+    }
+@endphp
+@section('og_image', $ogImage)
 
 @section('schema')
   <script type="application/ld+json">
@@ -107,12 +114,15 @@
   <div class="bg-body border-bottom py-1 text-center">
     <div class="container-xl">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="1111111111"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="2596894315"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
   </div>
 
@@ -273,12 +283,15 @@
         ────────────────────────────────────────── --}}
         <div class="mb-4 text-center">
           <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-          <ins class="adsbygoogle" style="display:block;text-align:center"
-               data-ad-layout="in-article"
-               data-ad-format="fluid"
-               data-ad-client="ca-pub-3587587638253109"
-               data-ad-slot="2222222222"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-3587587638253109"
+            data-ad-slot="5328765795"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
         </div>
 
 
@@ -480,12 +493,16 @@
           --}}
           <div class="mb-4 text-center">
             <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-            <ins class="adsbygoogle" style="display:block"
-                 data-ad-client="ca-pub-3587587638253109"
-                 data-ad-slot="3333333333"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <!-- works-mid-list -->
+            <ins class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-3587587638253109"
+              data-ad-slot="7466077612"
+              data-ad-format="auto"
+              data-full-width-responsive="true"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </div>
 
           {{-- Company Info --}}
@@ -616,12 +633,16 @@
   <div class="bg-body border-top border-bottom py-2 text-center">
     <div class="container-xl">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="4444444444"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- works-pre-cta -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="5963190616"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
   </div>
 
@@ -678,12 +699,16 @@
   <div class="bg-body border-top py-2 text-center">
     <div class="container-xl">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109"
-           data-ad-slot="5555555555"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- works-footer -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-3587587638253109"
+        data-ad-slot="9710863933"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
   </div>
 
