@@ -38,6 +38,12 @@ Route::get('/sitemap.xml', function () {
     }
 });
 
+// ads.txt for Google AdSense
+Route::get('/ads.txt', function () {
+    $content = "google.com, pub-3587587638253109, DIRECT, f08c47fec0942fa0\n";
+    return response($content, 200)->header('Content-Type', 'text/plain');
+});
+
 
 use App\Http\Controllers\Admin\ArtisanCommandController;
 

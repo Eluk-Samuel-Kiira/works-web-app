@@ -188,6 +188,22 @@
         padding: 1rem !important;
       }
     </style>
+    
+    <!-- ads /style -->
+    <style>
+      /* When NO ad is available - HIDDEN completely */
+      ins.adsbygoogle[data-ad-status="unfilled"],
+      ins.adsbygoogle:empty {
+          display: none !important;  /* Completely removes the space */
+      }
+
+      /* When an ad IS available - SHOWS with styling */
+      ins.adsbygoogle[data-ad-status="filled"] {
+          background: #f8f9fa;  /* Light background */
+          border-radius: 8px;   /* Rounded corners */
+          margin: 8px 0;        /* Space around ad */
+      }
+    </style>
 </head>
 
 <body>
