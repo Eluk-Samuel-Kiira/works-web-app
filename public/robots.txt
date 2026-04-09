@@ -1,33 +1,20 @@
 User-agent: *
 
-# Allow important pages
 Allow: /
 Allow: /jobs
 Allow: /jobs/
 
-# Block URLs that create duplicate/thin content
 Disallow: /api/
 Disallow: /internal/
 Disallow: /admin/
 Disallow: /login
 Disallow: /register
 Disallow: /dashboard
-Disallow: /profile
-Disallow: /settings
 
-# Block filter/search URLs (duplicate content)
 Disallow: /jobs?
 Disallow: /search?
 Disallow: /*?page=
 Disallow: /*?sort=
 Disallow: /*?filter=
-Disallow: /*?category=
-Disallow: /*?location=
-Disallow: /*?type=
 
-# Block utility paths
-Disallow: /storage/
-Disallow: /_ignition/
-Disallow: /telescope/
-
-Sitemap: https://works.stardena.org/sitemap.xml
+Sitemap: https://stardenaworks.com/sitemap.xml
