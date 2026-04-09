@@ -15,9 +15,14 @@
                 <div class="d-flex gap-2 align-items-center flex-grow-1 min-w-0">
                     <div class="rounded-3 bg-primary bg-opacity-10 flex-shrink-0"
                          style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
-                        @if(!empty($job['company']['logo']))
-                            <img src="{{ $job['company']['logo'] }}" alt="{{ $job['company']['name'] ?? '' }}"
-                                 style="width:32px;height:32px;object-fit:cover;border-radius:6px;">
+                        @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                        @if($logoUrl)
+                            <img src="{{ $logoUrl }}"
+                                alt="{{ $job['company']['name'] ?? 'Company' }}"
+                                width="32" height="32"
+                                style="width:32px;height:32px;object-fit:contain;border-radius:6px;background:#fff;padding:2px;"
+                                loading="lazy"
+                                onerror="this.src='{{ asset('default-logo.png') }}';">
                         @else
                             <i class="bi bi-building text-primary" style="font-size:1.1rem"></i>
                         @endif
