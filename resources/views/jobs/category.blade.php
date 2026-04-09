@@ -20,7 +20,7 @@
     <div class="container-fluid">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
       <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-client="ca-pub-3587587638253109"
            data-ad-slot="1111111111"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
@@ -95,7 +95,7 @@
           <div class="mb-4 text-center">
             <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
             <ins class="adsbygoogle" style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-client="ca-pub-3587587638253109"
                  data-ad-slot="3333333333"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
@@ -135,7 +135,7 @@
               <div class="border rounded-3 py-1 px-3 text-center bg-body">
                 <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
                 <ins class="adsbygoogle" style="display:block"
-                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-client="ca-pub-3587587638253109"
                      data-ad-slot="2222222222"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
@@ -243,7 +243,7 @@
         <div class="mt-4 text-center">
           <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
           <ins class="adsbygoogle" style="display:block"
-               data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+               data-ad-client="ca-pub-3587587638253109"
                data-ad-slot="4444444444"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>

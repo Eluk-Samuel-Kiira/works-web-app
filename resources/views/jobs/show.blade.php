@@ -14,7 +14,7 @@
     $canonical   = url('/jobs/' . ($job['slug'] ?? ''));
     $ogImage     = $job['company']['logo_url'] 
                     ?? $job['company']['logo'] 
-                    ?? asset('front/images/og-default.png');
+                    ?? asset('default-logo.png');
 @endphp
 
 @section('title',            "{$jobTitle} at {$companyName} | Stardena Works")
@@ -108,7 +108,7 @@
     <div class="container-xl">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
       <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-client="ca-pub-3587587638253109"
            data-ad-slot="1111111111"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
@@ -276,7 +276,7 @@
           <ins class="adsbygoogle" style="display:block;text-align:center"
                data-ad-layout="in-article"
                data-ad-format="fluid"
-               data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+               data-ad-client="ca-pub-3587587638253109"
                data-ad-slot="2222222222"></ins>
           <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
@@ -481,7 +481,7 @@
           <div class="mb-4 text-center">
             <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
             <ins class="adsbygoogle" style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-client="ca-pub-3587587638253109"
                  data-ad-slot="3333333333"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
@@ -617,7 +617,7 @@
     <div class="container-xl">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
       <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-client="ca-pub-3587587638253109"
            data-ad-slot="4444444444"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
@@ -679,7 +679,7 @@
     <div class="container-xl">
       <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
       <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-client="ca-pub-3587587638253109"
            data-ad-slot="5555555555"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
