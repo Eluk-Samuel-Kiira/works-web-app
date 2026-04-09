@@ -133,11 +133,9 @@
                               width="52" height="52"
                               loading="lazy"
                               style="width:52px;height:52px;object-fit:contain;padding:4px"
-                              onerror="this.parentElement.innerHTML='<div class=\'d-flex align-items-center justify-content-center h-100 bg-body-secondary\'><i class=\'bi bi-building text-primary fs-5\'></i></div>'">
+                              onerror="this.src='{{ asset('default-logo.png') }}';">>
                       @else
-                          <div class="d-flex align-items-center justify-content-center h-100 bg-body-secondary">
-                              <i class="bi bi-building text-primary fs-5"></i>
-                          </div>
+                        {{ defaultLogo() }}
                       @endif
                   </div>
 
