@@ -45,14 +45,14 @@
     <meta property="og:title"       content="@yield('og_title', 'Stardena Works')">
     <meta property="og:description" content="@yield('og_description', 'Find the latest jobs in Uganda on Stardena Works.')">
     <meta property="og:url"         content="@yield('canonical', url()->current())">
-    <meta property="og:image"       content="@yield('og_image', asset('front/images/og-default.png'))">
+    <meta property="og:image"       content="@yield('og_image', asset('default-logo.png'))">
     <meta property="og:site_name"   content="Stardena Works">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card"        content="summary_large_image">
     <meta name="twitter:title"       content="@yield('og_title', 'Stardena Works')">
     <meta name="twitter:description" content="@yield('og_description', 'Find the latest jobs in Uganda on Stardena Works.')">
-    <meta name="twitter:image"       content="@yield('og_image', asset('front/images/og-default.png'))">
+    <meta name="twitter:image"       content="@yield('og_image', asset('default-logo.png'))">
 
     @yield('schema')
 
