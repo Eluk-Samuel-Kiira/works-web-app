@@ -137,41 +137,48 @@
       ═══════════════════════════════════════════════ --}}
       <div class="col-12 col-lg-8">
 
-        {{-- ──────────────────────────────────────────
-             JOB HEADER CARD
+      {{-- ──────────────────────────────────────────
+             JOB HEADER CARD (Responsive - Logo & Title Same Line)
         ────────────────────────────────────────── --}}
         <div class="card border rounded-3 shadow-sm mb-4">
           <div class="card-body p-3 p-md-4">
 
-            {{-- Company logo + title row --}}
-            <div class="d-flex flex-column flex-sm-row gap-3 mb-3">
+            {{-- Company logo + title row - forced to stay on same line --}}
+            <div class="d-flex align-items-start gap-3 mb-3">
+              {{-- Logo - fixed width, never shrinks --}}
               <div class="flex-shrink-0">
                 @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
                   @if($logoUrl)
                     <img src="{{ $logoUrl }}"
                         alt="{{ $job['company']['name'] ?? 'Company' }}"
-                        width="60" height="60"
+                        width="56" height="56"
                         class="rounded-2 border"
                         style="object-fit:contain; background:#fff; padding:4px;"
                         loading="lazy"
                         onerror="this.src='{{ asset('default-logo.png') }}';">
                   @else
-                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
+                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:56px;height:56px">
                       <i class="bi bi-building fs-4 text-primary"></i>
                     </div>
                   @endif
               </div>
-              <div class="min-w-0 flex-grow-1">
-                <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
-                  <h1 class="h5 fw-semibold mb-0 text-body">{{ $job['job_title'] ?? 'Job Title' }}</h1>
-                  @if($job['is_featured'] ?? false)
-                    <span class="badge text-bg-primary fw-normal" style="font-size:11px">Featured</span>
-                  @endif
-                  @if($job['is_urgent'] ?? false)
-                    <span class="badge text-bg-danger fw-normal" style="font-size:11px">Urgent</span>
-                  @endif
+
+              {{-- Title and company info - takes remaining space, wraps text but stays beside logo --}}
+              <div class="flex-grow-1 min-w-0">
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                  <h1 class="h5 fw-semibold mb-0 text-body" style="word-break: break-word; line-height: 1.3;">
+                    {{ $job['job_title'] ?? 'Job Title' }}
+                  </h1>
+                  <div class="d-flex flex-wrap gap-1 flex-shrink-0">
+                    @if($job['is_featured'] ?? false)
+                      <span class="badge text-bg-primary fw-normal" style="font-size:10px">Featured</span>
+                    @endif
+                    @if($job['is_urgent'] ?? false)
+                      <span class="badge text-bg-danger fw-normal" style="font-size:10px">Urgent</span>
+                    @endif
+                  </div>
                 </div>
-                <div class="d-flex flex-wrap text-muted" style="font-size:13px;gap:4px 12px">
+                <div class="d-flex flex-wrap text-muted mt-1" style="font-size:12px;gap:4px 16px">
                   <span><i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? 'Unknown Company' }}</span>
                   <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
                   <span><i class="bi bi-clock me-1"></i>{{ \Carbon\Carbon::parse($job['created_at'])->diffForHumans() }}</span>
@@ -184,19 +191,19 @@
 
             {{-- Tags row --}}
             <div class="d-flex flex-wrap gap-2 mb-3">
-              <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:12px">
+              <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
                 <i class="bi bi-briefcase me-1"></i>{{ $job['job_type']['name'] ?? $job['employment_type'] ?? 'Full Time' }}
               </span>
               @if(isset($job['experience_level']['name']))
-              <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:12px">
+              <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
                 <i class="bi bi-bar-chart me-1"></i>{{ $job['experience_level']['name'] }}
               </span>
               @endif
-              <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:12px">
+              <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
                 <i class="bi bi-house me-1"></i>{{ $job['location_type'] ?? 'On-site' }}
               </span>
               @if($job['is_verified'] ?? false)
-              <span class="badge rounded-pill text-bg-success fw-normal" style="font-size:12px">
+              <span class="badge rounded-pill text-bg-success fw-normal" style="font-size:11px">
                 <i class="bi bi-patch-check me-1"></i>Verified
               </span>
               @endif
@@ -204,7 +211,7 @@
 
             <hr class="my-3">
 
-            {{-- Salary + CTA row — fully centred --}}
+            {{-- Salary + CTA row --}}
             <div class="text-center mb-3">
               <div class="fw-semibold text-primary fs-5 lh-sm">{{ $job['formatted_salary'] ?? 'Negotiable' }}</div>
               @if(isset($job['salary_range']['name']))
@@ -212,7 +219,7 @@
               @endif
             </div>
 
-            {{-- Action row: Apply + Share — centred on all breakpoints --}}
+            {{-- Action row: Apply + Share --}}
             <div class="d-flex flex-wrap align-items-center justify-content-center gap-2">
 
               <button class="btn btn-primary fw-semibold px-4" onclick="openApplyModal()">
@@ -221,28 +228,30 @@
 
               <span class="text-muted d-none d-sm-block vr mx-1" style="height:32px;opacity:.3"></span>
 
-              <span class="text-muted small d-none d-sm-inline">Share:</span>
+              <div class="d-flex flex-wrap align-items-center justify-content-center gap-1">
+                <span class="text-muted small d-none d-sm-inline">Share:</span>
 
-              @foreach($shareBtns as $s)
-              <button type="button"
-                      class="btn btn-light border d-inline-flex align-items-center justify-content-center p-0 share-btn"
-                      style="width:36px;height:36px;border-radius:8px"
-                      onclick="shareOn('{{ $s['id'] }}')"
-                      title="{{ $s['tip'] }}">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="{{ $s['color'] }}">{!! $s['svg'] !!}</svg>
-              </button>
-              @endforeach
+                @foreach($shareBtns as $s)
+                <button type="button"
+                        class="btn btn-light border d-inline-flex align-items-center justify-content-center p-0 share-btn"
+                        style="width:34px;height:34px;border-radius:8px"
+                        onclick="shareOn('{{ $s['id'] }}')"
+                        title="{{ $s['tip'] }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="{{ $s['color'] }}">{!! $s['svg'] !!}</svg>
+                </button>
+                @endforeach
 
-              <button type="button"
-                      class="btn btn-light border d-inline-flex align-items-center justify-content-center p-0 share-btn"
-                      style="width:36px;height:36px;border-radius:8px"
-                      onclick="copyJobLink()"
-                      title="Copy link">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-              </button>
+                <button type="button"
+                        class="btn btn-light border d-inline-flex align-items-center justify-content-center p-0 share-btn"
+                        style="width:34px;height:34px;border-radius:8px"
+                        onclick="copyJobLink()"
+                        title="Copy link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                </button>
+              </div>
             </div>
 
           </div>
@@ -315,70 +324,92 @@
 
 
         {{-- ──────────────────────────────────────────
-             APPLICATION DETAILS
+            APPLICATION DETAILS (Responsive)
         ────────────────────────────────────────── --}}
         @if(!empty($job['application_procedure']) || !empty($job['email']) || !empty($job['telephone']) || !empty($job['deadline']))
-        <div class="card border rounded-3 shadow-sm mb-4">
-          <div class="card-body p-3 p-md-4">
-            <h2 class="h6 fw-semibold mb-3 pb-2 border-bottom">Application Details</h2>
-            <div class="row g-3">
+        <div class="card border rounded-3 shadow-sm mb-4 application-details-card">
+            <div class="card-body p-3 p-md-4">
+                <h2 class="h6 fw-semibold mb-3 pb-2 border-bottom">Application Details</h2>
+                <div class="row g-3">
 
-              @if(!empty($job['application_procedure']))
-              <div class="col-12">
-                <div class="d-flex gap-3 rounded-2 bg-body-secondary p-3">
-                  <div class="flex-shrink-0 text-primary" style="font-size:18px"><i class="bi bi-file-earmark-text"></i></div>
-                  <div>
-                    <div class="fw-semibold small mb-1">How to Apply</div>
-                    <p class="text-body-secondary small mb-0">{{ $job['application_procedure'] }}</p>
-                  </div>
-                </div>
-              </div>
-              @endif
-
-              @if(!empty($job['email']) || !empty($job['telephone']))
-              <div class="col-md-6">
-                <div class="d-flex gap-3 rounded-2 bg-body-secondary p-3 h-100">
-                  <div class="flex-shrink-0 text-success" style="font-size:18px"><i class="bi bi-person-lines-fill"></i></div>
-                  <div>
-                    <div class="fw-semibold small mb-2">Contact Information</div>
-                    @if(!empty($job['email']))
-                    <div class="d-flex align-items-center gap-2 mb-1">
-                      <i class="bi bi-envelope text-muted small"></i>
-                      <a href="mailto:{{ $job['email'] }}" class="text-body-secondary small text-decoration-none">{{ $job['email'] }}</a>
+                    @if(!empty($job['application_procedure']))
+                    <div class="col-12">
+                        <div class="d-flex flex-column flex-sm-row gap-3 rounded-2 bg-body-secondary p-3">
+                            <div class="flex-shrink-0 text-primary" style="font-size:18px">
+                                <i class="bi bi-file-earmark-text"></i>
+                            </div>
+                            <div class="flex-grow-1 min-width-0">
+                                <div class="fw-semibold small mb-1">How to Apply</div>
+                                <p class="text-body-secondary small mb-0 apply-procedure-text">
+                                    {{ $job['application_procedure'] }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     @endif
-                    @if(!empty($job['telephone']))
-                    <div class="d-flex align-items-center gap-2">
-                      <i class="bi bi-telephone text-muted small"></i>
-                      <a href="tel:{{ $job['telephone'] }}" class="text-body-secondary small text-decoration-none">{{ $job['telephone'] }}</a>
+
+                    @if(!empty($job['email']) || !empty($job['telephone']))
+                    <div class="col-12 col-md-6">
+                        <div class="d-flex flex-column flex-sm-row gap-3 rounded-2 bg-body-secondary p-3 h-100">
+                            <div class="flex-shrink-0 text-success" style="font-size:18px">
+                                <i class="bi bi-person-lines-fill"></i>
+                            </div>
+                            <div class="flex-grow-1 min-width-0">
+                                <div class="fw-semibold small mb-2">Contact Information</div>
+                                @if(!empty($job['email']))
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 mb-2">
+                                    <i class="bi bi-envelope text-muted small flex-shrink-0"></i>
+                                    <a href="mailto:{{ $job['email'] }}" 
+                                      class="text-body-secondary small text-decoration-none email-link">
+                                        {{ $job['email'] }}
+                                    </a>
+                                </div>
+                                @endif
+                                @if(!empty($job['telephone']))
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+                                    <i class="bi bi-telephone text-muted small flex-shrink-0"></i>
+                                    <a href="tel:{{ $job['telephone'] }}" 
+                                      class="text-body-secondary small text-decoration-none phone-link">
+                                        {{ $job['telephone'] }}
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     @endif
-                  </div>
-                </div>
-              </div>
-              @endif
 
-              @if(!empty($job['deadline']))
-              <div class="col-md-6">
-                <div class="d-flex gap-3 rounded-2 bg-body-secondary p-3 h-100">
-                  <div class="flex-shrink-0 text-warning" style="font-size:18px"><i class="bi bi-calendar-event"></i></div>
-                  <div>
-                    <div class="fw-semibold small mb-1">Application Deadline</div>
-                    <div class="text-body-secondary small mb-1">{{ \Carbon\Carbon::parse($job['deadline'])->format('F j, Y') }}</div>
-                    @if($daysLeft > 0)
-                      <span class="badge text-bg-warning fw-normal" style="font-size:11px">{{ round($daysLeft) }} days left</span>
-                    @elseif($daysLeft === 0)
-                      <span class="badge text-bg-danger fw-normal" style="font-size:11px">Last day!</span>
-                    @else
-                      <span class="badge text-bg-secondary fw-normal" style="font-size:11px">Expired</span>
+                    @if(!empty($job['deadline']))
+                    <div class="col-12 col-md-6">
+                        <div class="d-flex flex-column flex-sm-row gap-3 rounded-2 bg-body-secondary p-3 h-100">
+                            <div class="flex-shrink-0 text-warning" style="font-size:18px">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold small mb-1">Application Deadline</div>
+                                <div class="text-body-secondary small mb-1 deadline-info">
+                                    {{ \Carbon\Carbon::parse($job['deadline'])->format('F j, Y') }}
+                                </div>
+                                @if($daysLeft > 0)
+                                    <span class="badge text-bg-warning fw-normal" style="font-size:11px">
+                                        {{ round($daysLeft) }} days left
+                                    </span>
+                                @elseif($daysLeft === 0)
+                                    <span class="badge text-bg-danger fw-normal" style="font-size:11px">
+                                        Last day!
+                                    </span>
+                                @else
+                                    <span class="badge text-bg-secondary fw-normal" style="font-size:11px">
+                                        Expired
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                     @endif
-                  </div>
-                </div>
-              </div>
-              @endif
 
+                </div>
             </div>
-          </div>
         </div>
         @endif
 
@@ -510,36 +541,55 @@
           <div class="card border rounded-3 shadow-sm mb-4">
             <div class="card-body p-3 p-md-4">
               <h3 class="h6 fw-semibold mb-3 pb-2 border-bottom">About the Company</h3>
-              <div class="d-flex flex-column flex-sm-row gap-3 mb-3">
+              
+              {{-- Logo and name in one line --}}
+              <div class="d-flex align-items-center gap-3 mb-3">
                 <div class="flex-shrink-0">
                   @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
                   @if($logoUrl)
                     <img src="{{ $logoUrl }}"
                         alt="{{ $job['company']['name'] ?? 'Company' }}"
-                        width="60" height="60"
+                        width="48" height="48"
                         class="rounded-2 border"
                         style="object-fit:contain; background:#fff; padding:4px;"
                         loading="lazy"
                         onerror="this.src='{{ asset('default-logo.png') }}';">
                   @else
-                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
-                      <i class="bi bi-building fs-4 text-primary"></i>
+                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:48px;height:48px">
+                      <i class="bi bi-building fs-5 text-primary"></i>
                     </div>
                   @endif
                 </div>
-                <div>
-                  <div class="fw-semibold small">{{ $job['company']['name'] ?? 'Company Name' }}</div>
+                
+                <div class="flex-grow-1 min-w-0">
+                  <div class="fw-semibold text-body" style="font-size:0.95rem; word-break: break-word;">
+                    {{ $job['company']['name'] ?? 'Company Name' }}
+                  </div>
                   @if(isset($job['company']['industry']['name']))
-                    <div class="text-muted" style="font-size:12px">{{ $job['company']['industry']['name'] }}</div>
+                    <div class="text-muted" style="font-size:11px; margin-top:2px">
+                      <i class="bi bi-tag me-1"></i>{{ $job['company']['industry']['name'] }}
+                    </div>
                   @endif
                 </div>
               </div>
+              
+              {{-- Description --}}
               @if(!empty($job['company']['description']))
-                <p class="text-body-secondary small mb-3">{{ Str::limit($job['company']['description'], 140) }}</p>
+                <p class="text-body-secondary small mb-3" style="line-height:1.5; font-size:0.8rem;">
+                  {{ Str::limit($job['company']['description'], 120) }}
+                </p>
               @endif
+              
+              {{-- Website button --}}
               @if(isset($job['company']['website']))
-                <a href="{{ $job['company']['website'] }}" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm w-100">
-                  <i class="bi bi-globe me-2"></i>Visit Website
+                <a href="{{ $job['company']['website'] }}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-2"
+                  style="font-size:12px; padding:6px 12px;">
+                  <i class="bi bi-globe"></i>
+                  <span>Visit Website</span>
+                  <i class="bi bi-box-arrow-up-right ms-auto" style="font-size:10px; opacity:0.6;"></i>
                 </a>
               @endif
             </div>
@@ -873,6 +923,76 @@ function copyJobLink() {
   .similar-job-link .text-truncate {
       white-space: normal;
       word-break: break-word;
+  }
+</style>
+<style>
+  /* Application Details Section - Responsive Fixes */
+  .application-details-card .contact-info {
+      word-break: break-all;
+      overflow-wrap: break-word;
+      white-space: normal;
+  }
+
+  .application-details-card .contact-info a {
+      word-break: break-all;
+      overflow-wrap: break-word;
+      white-space: normal;
+      display: inline-block;
+      max-width: 100%;
+  }
+
+  .application-details-card .email-link,
+  .application-details-card .phone-link {
+      word-break: break-all;
+      overflow-wrap: break-word;
+      white-space: normal;
+      display: inline-block;
+      max-width: 100%;
+  }
+
+  /* For the How to Apply section */
+  .apply-procedure-text {
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+      max-width: 100%;
+  }
+
+  .apply-procedure-text a {
+      word-break: break-all;
+      overflow-wrap: break-word;
+      display: inline-block;
+      max-width: 100%;
+  }
+
+  /* For the deadline section */
+  .deadline-info {
+      word-break: normal;
+  }
+
+  /* Responsive fixes for mobile */
+  @media (max-width: 768px) {
+      .application-details-card .row {
+          flex-direction: column;
+      }
+      
+      .application-details-card .col-md-6 {
+          width: 100%;
+          margin-bottom: 1rem;
+      }
+      
+      .application-details-card .d-flex {
+          flex-direction: column;
+          align-items: flex-start !important;
+      }
+      
+      .application-details-card .flex-shrink-0 {
+          margin-bottom: 0.5rem;
+      }
+      
+      .email-link, .phone-link {
+          font-size: 12px;
+      }
   }
 </style>
 @endpush

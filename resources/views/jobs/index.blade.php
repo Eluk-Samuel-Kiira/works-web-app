@@ -80,9 +80,9 @@
     </div>
   </section>
 
-    {{-- ─────────────────────────────────────────────────────
-       FEATURED JOBS
-  ───────────────────────────────────────────────────── --}}
+  {{-- ─────────────────────────────────────────────────────
+      FEATURED JOBS (Compact Layout)
+    ───────────────────────────────────────────────────── --}}
   @if(isset($featuredJobs) && count($featuredJobs) > 0)
   <section class="py-4 py-lg-5 bg-body-tertiary border-bottom">
     <div class="container-xl px-3 px-md-4">
@@ -98,64 +98,69 @@
           <div class="card border rounded-3 shadow-sm h-100 featured-job-card">
             <div class="card-body p-3 p-md-4 d-flex flex-column gap-3">
 
-              {{-- Header --}}
-              <div class="d-flex flex-column gap-2">
-                <div class="d-flex align-items-center justify-content-between gap-2">
-                  @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
-                  @if($logoUrl)
-                    <img src="{{ $logoUrl }}"
-                        alt="{{ $job['company']['name'] ?? 'Company' }}"
-                        width="60" height="60"
-                        class="rounded-2 border"
-                        style="object-fit:contain; background:#fff; padding:4px;"
-                        loading="lazy"
-                        onerror="this.src='{{ asset('default-logo.png') }}';">
-                  @else
-                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
-                      <i class="bi bi-building fs-4 text-primary"></i>
-                    </div>
-                  @endif
-                  <span class="badge text-bg-primary fw-normal ms-auto" style="font-size:11px">Featured</span>
-                </div>
-                <div class="min-w-0">
-                  <h3 class="h6 fw-semibold mb-1 text-truncate">
-                    <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                       class="text-body text-decoration-none">{{ $job['job_title'] }}</a>
-                  </h3>
-                  <div class="d-flex flex-wrap text-muted" style="font-size:12px;gap:3px 10px">
+              {{-- Header - Logo and Title in one line --}}
+              <div class="d-flex align-items-center gap-3">
+                {{-- Logo --}}
+                @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                @if($logoUrl)
+                  <img src="{{ $logoUrl }}"
+                      alt="{{ $job['company']['name'] ?? 'Company' }}"
+                      width="48" height="48"
+                      class="rounded-2 border flex-shrink-0"
+                      style="object-fit:contain; background:#fff; padding:4px;"
+                      loading="lazy"
+                      onerror="this.src='{{ asset('default-logo.png') }}';">
+                @else
+                  <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px">
+                    <i class="bi bi-building fs-5 text-primary"></i>
+                  </div>
+                @endif
+
+                {{-- Title and Company Info --}}
+                <div class="flex-grow-1 min-w-0">
+                  <div class="d-flex align-items-center justify-content-between gap-2">
+                    <h3 class="h6 fw-semibold mb-0 text-truncate">
+                      <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
+                         class="text-body text-decoration-none">
+                        {{ $job['job_title'] }}
+                      </a>
+                    </h3>
+                    <span class="badge text-bg-primary fw-normal flex-shrink-0" style="font-size:10px">Featured</span>
+                  </div>
+                  <div class="d-flex flex-wrap text-muted mt-1" style="font-size:11px;gap:3px 12px">
                     <span><i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? '—' }}</span>
-                    <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['name'] ?? 'Remote' }}</span>
+                    <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
                   </div>
                 </div>
               </div>
 
               {{-- Excerpt --}}
-              <p class="text-body-secondary mb-0" style="font-size:.8125rem;line-height:1.6">
-                {{ Str::limit(strip_tags($job['job_description']), 120) }}
+              <p class="text-body-secondary mb-0" style="font-size:.75rem;line-height:1.5">
+                {{ Str::limit(strip_tags($job['job_description']), 100) }}
               </p>
 
               {{-- Tags --}}
               <div class="d-flex flex-wrap gap-2">
-                <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
+                <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:10px">
                   {{ $job['job_type']['name'] ?? $job['employment_type'] ?? 'Full Time' }}
                 </span>
                 @if(!empty($job['experience_level']['name']))
-                <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
+                <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:10px">
                   {{ $job['experience_level']['name'] }}
                 </span>
                 @endif
-                <span class="badge rounded-pill fw-normal text-primary" style="font-size:11px;background:rgba(var(--bs-primary-rgb),.1)">
+                <span class="badge rounded-pill fw-normal text-primary" style="font-size:10px;background:rgba(var(--bs-primary-rgb),.1)">
                   {{ $job['formatted_salary'] ?? 'Negotiable' }}
                 </span>
               </div>
 
               {{-- Footer --}}
               <div class="d-flex align-items-center justify-content-between mt-auto pt-2 border-top">
-                <span class="text-muted" style="font-size:12px">
+                <span class="text-muted" style="font-size:11px">
                   <i class="bi bi-clock me-1"></i>{{ \Carbon\Carbon::parse($job['created_at'])->diffForHumans() }}
                 </span>
                 <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                   class="btn btn-outline-primary btn-sm fw-semibold">Apply Now</a>
+                   class="btn btn-outline-primary btn-sm fw-semibold py-1 px-3" style="font-size:12px">Apply Now</a>
               </div>
 
             </div>
@@ -351,8 +356,8 @@
   </div>
 
   {{-- ─────────────────────────────────────────────────────
-       ALL JOBS LIST
-  ───────────────────────────────────────────────────── --}}
+        ALL JOBS LIST (Compact Layout)
+    ───────────────────────────────────────────────────── --}}
   <section class="py-4 py-lg-5">
     <div class="container-xl px-3 px-md-4">
 
@@ -396,7 +401,6 @@
           <div class="col-12">
             <div class="border rounded-3 py-1 px-3 text-center bg-body">
               <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-              <!-- Mid-list native -->
               <ins class="adsbygoogle"
                   style="display:block"
                   data-ad-client="ca-pub-3587587638253109"
@@ -412,32 +416,33 @@
 
           <div class="col-12 col-lg-6">
             <div class="card border rounded-3 shadow-sm h-100 job-list-card">
-              <div class="card-body p-3 d-flex flex-column gap-2">
+              <div class="card-body p-3">
 
-                {{-- Header --}}
-                <div class="d-flex flex-column gap-2">
-                  <div class="d-flex align-items-center justify-content-between gap-2">
-                    @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
-                    @if($logoUrl)
-                      <img src="{{ $logoUrl }}"
-                          alt="{{ $job['company']['name'] ?? 'Company' }}"
-                          width="60" height="60"
-                          class="rounded-2 border"
-                          style="object-fit:contain; background:#fff; padding:4px;"
-                          loading="lazy"
-                          onerror="this.src='{{ asset('default-logo.png') }}';">
-                    @else
-                      <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center" style="width:60px;height:60px">
-                        <i class="bi bi-building fs-4 text-primary"></i>
-                      </div>
-                    @endif
-                  </div>
-                  <div class="min-w-0">
-                    <h3 class="fw-semibold mb-0 text-truncate" style="font-size:.9rem">
+                {{-- Header - Logo and Title in one line --}}
+                <div class="d-flex align-items-center gap-3">
+                  {{-- Logo --}}
+                  @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                  @if($logoUrl)
+                    <img src="{{ $logoUrl }}"
+                        alt="{{ $job['company']['name'] ?? 'Company' }}"
+                        width="48" height="48"
+                        class="rounded-2 border flex-shrink-0"
+                        style="object-fit:contain; background:#fff; padding:3px;"
+                        loading="lazy"
+                        onerror="this.src='{{ asset('default-logo.png') }}';">
+                  @else
+                    <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px">
+                      <i class="bi bi-building fs-5 text-primary"></i>
+                    </div>
+                  @endif
+
+                  {{-- Title and Company Info --}}
+                  <div class="flex-grow-1 min-w-0">
+                    <h3 class="fw-semibold mb-0 text-truncate" style="font-size:.85rem">
                       <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
                          class="text-body text-decoration-none">{{ $job['job_title'] }}</a>
                     </h3>
-                    <div class="d-flex flex-wrap text-muted" style="font-size:12px;gap:2px 8px;margin-top:2px">
+                    <div class="d-flex flex-wrap text-muted mt-1" style="font-size:11px;gap:2px 8px">
                       <span><i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? '—' }}</span>
                       @if(!empty($job['duty_station']) || !empty($job['job_location']))
                       <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
@@ -447,27 +452,27 @@
                 </div>
 
                 {{-- Tags --}}
-                <div class="d-flex flex-wrap gap-1">
-                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
+                <div class="d-flex flex-wrap gap-1 mt-2 pt-1">
+                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:10px">
                     {{ $job['job_type']['name'] ?? $job['employment_type'] ?? 'Full Time' }}
                   </span>
                   @if(!empty($job['experience_level']['name']))
-                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
+                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:10px">
                     {{ $job['experience_level']['name'] }}
                   </span>
                   @endif
-                  <span class="badge rounded-pill fw-normal text-primary" style="font-size:11px;background:rgba(var(--bs-primary-rgb),.1)">
+                  <span class="badge rounded-pill fw-normal text-primary" style="font-size:10px;background:rgba(var(--bs-primary-rgb),.1)">
                     {{ $job['formatted_salary'] ?? 'Negotiable' }}
                   </span>
                 </div>
 
                 {{-- Footer --}}
-                <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-auto">
-                  <span class="text-muted" style="font-size:12px">
+                <div class="d-flex align-items-center justify-content-between pt-2 mt-2 border-top">
+                  <span class="text-muted" style="font-size:11px">
                     <i class="bi bi-clock me-1"></i>{{ \Carbon\Carbon::parse($job['created_at'])->diffForHumans() }}
                   </span>
                   <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                     class="btn btn-primary btn-sm fw-semibold">
+                     class="btn btn-primary btn-sm fw-semibold py-1 px-3" style="font-size:12px">
                     Apply <i class="bi bi-arrow-right-short"></i>
                   </a>
                 </div>
@@ -556,6 +561,7 @@
 
     </div>
   </section>
+
 
   {{-- ─────────────────────────────────────────────────────
        AD SLOT 4 — Pre-CTA (high intent, best CTR)
