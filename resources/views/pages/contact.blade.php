@@ -29,63 +29,42 @@
 
         <div class="row g-4">
 
-          {{-- Contact info --}}
-          <div class="col-12 col-md-4">
-            <div class="d-flex flex-column gap-3">
-
-              <div class="d-flex gap-3 p-3 bg-body-secondary rounded-3">
-                <div class="flex-shrink-0">
-                  <div class="rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:40px;height:40px">
-                    <i class="bi bi-envelope text-primary"></i>
-                  </div>
-                </div>
-                <div>
-                  <div class="fw-semibold small mb-1">Email</div>
-                  <a href="mailto:info@stardena.org" class="text-body-secondary small text-decoration-none">info@stardena.org</a>
-                </div>
+          {{-- Email card --}}
+          <div class="d-flex gap-3 p-3 bg-body-secondary rounded-3">
+            <div class="flex-shrink-0">
+              <div class="rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:40px;height:40px">
+                <i class="bi bi-envelope text-primary"></i>
               </div>
+            </div>
+            <div style="min-width: 0; flex: 1;">  {{-- This wrapper prevents overflow --}}
+              <div class="fw-semibold small mb-1">Email</div>
+              <a href="mailto:stardenaworks26@gmail.com" 
+                class="text-body-secondary small text-decoration-none" 
+                style="word-break: break-all; overflow-wrap: break-word;">
+                stardenaworks26@gmail.com
+              </a>
+            </div>
+          </div>
 
-              <div class="d-flex gap-3 p-3 bg-body-secondary rounded-3">
-                <div class="flex-shrink-0">
-                  <div class="rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:40px;height:40px">
-                    <i class="bi bi-briefcase text-primary"></i>
-                  </div>
-                </div>
-                <div>
-                  <div class="fw-semibold small mb-1">Post a Job</div>
-                  <a href="mailto:jobs@stardena.org" class="text-body-secondary small text-decoration-none">jobs@stardena.org</a>
-                </div>
+          {{-- Post a Job card --}}
+          <div class="d-flex gap-3 p-3 bg-body-secondary rounded-3">
+            <div class="flex-shrink-0">
+              <div class="rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:40px;height:40px">
+                <i class="bi bi-briefcase text-primary"></i>
               </div>
-
-              <div class="d-flex gap-3 p-3 bg-body-secondary rounded-3">
-                <div class="flex-shrink-0">
-                  <div class="rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:40px;height:40px">
-                    <i class="bi bi-geo-alt text-primary"></i>
-                  </div>
-                </div>
-                <div>
-                  <div class="fw-semibold small mb-1">Location</div>
-                  <p class="text-body-secondary small mb-0">Kampala, Uganda</p>
-                </div>
-              </div>
-
-              <div class="d-flex gap-3 p-3 bg-body-secondary rounded-3">
-                <div class="flex-shrink-0">
-                  <div class="rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:40px;height:40px">
-                    <i class="bi bi-clock text-primary"></i>
-                  </div>
-                </div>
-                <div>
-                  <div class="fw-semibold small mb-1">Response time</div>
-                  <p class="text-body-secondary small mb-0">Within 24 hours</p>
-                </div>
-              </div>
-
+            </div>
+            <div style="min-width: 0; flex: 1;">
+              <div class="fw-semibold small mb-1">Post a Job</div>
+              <a href="mailto:stardenaworks26@gmail.com" 
+                class="text-body-secondary small text-decoration-none"
+                style="word-break: break-all; overflow-wrap: break-word;">
+                stardenaworks26@gmail.com
+              </a>
             </div>
           </div>
 
           {{-- Contact form --}}
-          <div class="col-12 col-md-8">
+          <div class="col-12 col-md-12">
             <div class="card border rounded-3 shadow-sm">
               <div class="card-body p-4">
                 <h2 class="h6 fw-semibold mb-4">Send us a message</h2>
@@ -148,4 +127,5 @@
   </div>
 
 </div>
+
 @endsection

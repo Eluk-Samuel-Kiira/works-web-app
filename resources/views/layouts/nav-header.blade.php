@@ -36,7 +36,7 @@
             <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Pricing</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-4 text-dark link-primary px-6" href="/coming-soon" onclick="comingSoon()">Contact</a>
+            <a class="nav-link fs-4 text-dark link-primary px-6" href="{{ route('blog.index') }}">Blogs</a>
           </li>
         </ul>
         <div class="d-flex gap-3">
@@ -83,7 +83,7 @@
         <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Pricing</a>
       </li>
       <li class="mb-1">
-        <a href="/coming-soon" onclick="comingSoon()" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Contact</a>
+        <a href="{{ route('blog.index') }}" class="px-0 fs-4 d-block w-100 py-2 text-dark link-primary">Blogs</a>
       </li>
       <li class="mt-3">
         <a href="/coming-soon" onclick="comingSoon()" class="btn btn-primary w-100">Log In</a>

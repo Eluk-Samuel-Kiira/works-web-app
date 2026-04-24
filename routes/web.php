@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\ { WelcomeController };
 use App\Http\Controllers\Jobs\ { JobController, JobCategoryController };
+use App\Http\Controllers\Blog\ { BlogApiController };
 use Illuminate\Support\Facades\Http;
 
 
@@ -82,6 +83,28 @@ Route::get('/jobs/location/{slug}', [JobCategoryController::class, 'location'])-
 // Companies directory
 Route::get('/companies', [JobCategoryController::class, 'companies'])->name('companies');
 Route::get('/companies/{slug}', [JobCategoryController::class, 'company'])->name('companies.show');
+
+
+
+
+
+// Blog Routes
+Route::prefix('blog')->name('blog.')->group(function () {
+    // Web view routes
+    Route::get('/', [BlogApiController::class, 'blogIndex'])->name('index');
+    Route::get('/{slug}', [BlogApiController::class, 'blogShow'])->name('show');
+    Route::get('/category/{category}', [BlogApiController::class, 'blogCategory'])->name('category'); 
+    Route::get('/tag/{tag}', [BlogApiController::class, 'blogTag'])->name('tag');
+});
+
+// API routes for AJAX (prefix with api)
+Route::prefix('api/v2')->name('api.v2.')->group(function () {
+    Route::get('/blogs', [BlogApiController::class, 'index'])->name('blogs.index');
+    Route::get('/blogs/featured', [BlogApiController::class, 'featured'])->name('blogs.featured');
+    Route::get('/blogs/categories', [BlogApiController::class, 'categories'])->name('blogs.categories');
+    Route::get('/blogs/related/{slug}', [BlogApiController::class, 'related'])->name('blogs.related');
+    Route::get('/blogs/{slug}', [BlogApiController::class, 'show'])->name('blogs.show');
+});
 
 
 
