@@ -108,7 +108,7 @@
           {{-- Cover Image --}}
           @if(!empty($blog['cover_image']))
             <div style="max-height:420px;overflow:hidden;">
-              <img src="{{ $blog['cover_image'] ?? asset('blog-img1.jpg') }}"
+              <img src="{{ blogImage($blog['cover_image'], 'cover') ?? asset('blog-img1.jpg') }}"
                 class="w-100"
                 alt="{{ $blog['cover_image_alt'] ?? $blog['title'] ?? 'Blog cover' }}"
                 style="max-height: 450px; object-fit: cover;"

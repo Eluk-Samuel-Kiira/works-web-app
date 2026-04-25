@@ -43,7 +43,6 @@ class BlogApiController extends Controller
     {
         $params = $request->only(['page', 'per_page', 'category', 'tag', 'search', 'featured', 'sort']);
         
-        // Map sort parameter
         if (isset($params['sort'])) {
             $params['sort'] = match($params['sort']) {
                 'oldest' => 'oldest',
@@ -54,7 +53,15 @@ class BlogApiController extends Controller
         
         $data = $this->call('/v1/blogs/public', $params);
         
-        // Ensure consistent response structure
+        // Process cover images to full URLs
+        if (!empty($data['data'])) {
+            foreach ($data['data'] as &$blog) {
+                if (isset($blog['cover_image']) && !empty($blog['cover_image'])) {
+                    $blog['cover_image'] = blogImage($blog['cover_image'], 'cover');
+                }
+            }
+        }
+        
         return response()->json([
             'data' => $data['data'] ?? [],
             'meta' => $data['meta'] ?? [
@@ -117,10 +124,9 @@ class BlogApiController extends Controller
     {
         return view('blogs.index');
     }
-    
+        
     public function blogShow(string $slug)
     {
-        // Pass with_content=true to force content inclusion
         $data = $this->call("/v1/blogs/{$slug}?with_content=true");
         
         if (empty($data['data'])) {
@@ -129,18 +135,25 @@ class BlogApiController extends Controller
         
         $blog = $data['data'];
         
+        // PROCESS THE CONTENT - Convert /storage/ paths to full URLs
+        if (isset($blog['content'])) {
+            $blog['content'] = processBlogContent($blog['content']);
+        }
+        
+        // Process cover image if exists
+        if (isset($blog['cover_image']) && !empty($blog['cover_image'])) {
+            $blog['cover_image'] = blogImage($blog['cover_image'], 'cover');
+        }
+        
         // Increment view count asynchronously
         try {
             Http::withoutVerifying()
                 ->timeout(5)
                 ->post($this->mainAppUrl . "/v1/blogs/{$slug}/increment-view");
-        } catch (\Exception $e) {
-            // Don't fail the page
-        }
+        } catch (\Exception $e) {}
         
         // Get related posts
         $related = $this->call("/v1/blogs/related/{$slug}");
-        
         
         return view('blogs.show', [
             'blog' => $blog,

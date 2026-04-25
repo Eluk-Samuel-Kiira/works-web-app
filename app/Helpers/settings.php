@@ -114,57 +114,77 @@ if (!function_exists('defaultLogo')) {
 
 if (!function_exists('blogImage')) {
     /**
-     * Get the full URL for a blog cover image
+     * Get the full URL for a blog image (cover or content image)
      * 
-     * @param int|string|array|object|null $blog The blog data
-     * @param string|null $imagePath The image path if blog is not passed as array
+     * @param string|null $imagePath The image path from the blog
+     * @param string $type Type of image (cover, content, og)
      * @return string
      */
-    function blogImage($blog, $imagePath = null)
+    function blogImage($imagePath, $type = 'cover')
     {
-        // Handle different input types
-        $image = null;
+        // Default image based on type
+        $defaults = [
+            'cover' => asset('blog-img1.jpg'),
+            'content' => asset('blog-img1.jpg'),
+            'og' => asset('blog-img1.jpg'),
+        ];
         
-        if (is_array($blog) && isset($blog['cover_image'])) {
-            $image = $blog['cover_image'];
-        } elseif (is_object($blog) && isset($blog->cover_image)) {
-            $image = $blog->cover_image;
-        } elseif (is_string($imagePath)) {
-            $image = $imagePath;
-        }
+        $defaultImage = $defaults[$type] ?? $defaults['cover'];
         
-        // Default image path
-        $defaultImage = asset('default-blog-image.jpg');
-        
-        // If no image, return default
-        if (!$image) {
+        // If no image path, return default
+        if (empty($imagePath)) {
             return $defaultImage;
         }
         
         // If it's already an absolute URL, return as is
-        if (filter_var($image, FILTER_VALIDATE_URL)) {
-            return $image;
+        if (filter_var($imagePath, FILTER_VALIDATE_URL)) {
+            return $imagePath;
         }
         
-        // Get the main app URL from config
+        // Get the main app URL from config (same as companyLogo uses)
         $mainAppUrl = config('api.main_app.url', env('MAIN_APP_URL', 'http://127.0.0.1:8000'));
         $mainAppUrl = rtrim($mainAppUrl, '/');
         
         // Clean the image path
-        $image = ltrim($image, '/');
+        $imagePath = ltrim($imagePath, '/');
         
-        // Build the full URL
-        if (str_starts_with($image, 'storage/')) {
-            $fullUrl = $mainAppUrl . '/' . $image;
-        } elseif (str_starts_with($image, 'blogs/') || str_starts_with($image, 'blog-images/') || str_starts_with($image, 'cover/')) {
-            $fullUrl = $mainAppUrl . '/storage/' . $image;
+        // Build the full URL (same logic as companyLogo)
+        if (str_starts_with($imagePath, 'storage/')) {
+            $fullUrl = $mainAppUrl . '/' . $imagePath;
+        } elseif (str_starts_with($imagePath, 'blog/')) {
+            $fullUrl = $mainAppUrl . '/storage/' . $imagePath;
         } else {
-            $fullUrl = $mainAppUrl . '/storage/' . $image;
+            $fullUrl = $mainAppUrl . '/storage/' . $imagePath;
         }
         
+        // \Log::info($fullUrl);
         return $fullUrl;
     }
 }
+
+if (!function_exists('processBlogContent')) {
+    function processBlogContent($content)
+    {
+        if (empty($content)) {
+            return '';
+        }
+        
+        // Get the backend URL (where images are actually stored)
+        $backendUrl = rtrim(config('api.main_app.url', env('MAIN_APP_URL', 'http://127.0.0.1:8000')), '/');
+        
+        // Convert /storage/... to full URL
+        $content = preg_replace_callback(
+            '/(src=["\'])(\/storage\/[^"\']+)(["\'])/i',
+            function($matches) use ($backendUrl) {
+                return $matches[1] . $backendUrl . $matches[2] . $matches[3];
+            },
+            $content
+        );
+        
+        return $content;
+    }
+}
+
 
 if (!function_exists('blogAuthorAvatar')) {
     /**
@@ -188,7 +208,7 @@ if (!function_exists('blogAuthorAvatar')) {
         }
         
         // Default avatar
-        $defaultAvatar = asset('default-avatar.png');
+        $defaultAvatar = asset('blog-bg.jpg');
         
         // If no avatar, return default
         if (!$avatar) {
