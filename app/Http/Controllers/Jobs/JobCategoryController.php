@@ -143,6 +143,7 @@ class JobCategoryController extends Controller
             : $fetch();
 
         $companies = $result['data'] ?? [];
+        // \Log::info($companies);
         $pagination = [
             'current_page' => $result['current_page'] ?? 1,
             'last_page'    => $result['last_page']    ?? 1,

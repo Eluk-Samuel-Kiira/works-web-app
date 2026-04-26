@@ -234,13 +234,13 @@
 
         {{-- Company Description Modal --}}
         <div id="companyDescriptionModal" class="modal fade" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="companyModalTitle">Company Description</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body" id="companyModalBody">
+              <div class="modal-body" id="companyModalBody" style="max-height: 60vh; overflow-y: auto;">
                 Loading...
               </div>
               <div class="modal-footer">
@@ -252,8 +252,17 @@
 
         <script>
           function openCompanyDescriptionModal(companyName, description) {
+              // Escape description to prevent XSS
+              const escapedDescription = description
+                  .replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;')
+                  .replace(/"/g, '&quot;')
+                  .replace(/'/g, '&#39;')
+                  .replace(/\n/g, '<br>');
+              
               document.getElementById('companyModalTitle').innerHTML = companyName;
-              document.getElementById('companyModalBody').innerHTML = '<p class="mb-0" style="line-height:1.6; white-space:pre-wrap;">' + description + '</p>';
+              document.getElementById('companyModalBody').innerHTML = '<p class="mb-0" style="line-height:1.6; white-space:normal;">' + escapedDescription + '</p>';
               
               var modal = new bootstrap.Modal(document.getElementById('companyDescriptionModal'));
               modal.show();
