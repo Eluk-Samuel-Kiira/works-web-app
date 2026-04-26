@@ -106,20 +106,25 @@
         <article class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
 
           {{-- Cover Image --}}
-          @if(!empty($blog['cover_image']))
-            <div style="max-height:420px;overflow:hidden;">
-              <img src="{{ blogImage($blog['cover_image'], 'cover') ?? asset('blog-img1.jpg') }}"
-                class="w-100"
-                alt="{{ $blog['cover_image_alt'] ?? $blog['title'] ?? 'Blog cover' }}"
-                style="max-height: 450px; object-fit: cover;"
-                onerror="this.src=DEFAULT_BLOG_IMG">
-              @if(!empty($blog['cover_image_caption']))
-                <figcaption class="text-muted small p-2 bg-white bg-opacity-75 position-absolute bottom-0 end-0 m-2 rounded">
-                  {{ $blog['cover_image_caption'] }}
-                </figcaption>
+          <div style="max-height:420px;overflow:hidden;">
+              @if(!empty($blog['cover_image']))
+                  <img src="{{ blogImage($blog['cover_image'], 'cover') }}"
+                      class="w-100"
+                      alt="{{ $blog['cover_image_alt'] ?? $blog['title'] ?? 'Blog cover' }}"
+                      style="max-height: 450px; object-fit: cover;"
+                      onerror="this.src='{{ asset('blog-img1.jpg') }}'">
+                  @if(!empty($blog['cover_image_caption']))
+                      <figcaption class="text-muted small p-2 bg-white bg-opacity-75 position-absolute bottom-0 end-0 m-2 rounded">
+                          {{ $blog['cover_image_caption'] }}
+                      </figcaption>
+                  @endif
+              @else
+                  <img src="{{ asset('blog-img1.jpg') }}"
+                      class="w-100"
+                      alt="Default blog cover"
+                      style="max-height: 450px; object-fit: cover;">
               @endif
-            </div>
-          @endif
+          </div>
 
           <div class="card-body p-3 p-md-5">
 
@@ -143,7 +148,7 @@
                 @if(!empty($author['avatar']))
                   <img src="{{ $author['avatar'] }}" class="rounded-circle border"
                        width="46" height="46" style="object-fit:cover;" loading="lazy"
-                       onerror="this.src='{{ asset('default-avatar.png') }}'">
+                       onerror="this.src='{{ asset('user-2.jpg') }}'">
                 @else
                   <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center border"
                        style="width:46px;height:46px">
@@ -235,15 +240,17 @@
             <div class="card-body p-4">
               <div class="d-flex flex-column flex-sm-row gap-4 align-items-center align-items-sm-start">
                 @if(!empty($author['avatar']))
-                  <img src="{{ $author['avatar'] }}"
-                       class="rounded-circle border flex-shrink-0" width="72" height="72"
-                       style="object-fit:cover;"
-                       onerror="this.src='{{ asset('default-avatar.png') }}'">
+                  <img src="{{ blogImage($author['avatar'], 'avatar') }}"
+                      class="rounded-circle border flex-shrink-0" width="72" height="72"
+                      style="object-fit: cover;"
+                      loading="lazy"
+                      onerror="this.src='{{ asset('user-2.jpg') }}'">
                 @else
-                  <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0 border"
-                       style="width:72px;height:72px">
-                    <i class="bi bi-person fs-2 text-primary"></i>
-                  </div>
+                  <img src="{{ asset('user-2.jpg') }}"
+                        class="rounded-circle border flex-shrink-0" width="72" height="72"
+                        style="object-fit: cover;"
+                        loading="lazy"
+                        onerror="this.src='{{ asset('user-2.jpg') }}'">
                 @endif
                 <div class="text-center text-sm-start">
                   <p class="text-uppercase text-muted mb-1" style="font-size:10px;letter-spacing:.08em">About the Author</p>
@@ -252,7 +259,7 @@
                     <p class="text-primary small mb-2">{{ $author['title'] }}</p>
                   @endif
                   <p class="text-body-secondary small mb-0">
-                    Sharing insights on careers, job searching, and professional development in Uganda.
+                    {{ $author['bio'] ?? 'Sharing insights on careers, job searching, and professional development in Uganda.' }}
                   </p>
                 </div>
               </div>
@@ -269,13 +276,15 @@
                 <div class="col-12 col-sm-6 col-md-4">
                   <a href="{{ route('blog.show', $rel['slug'] ?? '#') }}" class="text-decoration-none">
                     <div class="card border-0 shadow-sm rounded-3 h-100 related-card">
-                      @if(!empty($rel['cover_image']))
-                        <img src="{{ $rel['cover_image'] ?? asset('blog-img1.jpg') }}"
-                            class="rounded-3 flex-shrink-0"
-                            width="60" height="60"
-                            style="object-fit: cover;"
-                            onerror="this.src=DEFAULT_BLOG_IMG">
-                      @endif
+                      @php
+                        $coverImage = !empty($rel['cover_image']) ? blogImage($rel['cover_image'], 'cover') : asset('blog-img1.jpg');
+                      @endphp
+                      <img src="{{ $coverImage }}"
+                          class="card-img-top rounded-top-3"
+                          alt="{{ $rel['title'] ?? 'Blog post' }}"
+                          style="height: 160px; object-fit: cover; width: 100%;"
+                          loading="lazy"
+                          onerror="this.src='{{ asset('blog-img1.jpg') }}'">
                       <div class="card-body p-3">
                         <span class="badge bg-primary bg-opacity-10 text-primary fw-normal mb-2" style="font-size:10px">
                           {{ ucfirst($rel['category'] ?? 'General') }}
@@ -283,6 +292,12 @@
                         <p class="small fw-semibold text-body mb-0" style="line-height:1.4">
                           {{ Str::limit($rel['title'] ?? '', 60) }}
                         </p>
+                        <div class="d-flex align-items-center gap-2 mt-2">
+                          <i class="bi bi-clock text-muted" style="font-size: 10px;"></i>
+                          <span class="text-muted" style="font-size: 10px;">
+                            {{ isset($rel['published_at']) ? \Carbon\Carbon::parse($rel['published_at'])->diffForHumans() : 'Recently' }}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </a>
@@ -597,6 +612,7 @@
 .share-btn { transition: transform .15s ease, box-shadow .15s ease; }
 .share-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
 
+/* Blog Content Styles */
 .blog-content {
   font-size: 1rem;
   line-height: 1.85;
@@ -648,29 +664,350 @@
 .related-card { transition: transform .15s ease, box-shadow .15s ease; }
 .related-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.1) !important; }
 
-@media (max-width: 767.98px) {
-  .blog-content    { font-size: .9375rem; }
-  .blog-content h2 { font-size: 1.2rem; }
-  .blog-content h3 { font-size: 1.05rem; }
+/* ============================================
+   RESPONSIVE IMPROVEMENTS FOR MOBILE & TABLETS
+   ============================================ */
+
+/* Tablet Styles (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Reduce padding on main container */
+  .container-xl.px-3.px-md-4 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  
+  /* Adjust card padding */
+  .card-body.p-3.p-md-5 {
+    padding: 1.5rem !important;
+  }
+  
+  /* Smaller cover image */
+  .card img.w-100 {
+    max-height: 300px !important;
+  }
+  
+  /* Reduce blog content font size */
+  .blog-content {
+    font-size: 0.9375rem;
+  }
+  
+  .blog-content h2 {
+    font-size: 1.3rem;
+  }
+  
+  .blog-content h3 {
+    font-size: 1.1rem;
+  }
+  
+  /* Sidebar sticky adjustment */
+  .blog-sidebar-sticky {
+    top: 70px;
+  }
 }
 
-  @media (min-width: 992px) {
-    .blog-sidebar-sticky {
-      position: sticky;
-      top: 80px; /* Adjust to match your fixed header height */
-      z-index: 100;
-      max-height: calc(100vh - 100px);
-      overflow-y: auto;
-      padding-bottom: 2rem;
-    }
-    /* Hide scrollbar but keep functionality */
-    .blog-sidebar-sticky::-webkit-scrollbar {
-      width: 4px;
-    }
-    .blog-sidebar-sticky::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,.2);
-      border-radius: 4px;
-    }
+/* Mobile Landscape (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  /* Reduce spacing */
+  .py-4.py-lg-5 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
   }
+  
+  /* Smaller card padding */
+  .card-body.p-3.p-md-5 {
+    padding: 1.25rem !important;
+  }
+  
+  /* Cover image height */
+  .card img.w-100 {
+    max-height: 250px !important;
+  }
+  
+  /* Author avatar size */
+  .d-flex.align-items-center.gap-3 img.rounded-circle.border {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  /* Smaller author name */
+  .fw-semibold.small {
+    font-size: 0.75rem !important;
+  }
+  
+  /* Blog content adjustments */
+  .blog-content {
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+  
+  .blog-content h2 {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .blog-content h3 {
+    font-size: 1rem;
+  }
+  
+  /* Share buttons smaller */
+  .share-btn {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  
+  .share-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  
+  /* Related posts adjustment */
+  .related-card img {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  /* Sidebar cards */
+  .blog-sidebar-sticky .card-body.p-4 {
+    padding: 1rem !important;
+  }
+}
+
+/* Mobile Portrait (up to 479px) */
+@media (max-width: 479px) {
+  /* Container padding */
+  .container-xl {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Reduce vertical spacing */
+  .py-4.py-lg-5 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  
+  /* Smaller card padding */
+  .card-body.p-3.p-md-5 {
+    padding: 1rem !important;
+  }
+  
+  /* Cover image */
+  .card img.w-100 {
+    max-height: 200px !important;
+  }
+  
+  /* Category badge */
+  .badge.bg-primary.bg-opacity-10 {
+    font-size: 10px !important;
+    padding: 4px 10px !important;
+  }
+  
+  /* Title size */
+  h1.fw-bold.mb-3 {
+    font-size: 1.4rem !important;
+  }
+  
+  /* Author section - stack on mobile */
+  .d-flex.flex-wrap.align-items-center.justify-content-between {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+  
+  /* Author avatar */
+  .d-flex.align-items-center.gap-3 img.rounded-circle.border {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  /* Share buttons row */
+  .d-flex.align-items-center.gap-1.flex-wrap {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  /* Excerpt callout */
+  .rounded-3.p-4.mb-4 {
+    padding: 1rem !important;
+  }
+  
+  .rounded-3.p-4.mb-4 p {
+    font-size: 0.8125rem !important;
+  }
+  
+  /* Blog content */
+  .blog-content {
+    font-size: 0.8125rem;
+    line-height: 1.65;
+  }
+  
+  .blog-content h2 {
+    font-size: 1.1rem;
+    margin-top: 1.25rem;
+  }
+  
+  .blog-content h3 {
+    font-size: 0.95rem;
+  }
+  
+  .blog-content img {
+    border-radius: 8px;
+    margin: 0.875rem 0;
+  }
+  
+  .blog-content blockquote {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+  }
+  
+  /* Tags */
+  .badge.rounded-pill {
+    font-size: 9px !important;
+    padding: 4px 8px !important;
+  }
+  
+  /* Author bio section */
+  .card.border-0.shadow-sm.rounded-4.mb-4 .card-body.p-4 {
+    padding: 1rem !important;
+  }
+  
+  .d-flex.flex-column.flex-sm-row.gap-4 {
+    gap: 1rem !important;
+  }
+  
+  .rounded-circle.border.flex-shrink-0 {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  
+  /* Related posts */
+  .related-card img {
+    width: 45px !important;
+    height: 45px !important;
+  }
+  
+  .related-card .card-body.p-3 {
+    padding: 0.75rem !important;
+  }
+  
+  /* Sidebar */
+  .blog-sidebar-sticky {
+    margin-top: 1rem;
+  }
+  
+  .blog-sidebar-sticky .card-body.p-4 {
+    padding: 1rem !important;
+  }
+  
+  /* Stats card */
+  .row.text-center.g-0 .fw-bold {
+    font-size: 1.2rem !important;
+  }
+  
+  .row.text-center.g-0 .text-muted.small {
+    font-size: 10px !important;
+  }
+  
+  /* Newsletter widget */
+  .bg-primary .card-body.p-4 {
+    padding: 1.25rem !important;
+  }
+  
+  /* CTA section */
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .btn-light.fw-semibold.px-4,
+  .btn-outline-light.fw-semibold.px-4 {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8125rem !important;
+  }
+  
+  /* Table of contents */
+  .toc-link {
+    font-size: 11px;
+  }
+}
+
+/* Small mobile devices (iPhone SE, etc) */
+@media (max-width: 375px) {
+  .card-body.p-3.p-md-5 {
+    padding: 0.875rem !important;
+  }
+  
+  h1.fw-bold.mb-3 {
+    font-size: 1.25rem !important;
+  }
+  
+  .blog-content {
+    font-size: 0.75rem;
+  }
+  
+  .blog-content h2 {
+    font-size: 1rem;
+  }
+  
+  .badge.bg-primary.bg-opacity-10 {
+    font-size: 9px !important;
+  }
+}
+
+/* Fix for very large screens */
+@media (min-width: 1600px) {
+  .container-xl {
+    max-width: 1400px;
+  }
+  
+  .blog-content {
+    font-size: 1.05rem;
+  }
+  
+  .blog-content h2 {
+    font-size: 1.6rem;
+  }
+  
+  .blog-content h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 768px) {
+  button, 
+  .btn,
+  .share-btn,
+  .toc-link,
+  .badge,
+  a {
+    touch-action: manipulation;
+  }
+  
+  /* Better spacing for touch */
+  .share-btn {
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .pagination .page-link {
+    padding: 8px 12px;
+    min-width: 40px;
+    text-align: center;
+  }
+}
+
+/* Landscape mode improvements */
+@media (max-width: 900px) and (orientation: landscape) {
+  .blog-sidebar-sticky {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+  
+  .card img.w-100 {
+    max-height: 180px !important;
+  }
+}
 </style>
 @endpush

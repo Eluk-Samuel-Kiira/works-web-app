@@ -334,62 +334,58 @@
 
                     @if(!empty($job['application_procedure']))
                     <div class="col-12">
-                        <div class="d-flex flex-column flex-sm-row gap-3 rounded-2 bg-body-secondary p-3">
-                            <div class="flex-shrink-0 text-primary" style="font-size:18px">
-                                <i class="bi bi-file-earmark-text"></i>
+                        <div class="rounded-2 bg-body-secondary p-3">
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <i class="bi bi-file-earmark-text text-primary" style="font-size:18px"></i>
+                                <span class="fw-semibold small">How to Apply</span>
                             </div>
-                            <div class="flex-grow-1 min-width-0">
-                                <div class="fw-semibold small mb-1">How to Apply</div>
-                                <p class="text-body-secondary small mb-0 apply-procedure-text">
-                                    {{ $job['application_procedure'] }}
-                                </p>
-                            </div>
+                            <p class="text-body-secondary small mb-0 ms-0 apply-procedure-text" style="padding-left: 32px;">
+                                {{ $job['application_procedure'] }}
+                            </p>
                         </div>
                     </div>
                     @endif
 
                     @if(!empty($job['email']) || !empty($job['telephone']))
                     <div class="col-12 col-md-6">
-                        <div class="d-flex flex-column flex-sm-row gap-3 rounded-2 bg-body-secondary p-3 h-100">
-                            <div class="flex-shrink-0 text-success" style="font-size:18px">
-                                <i class="bi bi-person-lines-fill"></i>
+                        <div class="rounded-2 bg-body-secondary p-3 h-100">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-person-lines-fill text-success" style="font-size:18px"></i>
+                                <span class="fw-semibold small">Contact Information</span>
                             </div>
-                            <div class="flex-grow-1 min-width-0">
-                                <div class="fw-semibold small mb-2">Contact Information</div>
-                                @if(!empty($job['email']))
-                                <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 mb-2">
-                                    <i class="bi bi-envelope text-muted small flex-shrink-0"></i>
-                                    <a href="mailto:{{ $job['email'] }}" 
-                                      class="text-body-secondary small text-decoration-none email-link">
-                                        {{ $job['email'] }}
-                                    </a>
-                                </div>
-                                @endif
-                                @if(!empty($job['telephone']))
-                                <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
-                                    <i class="bi bi-telephone text-muted small flex-shrink-0"></i>
-                                    <a href="tel:{{ $job['telephone'] }}" 
-                                      class="text-body-secondary small text-decoration-none phone-link">
-                                        {{ $job['telephone'] }}
-                                    </a>
-                                </div>
-                                @endif
+                            @if(!empty($job['email']))
+                            <div class="d-flex align-items-center gap-2 mb-2" style="padding-left: 32px;">
+                                <i class="bi bi-envelope text-muted small flex-shrink-0"></i>
+                                <a href="mailto:{{ $job['email'] }}" 
+                                   class="text-body-secondary small text-decoration-none email-link">
+                                    {{ $job['email'] }}
+                                </a>
                             </div>
+                            @endif
+                            @if(!empty($job['telephone']))
+                            <div class="d-flex align-items-center gap-2" style="padding-left: 32px;">
+                                <i class="bi bi-telephone text-muted small flex-shrink-0"></i>
+                                <a href="tel:{{ $job['telephone'] }}" 
+                                   class="text-body-secondary small text-decoration-none phone-link">
+                                    {{ $job['telephone'] }}
+                                </a>
+                            </div>
+                            @endif
                         </div>
                     </div>
                     @endif
 
                     @if(!empty($job['deadline']))
                     <div class="col-12 col-md-6">
-                        <div class="d-flex flex-column flex-sm-row gap-3 rounded-2 bg-body-secondary p-3 h-100">
-                            <div class="flex-shrink-0 text-warning" style="font-size:18px">
-                                <i class="bi bi-calendar-event"></i>
+                        <div class="rounded-2 bg-body-secondary p-3 h-100">
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <i class="bi bi-calendar-event text-warning" style="font-size:18px"></i>
+                                <span class="fw-semibold small">Application Deadline</span>
                             </div>
-                            <div class="flex-grow-1">
-                                <div class="fw-semibold small mb-1">Application Deadline</div>
-                                <div class="text-body-secondary small mb-1 deadline-info">
+                            <div class="d-flex flex-wrap align-items-center gap-2" style="padding-left: 32px;">
+                                <span class="text-body-secondary small deadline-info">
                                     {{ \Carbon\Carbon::parse($job['deadline'])->format('F j, Y') }}
-                                </div>
+                                </span>
                                 @if($daysLeft > 0)
                                     <span class="badge text-bg-warning fw-normal" style="font-size:11px">
                                         {{ round($daysLeft) }} days left

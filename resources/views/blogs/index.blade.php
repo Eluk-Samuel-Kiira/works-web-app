@@ -11,7 +11,7 @@
 <div class="main-wrapper">
 
   {{-- ─────────────────────────────────────────────────────
-       HERO — SEARCH & FILTERS (Like Jobs Page)
+      HERO — SEARCH & FILTERS (Like Jobs Page)
   ───────────────────────────────────────────────────── --}}
   <section class="bg-primary py-5 py-lg-6">
     <div class="container-xl px-3 px-md-4">
@@ -25,22 +25,22 @@
             Practical tips, industry trends, and strategies to help you grow your career
           </p>
 
-          {{-- Search & Filter Bar (Like Jobs) --}}
-          <div class="bg-white rounded-3 shadow p-2 d-flex flex-column flex-sm-row gap-2 align-items-stretch">
+          {{-- Search & Filter Bar --}}
+          <div class="bg-white rounded-3 shadow p-2 d-flex flex-column flex-md-row gap-2 align-items-stretch">
             <div class="d-flex align-items-center flex-grow-1 px-2">
               <i class="bi bi-search text-muted me-2 flex-shrink-0"></i>
-              <input type="text" id="searchBlogs" class="form-control border-0 p-0 shadow-none"
-                     placeholder="Search articles..." aria-label="Search">
+              <input type="text" id="searchBlogs" class="form-control border-0 p-0 shadow-none w-100"
+                    placeholder="Search articles..." aria-label="Search">
             </div>
-            <div class="d-flex align-items-center flex-grow-1 px-2 border-top border-sm-top-0 border-sm-start pt-2 pt-sm-0">
+            <div class="d-flex align-items-center flex-grow-1 px-2 border-top border-md-top-0 border-md-start pt-2 pt-md-0">
               <i class="bi bi-tag text-muted me-2 flex-shrink-0"></i>
-              <select id="filterCategory" class="form-select border-0 p-0 shadow-none bg-transparent" style="width:auto">
+              <select id="filterCategory" class="form-select border-0 p-0 shadow-none bg-transparent w-100" style="width:auto; appearance: auto; cursor: pointer;">
                 <option value="">All Categories</option>
               </select>
             </div>
-            <div class="d-flex align-items-center flex-grow-1 px-2 border-top border-sm-top-0 border-sm-start pt-2 pt-sm-0">
-              <i class="bi bi-tag text-muted me-2 flex-shrink-0"></i>
-              <select id="filterSort" class="form-select border-0 p-0 shadow-none bg-transparent" style="width:auto">
+            <div class="d-flex align-items-center flex-grow-1 px-2 border-top border-md-top-0 border-md-start pt-2 pt-md-0">
+              <i class="bi bi-sort-down text-muted me-2 flex-shrink-0"></i>
+              <select id="filterSort" class="form-select border-0 p-0 shadow-none bg-transparent w-100" style="width:auto; appearance: auto; cursor: pointer;">
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
                 <option value="popular">Most Popular</option>
@@ -170,9 +170,9 @@
           <p class="text-white-50 small text-uppercase mb-2" style="letter-spacing:.1em">Never miss an update</p>
           <h2 class="text-white fw-semibold fs-4 mb-2">Subscribe to our newsletter</h2>
           <p class="text-white-50 small mb-4">Get the latest career tips and job alerts delivered to your inbox.</p>
-          <form id="newsletterForm" class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
-            <input type="email" class="form-control" style="max-width:280px" placeholder="Your email address" required>
-            <button type="submit" class="btn btn-light fw-semibold px-4">Subscribe</button>
+          <form id="newsletterForm" class="d-flex flex-column flex-sm-row gap-2 justify-content-center align-items-center">
+            <input type="email" class="form-control" style="max-width:280px; width:100%;" placeholder="Your email address" required>
+            <button type="submit" class="btn btn-light fw-semibold px-4" style="white-space: nowrap;">Subscribe</button>
           </form>
           <small class="text-white-50 d-block mt-2">No spam, unsubscribe anytime.</small>
         </div>
@@ -565,64 +565,221 @@ document.addEventListener('DOMContentLoaded', () => {
 
 @push('styles')
 <style>
-.container-xl { max-width: 1280px; }
+  .container-xl { max-width: 1280px; }
 
-/* ── Hero ──────────────────────────────────────────────────────────────── */
-.blog-hero {
-  background: linear-gradient(135deg, var(--bs-primary) 0%, #1565c0 60%, #0d47a1 100%);
-  position: relative;
-  overflow: hidden;
-}
-.blog-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-accent { color: #fdd835; }
+  /* ── Hero ──────────────────────────────────────────────────────────────── */
+  .blog-hero {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, #1565c0 60%, #0d47a1 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-accent { color: #fdd835; }
 
-/* ── Search bar ────────────────────────────────────────────────────────── */
-.blog-search-bar { border: 1px solid rgba(0,0,0,.06); }
-.search-divider {
-  width: 1px; background: #e9ecef; align-self: stretch; margin: 6px 0;
-}
+  /* ── Search bar ────────────────────────────────────────────────────────── */
+  .blog-search-bar { border: 1px solid rgba(0,0,0,.06); }
+  .search-divider {
+    width: 1px; background: #e9ecef; align-self: stretch; margin: 6px 0;
+  }
 
-/* ── Topic pills ───────────────────────────────────────────────────────── */
-.topic-pill { transition: background .15s ease; border: 1px solid rgba(255,255,255,.2); }
-.topic-pill:hover { background: rgba(255,255,255,.25) !important; }
+  /* ── Topic pills ───────────────────────────────────────────────────────── */
+  .topic-pill { transition: background .15s ease; border: 1px solid rgba(255,255,255,.2); }
+  .topic-pill:hover { background: rgba(255,255,255,.25) !important; }
 
-/* ── Blog card ─────────────────────────────────────────────────────────── */
-.blog-card {
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(0,0,0,.12) !important;
-}
-.blog-card:hover .blog-card__img { transform: scale(1.04); }
-.blog-card__title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.blog-card--featured { border: 2px solid rgba(var(--bs-warning-rgb), .4) !important; }
+  /* ── Blog card ─────────────────────────────────────────────────────────── */
+  .blog-card {
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0,0,0,.12) !important;
+  }
+  .blog-card:hover .blog-card__img { transform: scale(1.04); }
+  .blog-card__title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .blog-card--featured { border: 2px solid rgba(var(--bs-warning-rgb), .4) !important; }
 
-/* ── Featured post ─────────────────────────────────────────────────────── */
-.featured-img { object-fit: cover; }
-#featuredPostContainer a:hover .featured-img { transform: scale(1.03); }
+  /* ── Blog Card Mobile Optimization ─────────────────────────────────────────── */
+  @media (max-width: 767px) {
+    /* Reduce card padding */
+    .blog-card .card-body {
+      padding: 1rem !important;
+    }
+    
+    /* Smaller images on mobile */
+    .blog-card__img {
+      height: 160px !important;
+    }
+    
+    /* Smaller category badge */
+    .blog-card .badge.fw-normal {
+      font-size: 9px !important;
+      padding: 3px 8px !important;
+    }
+    
+    /* Smaller reading time */
+    .blog-card .text-muted[style*="font-size:11px"] {
+      font-size: 9px !important;
+    }
+    
+    /* Smaller title */
+    .blog-card__title {
+      font-size: 0.875rem !important;
+      line-height: 1.4 !important;
+      margin-bottom: 0.5rem !important;
+    }
+    
+    /* Smaller excerpt */
+    .blog-card .text-muted[style*="font-size:.8125rem"] {
+      font-size: 0.75rem !important;
+      line-height: 1.45 !important;
+      margin-bottom: 0.75rem !important;
+    }
+    
+    /* Compact author section */
+    .blog-card .d-flex.align-items-center.gap-2 {
+      gap: 0.5rem !important;
+    }
+    
+    /* Smaller author avatar */
+    .blog-card .rounded-circle.border {
+      width: 24px !important;
+      height: 24px !important;
+    }
+    
+    /* Smaller author name */
+    .blog-card .fw-medium.text-body {
+      font-size: 0.7rem !important;
+    }
+    
+    /* Smaller date text */
+    .blog-card .text-muted[style*="font-size:10px"] {
+      font-size: 9px !important;
+    }
+    
+    /* Smaller view count */
+    .blog-card .d-flex.align-items-center.gap-1 {
+      font-size: 10px !important;
+    }
+    
+    /* Reduce gap between elements */
+    .blog-card .d-flex.flex-column {
+      gap: 0.5rem !important;
+    }
+    
+    /* Featured badge smaller */
+    .blog-card .position-absolute .badge {
+      font-size: 8px !important;
+      padding: 2px 6px !important;
+    }
+  }
 
-/* ── Pagination ────────────────────────────────────────────────────────── */
-.pagination .page-item.active .page-link {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
-  color: #fff;
-}
-.pagination .page-link { color: var(--bs-primary); font-size: 13px; font-weight: 500; }
-.pagination .page-item.disabled .page-link { color: var(--bs-secondary-color); }
+  /* Extra small devices */
+  @media (max-width: 480px) {
+    .blog-card .card-body {
+      padding: 0.875rem !important;
+    }
+    
+    .blog-card__img {
+      height: 140px !important;
+    }
+    
+    .blog-card__title {
+      font-size: 0.8125rem !important;
+    }
+    
+    .blog-card .text-muted[style*="font-size:.8125rem"] {
+      font-size: 0.7rem !important;
+    }
+  }
 
-/* ── Grid toggle ────────────────────────────────────────────────────────── */
-.grid-toggle { width: 36px; height: 32px; display:inline-flex;align-items:center;justify-content:center; }
+  /* Tablet optimization */
+  @media (min-width: 768px) and (max-width: 991px) {
+    .blog-card .card-body {
+      padding: 1.25rem !important;
+    }
+    
+    .blog-card__img {
+      height: 180px !important;
+    }
+    
+    .blog-card__title {
+      font-size: 0.9rem !important;
+    }
+  }
 
-/* ── Responsive ─────────────────────────────────────────────────────────── */
-@media (max-width: 575.98px) {
-  .blog-search-bar { gap: .5rem; }
-}
+  /* ── Featured post ─────────────────────────────────────────────────────── */
+  .featured-img { object-fit: cover; }
+  #featuredPostContainer a:hover .featured-img { transform: scale(1.03); }
+
+  /* Featured post mobile optimization */
+  @media (max-width: 767px) {
+    #featuredPostContainer .row {
+      gap: 1rem !important;
+    }
+    
+    .featured-img {
+      height: 200px !important;
+    }
+    
+    #featuredPostContainer h2 {
+      font-size: 1.2rem !important;
+    }
+    
+    #featuredPostContainer .text-muted[style*="font-size:.9375rem"] {
+      font-size: 0.8125rem !important;
+    }
+    
+    #featuredPostContainer .btn-sm {
+      padding: 0.375rem 0.75rem !important;
+      font-size: 0.75rem !important;
+    }
+  }
+
+  /* ── Pagination ────────────────────────────────────────────────────────── */
+  .pagination .page-item.active .page-link {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff;
+  }
+  .pagination .page-link { color: var(--bs-primary); font-size: 13px; font-weight: 500; }
+  .pagination .page-item.disabled .page-link { color: var(--bs-secondary-color); }
+
+  /* Pagination mobile optimization */
+  @media (max-width: 576px) {
+    .pagination .page-link {
+      padding: 4px 8px !important;
+      font-size: 11px !important;
+    }
+  }
+
+  /* ── Grid toggle ────────────────────────────────────────────────────────── */
+  .grid-toggle { width: 36px; height: 32px; display:inline-flex;align-items:center;justify-content:center; }
+
+  /* Results count mobile */
+  @media (max-width: 576px) {
+    #resultsCount {
+      font-size: 11px !important;
+    }
+    
+    .grid-toggle {
+      width: 32px !important;
+      height: 28px !important;
+    }
+    
+    .grid-toggle i {
+      font-size: 14px !important;
+    }
+  }
+
+  /* ── Responsive ─────────────────────────────────────────────────────────── */
+  @media (max-width: 575.98px) {
+    .blog-search-bar { gap: .5rem; }
+  }
 </style>
 @endpush

@@ -99,39 +99,39 @@
             <div class="card-body p-3 p-md-4 d-flex flex-column gap-3">
 
               {{-- Header - Logo and Title in one line --}}
-              <div class="d-flex align-items-center gap-3">
-                {{-- Logo --}}
-                @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
-                @if($logoUrl)
-                  <img src="{{ $logoUrl }}"
-                      alt="{{ $job['company']['name'] ?? 'Company' }}"
-                      width="48" height="48"
-                      class="rounded-2 border flex-shrink-0"
-                      style="object-fit:contain; background:#fff; padding:4px;"
-                      loading="lazy"
-                      onerror="this.src='{{ asset('default-logo.png') }}';">
-                @else
-                  <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px">
-                    <i class="bi bi-building fs-5 text-primary"></i>
-                  </div>
-                @endif
+              <div class="d-flex align-items-start gap-3 position-relative">
+                  {{-- Logo --}}
+                  @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
+                  @if($logoUrl)
+                      <img src="{{ $logoUrl }}"
+                          alt="{{ $job['company']['name'] ?? 'Company' }}"
+                          width="48" height="48"
+                          class="rounded-2 border flex-shrink-0"
+                          style="object-fit:contain; background:#fff; padding:4px;"
+                          loading="lazy"
+                          onerror="this.src='{{ asset('default-logo.png') }}';">
+                  @else
+                      <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px">
+                          <i class="bi bi-building fs-5 text-primary"></i>
+                      </div>
+                  @endif
 
-                {{-- Title and Company Info --}}
-                <div class="flex-grow-1 min-w-0">
-                  <div class="d-flex align-items-center justify-content-between gap-2">
-                    <h3 class="h6 fw-semibold mb-0 text-truncate">
-                      <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                         class="text-body text-decoration-none">
-                        {{ $job['job_title'] }}
-                      </a>
-                    </h3>
-                    <span class="badge text-bg-primary fw-normal flex-shrink-0" style="font-size:10px">Featured</span>
+                  {{-- Title and Company Info --}}
+                  <div class="flex-grow-1 min-w-0 pe-5">
+                      <h3 class="h6 fw-semibold mb-1" style="font-size:.85rem; line-height:1.4;">
+                          <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
+                            class="text-body text-decoration-none">
+                              {{ $job['job_title'] }}
+                          </a>
+                      </h3>
+                      <div class="d-flex flex-wrap text-muted" style="font-size:11px;gap:3px 12px">
+                          <span><i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? '—' }}</span>
+                          <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
+                      </div>
                   </div>
-                  <div class="d-flex flex-wrap text-muted mt-1" style="font-size:11px;gap:3px 12px">
-                    <span><i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? '—' }}</span>
-                    <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
-                  </div>
-                </div>
+                  
+                  {{-- Featured Badge - Top Right Corner --}}
+                  <span class="badge text-bg-primary fw-normal position-absolute top-0 end-0" style="font-size:10px; white-space:nowrap;">Featured</span>
               </div>
 
               {{-- Excerpt --}}
@@ -193,28 +193,35 @@
       @endif
     </div>
 
-    {{-- Desktop: show 6, Mobile: show 3 --}}
+    {{-- Categories Grid --}}
     <div class="row g-2 g-md-3">
-      @foreach($visibleCats->take(6) as $i => $cat)
-      <div class="col-4 col-lg-2 {{ $i >= 3 ? 'd-none d-lg-block' : '' }}">
-        <a href="{{ route('jobs.category', ['slug' => $cat['slug'] ?? $cat['id']]) }}"
-           class="card border rounded-3 text-center p-3 text-decoration-none h-100 category-card">
-          <div class="mx-auto mb-2 rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
-               style="width:40px;height:40px">
-            <i class="{{ $cat['icon'] ?? 'bi bi-folder2' }} text-primary"></i>
-          </div>
-          <div class="fw-semibold text-body text-truncate" style="font-size:12px;line-height:1.3">
-            {{ $cat['name'] }}
-          </div>
-          <div class="text-muted mt-1" style="font-size:11px">
-            {{ number_format($cat['jobs_count']) }} jobs
-          </div>
-        </a>
-      </div>
+      @php
+        // Show first 5 categories on mobile, 6 on desktop
+        $mobileLimit = 5;
+        $desktopLimit = 6;
+      @endphp
+      
+      @foreach($visibleCats->take($desktopLimit) as $i => $cat)
+        {{-- Show first 5 on mobile, all 6 on desktop --}}
+        <div class="col-4 col-lg-2 {{ $i >= $mobileLimit ? 'd-none d-lg-block' : '' }}">
+          <a href="{{ route('jobs.category', ['slug' => $cat['slug'] ?? $cat['id']]) }}"
+             class="card border rounded-3 text-center p-3 text-decoration-none h-100 category-card">
+            <div class="mx-auto mb-2 rounded-2 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
+                 style="width:40px;height:40px">
+              <i class="{{ $cat['icon'] ?? 'bi bi-folder2' }} text-primary"></i>
+            </div>
+            <div class="fw-semibold text-body text-truncate" style="font-size:12px;line-height:1.3">
+              {{ $cat['name'] }}
+            </div>
+            <div class="text-muted mt-1" style="font-size:11px">
+              {{ number_format($cat['jobs_count']) }} jobs
+            </div>
+          </a>
+        </div>
       @endforeach
 
-      {{-- Mobile: show "View all" button after 3 if more exist --}}
-      @if($visibleCats->count() > 3)
+      {{-- Mobile "View all" button as 6th item (only if more than 5 categories) --}}
+      @if($visibleCats->count() > $mobileLimit)
       <div class="col-4 d-lg-none">
         <button type="button"
                 onclick="document.getElementById('allCategoriesModal').style.display='flex'"
@@ -230,6 +237,16 @@
       </div>
       @endif
     </div>
+
+    {{-- Fill remaining empty space on mobile row (ensures no whitespace gap) --}}
+    @if($visibleCats->count() < $mobileLimit)
+    @php $emptySlots = $mobileLimit - $visibleCats->count(); @endphp
+    <div class="row g-2 g-md-3 d-lg-none">
+      @for($i = 0; $i < $emptySlots; $i++)
+      <div class="col-4"></div>
+      @endfor
+    </div>
+    @endif
 
   </div>
 </section>
@@ -397,7 +414,7 @@
         @foreach($jobs as $index => $job)
 
           {{-- AD SLOT 3 — Mid-list native ad, every 10 items --}}
-          @if($index > 0 && $index % 10 === 0)
+          @if($index > 0 && $index % 9 === 0)
           <div class="col-12">
             <div class="border rounded-3 py-1 px-3 text-center bg-body">
               <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
@@ -414,12 +431,13 @@
           </div>
           @endif
 
-          <div class="col-12 col-lg-6">
+          {{-- Changed from col-lg-6 to col-lg-4 for 3 jobs per line --}}
+          <div class="col-12 col-md-6 col-lg-4">
             <div class="card border rounded-3 shadow-sm h-100 job-list-card">
               <div class="card-body p-3">
 
-                {{-- Header - Logo and Title in one line --}}
-                <div class="d-flex align-items-center gap-3">
+                {{-- Header - Logo and Title --}}
+                <div class="d-flex gap-3">
                   {{-- Logo --}}
                   @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
                   @if($logoUrl)
@@ -438,11 +456,13 @@
 
                   {{-- Title and Company Info --}}
                   <div class="flex-grow-1 min-w-0">
-                    <h3 class="fw-semibold mb-0 text-truncate" style="font-size:.85rem">
+                    <h3 class="fw-semibold mb-1" style="font-size:.85rem; line-height:1.35;">
                       <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                         class="text-body text-decoration-none">{{ $job['job_title'] }}</a>
+                         class="text-body text-decoration-none">
+                        {{ $job['job_title'] }}
+                      </a>
                     </h3>
-                    <div class="d-flex flex-wrap text-muted mt-1" style="font-size:11px;gap:2px 8px">
+                    <div class="d-flex flex-wrap text-muted" style="font-size:10px; gap:2px 8px">
                       <span><i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? '—' }}</span>
                       @if(!empty($job['duty_station']) || !empty($job['job_location']))
                       <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? $job['job_location']['country'] ?? 'Remote' }}</span>
@@ -453,26 +473,26 @@
 
                 {{-- Tags --}}
                 <div class="d-flex flex-wrap gap-1 mt-2 pt-1">
-                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:10px">
+                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:9px">
                     {{ $job['job_type']['name'] ?? $job['employment_type'] ?? 'Full Time' }}
                   </span>
                   @if(!empty($job['experience_level']['name']))
-                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:10px">
+                  <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:9px">
                     {{ $job['experience_level']['name'] }}
                   </span>
                   @endif
-                  <span class="badge rounded-pill fw-normal text-primary" style="font-size:10px;background:rgba(var(--bs-primary-rgb),.1)">
+                  <span class="badge rounded-pill fw-normal text-primary" style="font-size:9px;background:rgba(var(--bs-primary-rgb),.1)">
                     {{ $job['formatted_salary'] ?? 'Negotiable' }}
                   </span>
                 </div>
 
                 {{-- Footer --}}
                 <div class="d-flex align-items-center justify-content-between pt-2 mt-2 border-top">
-                  <span class="text-muted" style="font-size:11px">
+                  <span class="text-muted" style="font-size:10px">
                     <i class="bi bi-clock me-1"></i>{{ \Carbon\Carbon::parse($job['created_at'])->diffForHumans() }}
                   </span>
                   <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                     class="btn btn-primary btn-sm fw-semibold py-1 px-3" style="font-size:12px">
+                     class="btn btn-primary btn-sm fw-semibold py-1 px-2" style="font-size:11px">
                     Apply <i class="bi bi-arrow-right-short"></i>
                   </a>
                 </div>
@@ -658,6 +678,82 @@
 @media (min-width: 576px) {
   .border-sm-top-0  { border-top: 0 !important; }
   .border-sm-start  { border-left: 1px solid var(--bs-border-color) !important; }
+}
+
+
+/* for featured and regular jobs responsive */
+@media (max-width: 576px) {
+    .featured-job-card .position-relative .pe-5 {
+        padding-right: 65px !important; /* Give enough space for the badge */
+    }
+    
+    .featured-job-card .badge.position-absolute {
+        font-size: 9px !important;
+        padding: 3px 8px !important;
+    }
+}
+
+/* Responsive job cards - 3 per line on desktop */
+@media (min-width: 992px) {
+    .job-list-card .card-body {
+        padding: 1rem !important;
+    }
+    
+    /* Allow job title to wrap naturally */
+    .job-list-card h3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+/* Tablet view - 2 per line */
+@media (min-width: 768px) and (max-width: 991px) {
+    .job-list-card h3 {
+        font-size: 0.8rem !important;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+/* Mobile view - 1 per line */
+@media (max-width: 767px) {
+    .job-list-card .card-body {
+        padding: 0.875rem !important;
+    }
+    
+    .job-list-card h3 {
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    .job-list-card .d-flex.gap-3 {
+        gap: 0.75rem !important;
+    }
+}
+
+/* Ensure consistent category card height on mobile */
+@media (max-width: 767px) {
+    .category-card {
+        min-height: 100px;
+    }
+    
+    .category-card .mx-auto {
+        width: 32px !important;
+        height: 32px !important;
+    }
+    
+    .category-card .fw-semibold {
+        font-size: 10px !important;
+    }
+    
+    .category-card .text-muted {
+        font-size: 9px !important;
+    }
 }
 </style>
 @endpush
