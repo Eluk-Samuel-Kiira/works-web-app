@@ -124,42 +124,68 @@ class BlogApiController extends Controller
     {
         return view('blogs.index');
     }
-        
+
     public function blogShow(string $slug)
-    {
-        $data = $this->call("/v1/blogs/{$slug}?with_content=true");
-        
-        if (empty($data['data'])) {
-            abort(404, 'Blog post not found');
-        }
-        
-        $blog = $data['data'];
-        
-        // PROCESS THE CONTENT - Convert /storage/ paths to full URLs
-        if (isset($blog['content'])) {
-            $blog['content'] = processBlogContent($blog['content']);
-        }
-        
-        // Process cover image if exists
-        if (isset($blog['cover_image']) && !empty($blog['cover_image'])) {
-            $blog['cover_image'] = blogImage($blog['cover_image'], 'cover');
-        }
-        
-        // Increment view count asynchronously
-        try {
-            Http::withoutVerifying()
-                ->timeout(5)
-                ->post($this->mainAppUrl . "/v1/blogs/{$slug}/increment-view");
-        } catch (\Exception $e) {}
-        
-        // Get related posts
-        $related = $this->call("/v1/blogs/related/{$slug}");
-        
-        return view('blogs.show', [
-            'blog' => $blog,
-            'related' => $related['data'] ?? [],
-        ]);
+{
+    $data = $this->call("/v1/blogs/{$slug}?with_content=true");
+    
+    if (empty($data['data'])) {
+        abort(404, 'Blog post not found');
     }
+    
+    $blog = $data['data'];
+    
+    // LOG THE COVER IMAGE URL FROM API
+    // \Log::info('=== BLOG SHOW DEBUG ===');
+    // \Log::info('Raw cover_image from API: ' . ($blog['cover_image'] ?? 'null'));
+    
+    // Get related posts
+    $related = $this->call("/v1/blogs/related/{$slug}");
+    
+    // LOG RELATED POSTS COVER IMAGES
+    if (!empty($related['data'])) {
+        // \Log::info('Related posts count: ' . count($related['data']));
+        foreach ($related['data'] as $index => $rel) {
+            // \Log::info("Related post {$index} cover_image: " . ($rel['cover_image'] ?? 'null'));
+        }
+    }
+    
+    // PROCESS THE CONTENT - Convert /storage/ paths to full URLs
+    if (isset($blog['content'])) {
+        $blog['content'] = processBlogContent($blog['content']);
+    }
+    
+    // Process cover image if exists
+    if (isset($blog['cover_image']) && !empty($blog['cover_image'])) {
+        $blog['cover_image'] = blogImage($blog['cover_image'], 'cover');
+        // \Log::info('After blogImage() conversion: ' . $blog['cover_image']);
+    }
+    
+    // Process related posts cover images
+    if (!empty($related['data'])) {
+        foreach ($related['data'] as &$rel) {
+            if (isset($rel['cover_image']) && !empty($rel['cover_image'])) {
+                $original = $rel['cover_image'];
+                $rel['cover_image'] = blogImage($rel['cover_image'], 'cover');
+                // \Log::info('Related post cover - Original: ' . $original . ' -> Converted: ' . $rel['cover_image']);
+            }
+        }
+    }
+    
+    // Increment view count asynchronously
+    try {
+        Http::withoutVerifying()
+            ->timeout(5)
+            ->post($this->mainAppUrl . "/v1/blogs/{$slug}/increment-view");
+    } catch (\Exception $e) {}
+    
+    return view('blogs.show', [
+        'blog' => $blog,
+        'related' => $related['data'] ?? [],
+    ]);
+}
+
+
 
     public function blogCategory(string $category)
     {

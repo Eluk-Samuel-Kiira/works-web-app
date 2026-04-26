@@ -156,57 +156,71 @@
             </div>
             @endif
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 col-lg-4">
               <div class="card border rounded-3 shadow-sm h-100 job-list-card">
                 <div class="card-body p-3 d-flex flex-column gap-2">
+                  
+                  {{-- Header - Logo and Title (Responsive) --}}
                   <div class="d-flex gap-3">
                     @php $logoUrl = companyLogo($job['company'] ?? null); @endphp
                     @if($logoUrl)
                       <img src="{{ $logoUrl }}" alt="{{ $job['company']['name'] ?? 'Company' }}"
-                           width="44" height="44" loading="lazy"
-                           class="rounded-2 border flex-shrink-0"
-                           style="object-fit:contain;background:#fff;padding:3px"
-                           onerror="this.src='{{ asset('default-logo.png') }}'">
+                          width="44" height="44" loading="lazy"
+                          class="rounded-2 border flex-shrink-0"
+                          style="object-fit:contain;background:#fff;padding:3px"
+                          onerror="this.src='{{ asset('default-logo.png') }}'">
                     @else
                       <div class="rounded-2 border bg-body-secondary d-flex align-items-center justify-content-center flex-shrink-0"
-                           style="width:44px;height:44px">
+                          style="width:44px;height:44px">
                         <i class="bi bi-building text-primary"></i>
                       </div>
                     @endif
+                    
+                    {{-- Title and Company Info (Responsive) --}}
                     <div class="min-w-0 flex-grow-1">
-                      <h3 class="fw-semibold mb-0 text-truncate" style="font-size:.875rem">
+                      <h3 class="fw-semibold mb-0" style="font-size: clamp(0.75rem, 3vw, 0.875rem); line-height: 1.35;">
                         <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                           class="text-body text-decoration-none">{{ $job['job_title'] }}</a>
+                          class="text-body text-decoration-none">
+                          {{ $job['job_title'] }}
+                        </a>
                       </h3>
-                      <div class="text-muted" style="font-size:12px">
-                        <i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? '—' }}
-                        <span class="mx-1">·</span>
-                        <i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? 'Uganda' }}
+                      <div class="text-muted mt-1" style="font-size: clamp(10px, 2.5vw, 12px);">
+                        <div class="d-flex flex-wrap align-items-center gap-1">
+                          <span><i class="bi bi-building me-1"></i>{{ $job['company']['name'] ?? '—' }}</span>
+                          <span class="d-none d-sm-inline">·</span>
+                          <span><i class="bi bi-geo-alt me-1"></i>{{ $job['duty_station'] ?? $job['job_location']['district'] ?? 'Uganda' }}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="d-flex flex-wrap gap-1">
-                    <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size:11px">
+                  
+                  {{-- Tags --}}
+                  <div class="d-flex flex-wrap gap-1 mt-1">
+                    <span class="badge rounded-pill text-bg-light border fw-normal text-body-secondary" style="font-size: clamp(9px, 2vw, 11px); padding: 4px 8px;">
                       {{ $job['job_type']['name'] ?? 'Full Time' }}
                     </span>
-                    <span class="badge rounded-pill fw-normal text-primary" style="font-size:11px;background:rgba(var(--bs-primary-rgb),.1)">
+                    <span class="badge rounded-pill fw-normal text-primary" style="font-size: clamp(9px, 2vw, 11px); padding: 4px 8px; background:rgba(var(--bs-primary-rgb),.1)">
                       {{ $job['formatted_salary'] ?? 'Negotiable' }}
                     </span>
                     @if($job['is_featured'] ?? false)
-                    <span class="badge rounded-pill text-bg-primary fw-normal" style="font-size:11px">Featured</span>
+                    <span class="badge rounded-pill text-bg-primary fw-normal" style="font-size: clamp(9px, 2vw, 11px); padding: 4px 8px;">Featured</span>
                     @endif
                   </div>
+                  
+                  {{-- Footer --}}
                   <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-auto">
-                    <span class="text-muted" style="font-size:12px">
+                    <span class="text-muted" style="font-size: clamp(10px, 2.5vw, 12px);">
                       <i class="bi bi-clock me-1"></i>{{ \Carbon\Carbon::parse($job['created_at'])->diffForHumans() }}
                     </span>
                     <a href="{{ route('jobs.show', $job['slug'] ?? $job['id']) }}"
-                       class="btn btn-primary btn-sm fw-semibold">Apply</a>
+                      class="btn btn-primary btn-sm fw-semibold" style="font-size: clamp(11px, 2.5vw, 13px); padding: 5px 12px;">
+                      Apply <i class="bi bi-arrow-right-short"></i>
+                    </a>
                   </div>
+                  
                 </div>
               </div>
             </div>
-
           @endforeach
         </div>
 
@@ -278,5 +292,78 @@
 .hover-bg:hover { background: rgba(var(--bs-primary-rgb),.08); }
 .job-list-card { transition: border-color .15s, box-shadow .15s; }
 .job-list-card:hover { border-color: var(--bs-primary) !important; box-shadow: 0 2px 10px rgba(var(--bs-primary-rgb),.1) !important; }
+</style>
+<style>
+  /* Responsive Job Cards */
+@media (max-width: 768px) {
+  .job-list-card .card-body {
+    padding: 0.75rem !important;
+  }
+  
+  /* Make logo smaller on mobile */
+  .job-list-card .flex-shrink-0 {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  .job-list-card .flex-shrink-0 img,
+  .job-list-card .flex-shrink-0 div {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  .job-list-card .flex-shrink-0 i {
+    font-size: 14px !important;
+  }
+  
+  /* Allow title to wrap properly */
+  .job-list-card h3 {
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Stack company and location on mobile */
+  .job-list-card .text-muted .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 4px;
+  }
+  
+  .job-list-card .text-muted .d-none {
+    display: none !important;
+  }
+  
+  /* Tags wrap better */
+  .job-list-card .d-flex.flex-wrap.gap-1 {
+    gap: 4px !important;
+  }
+  
+  .job-list-card .badge {
+    font-size: 9px !important;
+    padding: 3px 6px !important;
+  }
+}
+
+/* Tablet view */
+@media (min-width: 769px) and (max-width: 991px) {
+  .job-list-card .card-body {
+    padding: 1rem !important;
+  }
+  
+  .job-list-card h3 {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Desktop view */
+@media (min-width: 992px) {
+  .job-list-card h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 </style>
 @endpush
