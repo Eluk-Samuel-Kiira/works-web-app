@@ -41,7 +41,7 @@
             <a class="nav-link nav-item-link" href="/coming-soon" onclick="comingSoon()">Pricing</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="/coming-soon" onclick="comingSoon()">Contact</a>
+            <a class="nav-link nav-item-link" href="{{ route('blog.index') }}">Blogs</a>
           </li>
         </ul>
         <div class="d-flex gap-2 align-items-center">
@@ -87,7 +87,7 @@
       </li>
       <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Post a Job</a></li>
       <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Pricing</a></li>
-      <li class="mb-1"><a href="/coming-soon" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Contact</a></li>
+      <li class="mb-1"><a href="{{ route('blog.index') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Blogs</a></li>
       <li class="mt-4">
         <a href="/coming-soon" onclick="comingSoon()"
            class="d-block text-center text-white text-decoration-none py-2 rounded-3 fw-600"
