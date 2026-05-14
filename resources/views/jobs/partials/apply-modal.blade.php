@@ -97,12 +97,15 @@
         const hasWhatsapp = (job.is_whatsapp_contact === true || job.is_whatsapp_contact === 1 || job.is_whatsapp_contact === '1') && !empty(job.telephone);
         const hasPhone    = (job.is_telephone_call  === true || job.is_telephone_call  === 1 || job.is_telephone_call  === '1') && !empty(job.telephone);
         const hasEmail    = !empty(job.email);
+        
+        // Parse multiple emails and phone numbers
+        const emails = !empty(job.email) ? job.email.split(',').map(e => e.trim()).filter(e => e) : [];
+        const phones = !empty(job.telephone) ? job.telephone.split(',').map(p => p.trim()).filter(p => p) : [];
 
         let externalUrl = null, hasExternalLink = false;
 
         // Better URL extraction
         if (!empty(job.application_procedure)) {
-            // Match URLs without capturing HTML attributes
             const urlMatches = job.application_procedure.match(/https?:\/\/[^\s<>"']+/g);
             if (urlMatches && urlMatches.length > 0) {
                 externalUrl = urlMatches[0];
@@ -119,8 +122,19 @@
 
         let html = '';
 
-        // ── Deadline Notice ──────────────────────────────────
-        if (!empty(job.deadline)) {
+        // ── Expired Job Warning (Priority - show prominently) ──
+        if (job.is_expired) {
+            html += `
+            <div class="alert alert-danger bg-danger bg-opacity-10 border-danger rounded-3 py-3 px-3 mb-3 d-flex align-items-center gap-3">
+                <i class="bi bi-exclamation-triangle-fill text-danger flex-shrink-0" style="font-size:1.25rem"></i>
+                <div class="flex-grow-1">
+                    <strong class="d-block mb-1">This job has expired</strong>
+                    <span class="small">The employer may no longer be accepting applications. You can still try contacting them, but consider this before applying.</span>
+                </div>
+            </div>`;
+        }
+        // ── Deadline Notice (only for active jobs) ──────────────────────────────────
+        else if (!empty(job.deadline)) {
             const daysLeft = Math.ceil((new Date(job.deadline) - new Date()) / (1000 * 60 * 60 * 24));
             if (daysLeft >= 0 && daysLeft <= 7) {
                 html += `
@@ -145,14 +159,11 @@
 
         html += '<div class="d-flex flex-column gap-3">';
 
-        // ── Stardena Works Attribution Banner (for non-external link methods) ──
         let hasApplicationMethod = false;
         
-        // ── WhatsApp ─────────────────────────────────────────
-        if (hasWhatsapp && !empty(job.telephone)) {
+        // ── WhatsApp (with multiple numbers) ─────────────────────────
+        if (hasWhatsapp && phones.length > 0) {
             hasApplicationMethod = true;
-            const clean = job.telephone.replace(/[^0-9+]/g, '').replace(/^\+?0*/, '');
-            const waMsg = encodeURIComponent(`Hello, I'm interested in the ${job.job_title} position at ${job.company?.name || 'your company'}. I'd like to apply.`);
             html += `
             <div class="card border-0 bg-body-secondary rounded-3">
                 <div class="card-body p-3">
@@ -161,16 +172,29 @@
                             <i class="bi bi-whatsapp text-success" style="font-size:1.25rem"></i>
                         </div>
                         <div class="flex-grow-1 min-w-0">
-                            <h6 class="fw-bold mb-1" style="font-size:.875rem">Apply via WhatsApp</h6>
+                            <h6 class="fw-bold mb-2" style="font-size:.875rem">Apply via WhatsApp</h6>
                             <p class="text-muted mb-2" style="font-size:12px">Send your application directly on WhatsApp</p>
-                            <code class="small bg-white rounded px-2 py-1 d-block mb-2 text-break border">${job.telephone}</code>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-sm btn-outline-success" onclick="copyToClipboard('${job.telephone}')">
-                                    <i class="bi bi-copy me-1"></i>Copy
-                                </button>
-                                <a href="https://wa.me/${clean}?text=${waMsg}" target="_blank" class="btn btn-sm btn-success">
-                                    <i class="bi bi-whatsapp me-1"></i>Open WhatsApp
-                                </a>
+                            <div class="mb-3">
+                                <label class="small fw-semibold text-muted mb-1">WhatsApp Numbers:</label>
+                                <ul class="list-unstyled mb-0" style="padding-left: 0;">
+                                    ${phones.map(phone => {
+                                        const clean = phone.replace(/[^0-9+]/g, '').replace(/^\+?0*/, '');
+                                        const waMsg = encodeURIComponent(`Hello, I'm interested in the ${job.job_title} position at ${job.company?.name || 'your company'}. I'd like to apply.`);
+                                        return `
+                                        <li class="mb-2 pb-1 border-bottom border-secondary border-opacity-10">
+                                            <code class="small bg-white rounded px-2 py-1 d-inline-block mb-1 text-break border">${phone}</code>
+                                            <div class="d-flex gap-2 flex-wrap mt-1">
+                                                <button class="btn btn-sm btn-outline-success" onclick="copyToClipboard('${phone}')">
+                                                    <i class="bi bi-copy me-1"></i>Copy
+                                                </button>
+                                                <a href="https://wa.me/${clean}?text=${waMsg}" target="_blank" class="btn btn-sm btn-success">
+                                                    <i class="bi bi-whatsapp me-1"></i>Open WhatsApp
+                                                </a>
+                                            </div>
+                                        </li>
+                                        `;
+                                    }).join('')}
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -178,10 +202,9 @@
             </div>`;
         }
 
-        // ── Phone ─────────────────────────────────────────────
-        if (hasPhone && !empty(job.telephone)) {
+        // ── Phone (with multiple numbers) ─────────────────────────────
+        if (hasPhone && phones.length > 0) {
             hasApplicationMethod = true;
-            const phone = job.telephone.replace(/[^0-9+]/g, '');
             html += `
             <div class="card border-0 bg-body-secondary rounded-3">
                 <div class="card-body p-3">
@@ -190,16 +213,28 @@
                             <i class="bi bi-telephone text-primary" style="font-size:1.25rem"></i>
                         </div>
                         <div class="flex-grow-1 min-w-0">
-                            <h6 class="fw-bold mb-1" style="font-size:.875rem">Call to Apply</h6>
+                            <h6 class="fw-bold mb-2" style="font-size:.875rem">Call to Apply</h6>
                             <p class="text-muted mb-2" style="font-size:12px">Speak directly to the hiring team</p>
-                            <code class="small bg-white rounded px-2 py-1 d-block mb-2 text-break border">${job.telephone}</code>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard('${job.telephone}')">
-                                    <i class="bi bi-copy me-1"></i>Copy
-                                </button>
-                                <a href="tel:${phone}" class="btn btn-sm btn-primary">
-                                    <i class="bi bi-telephone me-1"></i>Call Now
-                                </a>
+                            <div class="mb-3">
+                                <label class="small fw-semibold text-muted mb-1">Phone Numbers:</label>
+                                <ul class="list-unstyled mb-0" style="padding-left: 0;">
+                                    ${phones.map(phone => {
+                                        const clean = phone.replace(/[^0-9+]/g, '');
+                                        return `
+                                        <li class="mb-2 pb-1 border-bottom border-secondary border-opacity-10">
+                                            <code class="small bg-white rounded px-2 py-1 d-inline-block mb-1 text-break border">${phone}</code>
+                                            <div class="d-flex gap-2 flex-wrap mt-1">
+                                                <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard('${phone}')">
+                                                    <i class="bi bi-copy me-1"></i>Copy
+                                                </button>
+                                                <a href="tel:${clean}" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-telephone me-1"></i>Call Now
+                                                </a>
+                                            </div>
+                                        </li>
+                                        `;
+                                    }).join('')}
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -207,8 +242,8 @@
             </div>`;
         }
 
-        // ── Email ─────────────────────────────────────────────
-        if (hasEmail) {
+        // ── Email (with multiple emails) ─────────────────────────────
+        if (hasEmail && emails.length > 0) {
             hasApplicationMethod = true;
             html += `
             <div class="card border-0 bg-body-secondary rounded-3">
@@ -218,16 +253,25 @@
                             <i class="bi bi-envelope text-warning" style="font-size:1.25rem"></i>
                         </div>
                         <div class="flex-grow-1 min-w-0">
-                            <h6 class="fw-bold mb-1" style="font-size:.875rem">Apply via Email</h6>
+                            <h6 class="fw-bold mb-2" style="font-size:.875rem">Apply via Email</h6>
                             <p class="text-muted mb-2" style="font-size:12px">Send your application to</p>
-                            <code class="small bg-white rounded px-2 py-1 d-block mb-2 text-break border">${job.email}</code>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-sm btn-outline-warning" onclick="copyToClipboard('${job.email}')">
-                                    <i class="bi bi-copy me-1"></i>Copy
-                                </button>
-                                <button class="btn btn-sm btn-warning" onclick="openEmailForm('${job.email}', '${job.job_title}', '${job.company?.name || ''}')">
-                                    <i class="bi bi-envelope me-1"></i>Compose Email
-                                </button>
+                            <div class="mb-3">
+                                <label class="small fw-semibold text-muted mb-1">Email Addresses:</label>
+                                <ul class="list-unstyled mb-0" style="padding-left: 0;">
+                                    ${emails.map(email => `
+                                        <li class="mb-2 pb-1 border-bottom border-secondary border-opacity-10">
+                                            <code class="small bg-white rounded px-2 py-1 d-inline-block mb-1 text-break border">${email}</code>
+                                            <div class="d-flex gap-2 flex-wrap mt-1">
+                                                <button class="btn btn-sm btn-outline-warning" onclick="copyToClipboard('${email}')">
+                                                    <i class="bi bi-copy me-1"></i>Copy
+                                                </button>
+                                                <button class="btn btn-sm btn-warning" onclick="openEmailForm('${email}', '${job.job_title}', '${job.company?.name || ''}')">
+                                                    <i class="bi bi-envelope me-1"></i>Compose Email
+                                                </button>
+                                            </div>
+                                        </li>
+                                    `).join('')}
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -238,9 +282,7 @@
         // ── External Link ─────────────────────────────────────
         if (hasExternalLink && externalUrl) {
             hasApplicationMethod = true;
-            // Clean the URL to remove any HTML artifacts
             let cleanUrl = externalUrl;
-            // Remove any trailing HTML tags or quotes
             cleanUrl = cleanUrl.replace(/['">]+$/, '').replace(/^['"]+/, '');
             
             const displayUrl = cleanUrl.length > 45 ? cleanUrl.substring(0, 42) + '...' : cleanUrl;
@@ -275,7 +317,6 @@
         }
 
         // ── Stardena Works Attribution Banner ─────────────────
-        // Show attribution for all non-external-link methods
         if (hasApplicationMethod && !hasExternalLink) {
             html += `
             <div class="alert alert-primary bg-primary bg-opacity-10 border-0 rounded-3 py-2 px-3 d-flex align-items-center gap-2" style="font-size: 0.75rem;">
@@ -297,7 +338,7 @@
 
         // ── Fallback ──────────────────────────────────────────
         if (!hasWhatsapp && !hasPhone && !hasEmail && !hasExternalLink) {
-            if (!empty(job.telephone)) {
+            if (phones.length > 0) {
                 hasApplicationMethod = true;
                 html += `
                 <div class="card border-0 bg-body-secondary rounded-3">
@@ -307,23 +348,28 @@
                                 <i class="bi bi-telephone text-secondary" style="font-size:1.25rem"></i>
                             </div>
                             <div class="flex-grow-1 min-w-0">
-                                <h6 class="fw-bold mb-1" style="font-size:.875rem">Contact the Employer</h6>
+                                <h6 class="fw-bold mb-2" style="font-size:.875rem">Contact the Employer</h6>
                                 <p class="text-muted mb-2" style="font-size:12px">Call or message for application details</p>
-                                <code class="small bg-white rounded px-2 py-1 d-block mb-2 text-break border">${job.telephone}</code>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('${job.telephone}')">
-                                        <i class="bi bi-copy me-1"></i>Copy
-                                    </button>
-                                    <a href="tel:${job.telephone.replace(/[^0-9+]/g, '')}" class="btn btn-sm btn-secondary">
-                                        <i class="bi bi-telephone me-1"></i>Call Now
-                                    </a>
-                                </div>
+                                <ul class="list-unstyled mb-0" style="padding-left: 0;">
+                                    ${phones.map(phone => `
+                                        <li class="mb-2 pb-1 border-bottom border-secondary border-opacity-10">
+                                            <code class="small bg-white rounded px-2 py-1 d-inline-block mb-1 text-break border">${phone}</code>
+                                            <div class="d-flex gap-2 flex-wrap mt-1">
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('${phone}')">
+                                                    <i class="bi bi-copy me-1"></i>Copy
+                                                </button>
+                                                <a href="tel:${phone.replace(/[^0-9+]/g, '')}" class="btn btn-sm btn-secondary">
+                                                    <i class="bi bi-telephone me-1"></i>Call Now
+                                                </a>
+                                            </div>
+                                        </li>
+                                    `).join('')}
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>`;
                 
-                // Add attribution for fallback phone method
                 html += `
                 <div class="alert alert-primary bg-primary bg-opacity-10 border-0 rounded-3 py-2 px-3 d-flex align-items-center gap-2" style="font-size: 0.75rem;">
                     <i class="bi bi-check-circle-fill text-primary flex-shrink-0"></i>

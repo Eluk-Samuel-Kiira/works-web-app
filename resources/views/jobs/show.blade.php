@@ -93,17 +93,21 @@
   </style>
 
   @if(($job['is_expired'] ?? false) || ($job['is_inactive'] ?? false))
-  <div class="bg-warning-subtle border border-warning rounded-3 p-3 mb-4 mx-3 mx-md-4 mt-3">
-      <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-exclamation-triangle text-warning fs-5"></i>
+  <div class="d-flex justify-content-center mx-0">
+    <div class="w-100" style="max-width: 66.666667%;">
+      <div class="bg-warning-subtle border border-warning rounded-3 p-2 p-md-3 mb-4 mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-exclamation-triangle text-warning fs-6 fs-md-5"></i>
           <div>
-              <div class="fw-semibold text-warning-emphasis">This job has expired</div>
-              <div class="text-body-secondary small">
-                  The application deadline has passed. 
-                  <a href="{{ route('jobs.index') }}" class="text-primary">Browse similar jobs →</a>
-              </div>
+            <div class="fw-semibold text-warning-emphasis small small-md base">This job has expired</div>
+            <div class="text-body-secondary small small-md">
+              The application deadline has passed. 
+              <a href="{{ route('jobs.index') }}" class="text-primary small small-md">Browse similar jobs →</a>
+            </div>
           </div>
+        </div>
       </div>
+    </div>
   </div>
   @endif
 
@@ -348,30 +352,52 @@
 
                     @if(!empty($job['email']) || !empty($job['telephone']))
                     <div class="col-12 col-md-6">
-                        <div class="rounded-2 bg-body-secondary p-3 h-100">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <i class="bi bi-person-lines-fill text-success" style="font-size:18px"></i>
-                                <span class="fw-semibold small">Contact Information</span>
-                            </div>
-                            @if(!empty($job['email']))
-                            <div class="d-flex align-items-center gap-2 mb-2" style="padding-left: 32px;">
-                                <i class="bi bi-envelope text-muted small flex-shrink-0"></i>
-                                <a href="mailto:{{ $job['email'] }}" 
-                                   class="text-body-secondary small text-decoration-none email-link">
-                                    {{ $job['email'] }}
-                                </a>
-                            </div>
-                            @endif
-                            @if(!empty($job['telephone']))
-                            <div class="d-flex align-items-center gap-2" style="padding-left: 32px;">
-                                <i class="bi bi-telephone text-muted small flex-shrink-0"></i>
-                                <a href="tel:{{ $job['telephone'] }}" 
-                                   class="text-body-secondary small text-decoration-none phone-link">
-                                    {{ $job['telephone'] }}
-                                </a>
-                            </div>
-                            @endif
+                      <div class="rounded-2 bg-body-secondary p-3 h-100">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                          <i class="bi bi-person-lines-fill text-success" style="font-size:18px"></i>
+                          <span class="fw-semibold small">Contact Information</span>
                         </div>
+
+                          @if(!empty($job['email']))
+                          <div class="mb-2" style="padding-left: 32px;">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                              <i class="bi bi-envelope text-muted small flex-shrink-0"></i>
+                              <span class="text-muted small fw-semibold">Email</span>
+                            </div>
+                            <ul class="list-unstyled mb-0 ms-0" style="padding-left: 20px;">
+                              @foreach(array_filter(array_map('trim', explode(',', $job['email']))) as $email)
+                              <li class="mb-1">
+                                <a href="mailto:{{ $email }}"
+                                  class="text-body-secondary small text-decoration-none d-block"
+                                  style="word-break:break-all; overflow-wrap:break-word;">
+                                    {{ $email }}
+                                </a>
+                              </li>
+                              @endforeach
+                            </ul>
+                          </div>
+                          @endif
+
+                          @if(!empty($job['telephone']))
+                          <div style="padding-left: 32px;">
+                              <div class="d-flex align-items-center gap-2 mb-1">
+                                  <i class="bi bi-telephone text-muted small flex-shrink-0"></i>
+                                  <span class="text-muted small fw-semibold">Phone</span>
+                              </div>
+                              <ul class="list-unstyled mb-0" style="padding-left: 20px;">
+                                  @foreach(array_filter(array_map('trim', explode(',', $job['telephone']))) as $phone)
+                                  <li class="mb-1">
+                                      <a href="tel:{{ $phone }}"
+                                        class="text-body-secondary small text-decoration-none d-block">
+                                          {{ $phone }}
+                                      </a>
+                                  </li>
+                                  @endforeach
+                              </ul>
+                          </div>
+                          @endif
+
+                      </div>
                     </div>
                     @endif
 

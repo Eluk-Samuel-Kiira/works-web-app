@@ -162,8 +162,6 @@ class JobController extends Controller
             // Debug: Log the job to see what's coming
             Log::info('Job data retrieved', ['slug' => $slug, 'has_data' => !empty($job)]);
             
-            // \Log::info($job);
-            
             // If job is empty or doesn't have job_title, something is wrong
             if (empty($job['job_title'])) {
                 Log::error('Invalid job data', ['slug' => $slug, 'data' => $job]);
@@ -180,10 +178,10 @@ class JobController extends Controller
 
             // Expired or inactive jobs — serve page but tell Google not to index
             if ($isExpired || !$isActive) {
-                return $view->header('X-Robots-Tag', 'noindex, follow');
+                return response($view)->header('X-Robots-Tag', 'noindex, follow');
             }
 
-            return $view;
+            return response($view);
 
         } catch (\Exception $e) {
             Log::error('Error fetching job: ' . $e->getMessage(), [
@@ -193,7 +191,7 @@ class JobController extends Controller
             abort(404, 'Job not found');
         }
     }
-    
+        
     /**
      * Get featured jobs
      */

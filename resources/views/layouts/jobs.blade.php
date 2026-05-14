@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
 
 <head>
+    {{--
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VT1BQTKZZ5"></script>
     <script>
@@ -12,6 +13,7 @@
       gtag('config', 'G-VT1BQTKZZ5');
     </script>
 
+    
     <script src="https://cdn.cookiehub.eu/c2/53aa6329.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
@@ -19,6 +21,7 @@
         window.cookiehub.load(cpm);
         });
     </script>
+    --}}
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3587587638253109"
      crossorigin="anonymous"></script>
