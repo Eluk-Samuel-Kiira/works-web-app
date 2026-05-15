@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
 <head>
-    {{--
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VT1BQTKZZ5"></script>
     <script>
@@ -11,6 +10,7 @@
       gtag('config', 'G-VT1BQTKZZ5');
     </script>
 
+    {{--
     <script src="https://cdn.cookiehub.eu/c2/53aa6329.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
