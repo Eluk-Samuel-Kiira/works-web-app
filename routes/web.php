@@ -137,5 +137,23 @@ Route::fallback(function () {
 });
 
 
+// authenticating routes 
+use App\Http\Controllers\Auth\WebAuthController;
+ 
+// Public — magic link landing
+Route::get('/auth/magic/{token}', [WebAuthController::class, 'authenticate'])
+    ->name('web.magic.authenticate');
+ 
+// Public — logout
+Route::post('/auth/logout', [WebAuthController::class, 'logout'])
+    ->name('web.logout');
+ 
+
+    // Take user back to home page
+Route::get('/dashboard', fn() => redirect('/jobs'))->name('seeker.dashboard');
+Route::get('/employer/dashboard', fn() => redirect('/jobs'))->name('employer.dashboard');
+
+
+
 
 require __DIR__.'/api.php';

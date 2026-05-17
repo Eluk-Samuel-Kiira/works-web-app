@@ -9,6 +9,11 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'web.auth' => \App\Http\Middleware\RequireWebSession::class,
+        ]);
+    })
     ->withMiddleware(function (Middleware $middleware): void {
         // $middleware->appendToGroup('web', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
     })

@@ -160,7 +160,7 @@ class JobController extends Controller
             $job = $cachedData['data'];
             
             // Debug: Log the job to see what's coming
-            Log::info('Job data retrieved', ['slug' => $slug, 'has_data' => !empty($job)]);
+            // Log::info('Job data retrieved', ['slug' => $slug, 'has_data' => !empty($job)]);
             
             // If job is empty or doesn't have job_title, something is wrong
             if (empty($job['job_title'])) {

@@ -14,7 +14,7 @@
 
     
   
-    <script src="https://cdn.cookiehub.eu/c2/53aa6329.js"></script>
+    <script src="https://cdn.cookiehub.eu/c2/53aa6329sam.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
         var cpm = {};
@@ -226,6 +226,8 @@
   </div>
   --}}
 
+
+
   <!-- ------------------------------------- -->
   <!-- Top Bar End -->
   <!-- ------------------------------------- -->
@@ -289,6 +291,7 @@
   <!-- Footer End -->
   <!-- ------------------------------------- -->
 
+  @include('components.auth-modal')
   <style>
     /* ---- Scroll to top ---- */
       .scroll-top {
@@ -363,6 +366,77 @@
   <script  src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   <script  src="{{ web_asset('front/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
   <script  src="{{ web_asset('front/js/frontend-landingpage/homepage.js') }}"></script>
+
+  <script>
+    // ─── Universal Toast Function ─────────────────────────────────────────────
+    function showToast(message, type = 'success') {
+        if (!message) return;
+        let container = document.getElementById('globalToastContainer');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'globalToastContainer';
+            container.style.cssText = 'position:fixed;bottom:1rem;right:1rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem;';
+            document.body.appendChild(container);
+        }
+        const colors = {
+            success: { bg: '#28a745', icon: '✓' },
+            danger:  { bg: '#dc3545', icon: '✕' },
+            warning: { bg: '#e0a800', icon: '⚠' },
+            info:    { bg: '#17a2b8', icon: 'ℹ' },
+        };
+        const { bg, icon } = colors[type] ?? colors.success;
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            background:${bg};color:#fff;padding:0.75rem 1rem;border-radius:0.5rem;
+            box-shadow:0 0.5rem 1rem rgba(0,0,0,.2);min-width:260px;max-width:360px;
+            font-size:0.875rem;cursor:pointer;animation:fadeInUp .2s ease;
+        `;
+        toast.innerHTML = `
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+                <strong style="font-size:1.1rem;flex-shrink:0;">${icon}</strong>
+                <span style="flex:1;">${message}</span>
+                <button onclick="this.closest('[data-toast]').remove()"
+                        style="background:none;border:none;color:#fff;font-size:1rem;cursor:pointer;line-height:1;">✕</button>
+            </div>
+        `;
+        toast.dataset.toast = '';
+        toast.addEventListener('click', e => {
+            if (e.target.tagName !== 'BUTTON') toast.remove();
+        });
+        container.appendChild(toast);
+        setTimeout(() => toast?.remove(), 5000);
+    }
+
+    window.toast = showToast;
+
+    const _toastStyle = document.createElement('style');
+    _toastStyle.textContent = '@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}';
+    document.head.appendChild(_toastStyle);
+
+    // ─── DEBUG: paste this in browser console to check what Laravel rendered ──
+    window.__flashDebug = {
+        success: @json(session('success')),
+        error:   @json(session('error')),
+        warning: @json(session('warning')),
+        info:    @json(session('info')),
+    };
+    console.log('[Flash Debug]', window.__flashDebug);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            showToast(@json(session('success')), 'success');
+        @endif
+        @if(session('error'))
+            showToast(@json(session('error')), 'danger');
+        @endif
+        @if(session('warning'))
+            showToast(@json(session('warning')), 'warning');
+        @endif
+        @if(session('info'))
+            showToast(@json(session('info')), 'info');
+        @endif
+    });
+</script>
 </body>
 
 </html>
