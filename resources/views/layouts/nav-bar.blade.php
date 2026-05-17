@@ -47,12 +47,16 @@
 
         @if(!session('web_user'))
         <div class="d-flex gap-2 align-items-center">
-          <a href="javascript:void(0)" onclick="openAuthModal('register')"
-             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:background .15s,border-color .15s; white-space: nowrap;"
-             onmouseover="this.style.background='rgba(255,255,255,.13)'"
-             onmouseout="this.style.background='rgba(255,255,255,.08)'">Sign Up</a>
-          <a href="javascript:void(0)" onclick="openAuthModal('login')"
-             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;text-decoration:none; white-space: nowrap;">Log In</a>
+          <a href="{{ route('login.register') }}?tab=register"
+            class="btn-signup"
+            style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:background .15s,border-color .15s; white-space: nowrap;">
+            Sign Up
+          </a>
+          <a href="{{ route('login.register') }}?tab=login"
+            class="btn-login"
+            style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;text-decoration:none; white-space: nowrap;">
+            Log In
+          </a>
         </div>
         @endif
 
@@ -168,14 +172,18 @@
       @else
       <!-- Auth Buttons for Mobile -->
       <li class="mt-4">
-        <a href="javascript:void(0)" onclick="openAuthModal('login')"
-           class="d-block text-center text-white text-decoration-none py-2 rounded-3 fw-600"
-           style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);font-size:14px;font-weight:600;">Log In</a>
+          <a href="{{ route('login.register') }}?tab=login"
+            class="d-block text-center text-white text-decoration-none py-2 rounded-3 fw-600"
+            style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);font-size:14px;font-weight:600;">
+            Log In
+          </a>
       </li>
       <li class="mt-2">
-        <a href="javascript:void(0)" onclick="openAuthModal('register')"
-           class="d-block text-center text-decoration-none py-2 rounded-3"
-           style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:600;">Sign Up</a>
+          <a href="{{ route('login.register') }}?tab=register"
+            class="d-block text-center text-decoration-none py-2 rounded-3"
+            style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:600;">
+            Sign Up
+          </a>
       </li>
       @endif
     </ul>

@@ -148,8 +148,12 @@ Route::get('/auth/magic/{token}', [WebAuthController::class, 'authenticate'])
 Route::post('/auth/logout', [WebAuthController::class, 'logout'])
     ->name('web.logout');
  
+Route::get('/login-register', function () {
+    return view('auth.login-register');
+})->name('login.register');
 
-    // Take user back to home page
+
+// Take user back to home page
 Route::get('/dashboard', fn() => redirect('/jobs'))->name('seeker.dashboard');
 Route::get('/employer/dashboard', fn() => redirect('/jobs'))->name('employer.dashboard');
 
