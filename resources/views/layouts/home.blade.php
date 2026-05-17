@@ -10,11 +10,11 @@
       gtag('config', 'G-VT1BQTKZZ5');
     </script>
 
-    <script src="https://cdn.cookiehub.eu/c2/53aa6329sam.js"></script>
+    <script src="https://cdn.cookiehub.eu/c2/53aa6329.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
-        var cpm = {};
-        window.cookiehub.load(cpm);
+        // var cpm = {};
+        // window.cookiehub.load(cpm);
         });
     </script>
 
@@ -309,6 +309,7 @@
           margin: 8px 0;        /* Space around ad */
       }
     </style>
+
 </head>
 <body>
 
@@ -450,6 +451,47 @@
             showToast(@json(session('info')), 'info');
         @endif
     });
+</script>
+<script>
+(function fixMobileInputs() {
+    // Hide preloader
+    const preloader = document.querySelector('.preloader');
+    if (preloader) {
+        preloader.style.display = 'none';
+    }
+    
+    // Ensure all inputs are enabled
+    function enableAllInputs() {
+        const inputs = document.querySelectorAll('input, textarea, select, button');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.readOnly = false;
+            input.style.pointerEvents = 'auto';
+            input.style.touchAction = 'manipulation';
+        });
+    }
+    
+    // Run immediately and after DOM changes
+    enableAllInputs();
+    
+    // Watch for dynamically added content
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                enableAllInputs();
+            }
+        });
+    });
+    
+    observer.observe(document.body, { childList: true, subtree: true });
+    
+    // Fix for iOS - ensure focus works
+    document.body.addEventListener('touchstart', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            e.target.focus();
+        }
+    });
+})();
 </script>
 </body>
 </html>

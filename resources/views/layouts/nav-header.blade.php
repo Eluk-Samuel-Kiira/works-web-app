@@ -47,14 +47,14 @@
 
         @if(!session('web_user'))
         <div class="d-flex gap-2 align-items-center">
-          <a href="javascript:void(0)" onclick="openAuthModal('register')"
-             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:rgba(var(--bs-primary-rgb),.08);border:1px solid rgba(var(--bs-primary-rgb),.2);color:var(--bs-primary);text-decoration:none;transition:all .15s; white-space: nowrap;"
-             onmouseover="this.style.background='rgba(var(--bs-primary-rgb),.15)';this.style.borderColor='rgba(var(--bs-primary-rgb),.4)'"
-             onmouseout="this.style.background='rgba(var(--bs-primary-rgb),.08)';this.style.borderColor='rgba(var(--bs-primary-rgb),.2)'">Sign Up</a>
-          <a href="javascript:void(0)" onclick="openAuthModal('login')"
-             style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:var(--bs-primary);border:none;color:#fff;text-decoration:none; white-space: nowrap;transition:all .15s;"
-             onmouseover="this.style.opacity='0.9'"
-             onmouseout="this.style.opacity='1'">Log In</a>
+          <a href="{{ route('login.register') }}?tab=register"
+            style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:rgba(var(--bs-primary-rgb),.08);border:1px solid rgba(var(--bs-primary-rgb),.2);color:var(--bs-primary);text-decoration:none;transition:all .15s; white-space: nowrap;"
+            onmouseover="this.style.background='rgba(var(--bs-primary-rgb),.15)';this.style.borderColor='rgba(var(--bs-primary-rgb),.4)'"
+            onmouseout="this.style.background='rgba(var(--bs-primary-rgb),.08)';this.style.borderColor='rgba(var(--bs-primary-rgb),.2)'">Sign Up</a>
+          <a href="{{ route('login.register') }}?tab=login"
+            style="font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;background:var(--bs-primary);border:none;color:#fff;text-decoration:none; white-space: nowrap;transition:all .15s;"
+            onmouseover="this.style.opacity='0.9'"
+            onmouseout="this.style.opacity='1'">Log In</a>
         </div>
         @endif
 
@@ -170,14 +170,14 @@
       @else
       <!-- Auth Buttons for Mobile -->
       <li class="mt-4">
-        <a href="javascript:void(0)" onclick="openAuthModal('login')"
-           class="d-block text-center text-white text-decoration-none py-2 rounded-3 fw-600"
-           style="background:var(--bs-primary);font-size:14px;font-weight:600;">Log In</a>
+          <a href="{{ route('login.register') }}?tab=login"
+            class="d-block text-center text-white text-decoration-none py-2 rounded-3 fw-600"
+            style="background:var(--bs-primary);font-size:14px;font-weight:600;">Log In</a>
       </li>
       <li class="mt-2">
-        <a href="javascript:void(0)" onclick="openAuthModal('register')"
-           class="d-block text-center text-decoration-none py-2 rounded-3"
-           style="background:rgba(var(--bs-primary-rgb),.08);border:1px solid rgba(var(--bs-primary-rgb),.2);color:var(--bs-primary);font-size:14px;font-weight:600;">Sign Up</a>
+          <a href="{{ route('login.register') }}?tab=register"
+            class="d-block text-center text-decoration-none py-2 rounded-3"
+            style="background:rgba(var(--bs-primary-rgb),.08);border:1px solid rgba(var(--bs-primary-rgb),.2);color:var(--bs-primary);font-size:14px;font-weight:600;">Sign Up</a>
       </li>
       @endif
     </ul>
