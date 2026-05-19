@@ -153,11 +153,16 @@ Route::get('/login-register', function () {
 })->name('login.register');
 
 
-// Take user back to home page
-Route::get('/dashboard', fn() => redirect('/jobs'))->name('seeker.dashboard');
-Route::get('/employer/dashboard', fn() => redirect('/jobs'))->name('employer.dashboard');
 
+use App\Http\Controllers\JS\ {
+    DashboardController 
 
+    };
 
+// Protected routes — wrap with the middleware
+Route::middleware('web.auth')->group(function () {
+    // Seeker Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'seekerDashboard'])->name('seeker.dashboard');
+});
 
 require __DIR__.'/api.php';
