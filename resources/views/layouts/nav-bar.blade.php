@@ -29,8 +29,8 @@
             <a class="nav-link nav-item-link" href="{{ route('companies') }}">Companies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="javascript:void(0)" onclick="comingSoon()">
-              Career Advice
+            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="{{ route('seeker.dashboard') }}">
+              CV Enhancement
               <span style="background:rgba(79,110,247,.2);border:1px solid rgba(79,110,247,.4);color:#818cf8;font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
             </a>
           </li>
@@ -137,8 +137,8 @@
       <li class="mb-1"><a href="{{ route('jobs.index') }}" target="_blank" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Find Jobs</a></li>
       <li class="mb-1"><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">Companies</a></li>
       <li class="mb-1">
-        <a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">
-          Career Advice
+        <a href="{{ route('seeker.dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:rgba(255,255,255,.75);">
+          CV Enhancement
           <span style="background:rgba(79,110,247,.2);border:1px solid rgba(79,110,247,.4);color:#818cf8;font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
         </a>
       </li>

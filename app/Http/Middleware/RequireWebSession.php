@@ -26,7 +26,7 @@ class RequireWebSession
             // Store intended URL so we can redirect back after login
             session()->put('url.intended', $request->fullUrl());
  
-            return redirect()->route('jobs.index')
+            return redirect()->route('login.register')
                 ->with('info', 'Please sign in to access that page.');
         }
  

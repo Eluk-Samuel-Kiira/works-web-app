@@ -274,11 +274,9 @@
                         <div id="roleJobSeeker" class="role-btn active" onclick="selectRole('job_seeker')">
                             <span>🔍</span><span>Job Seeker</span><br><span>Looking for work</span>
                         </div>
-                        {{--
                         <div id="roleEmployer" class="role-btn" onclick="selectRole('employer')">
                             <span>🏢</span><span>Employer</span><br><span>Hiring talent</span>
                         </div>
-                        --}}
                     </div>
                     <input type="hidden" id="selectedRole" value="job_seeker">
                 </div>

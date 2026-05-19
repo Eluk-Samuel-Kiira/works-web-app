@@ -26,14 +26,9 @@ class WebAuthController extends Controller
         // Check if user is already logged in
         if (session()->has('web_user')) {
             $user = session('web_user');
-            $role = $user['role'] ?? 'job_seeker';
             
-            return match ($role) {
-                'employer'   => redirect()->route('employer.dashboard')
-                                    ->with('info', 'You are already logged in as ' . $user['first_name'] . '.'),
-                default      => redirect()->route('jobs.index')
-                                    ->with('info', 'You are already logged in as ' . $user['first_name'] . '.'),
-            };
+            return redirect()->route('seeker.dashboard')
+                ->with('info', 'You are already logged in as ' . $user['first_name'] . '.');
         }
         
         $mainApi = rtrim(config('api.main_app.api_base'), '/');
@@ -74,15 +69,9 @@ class WebAuthController extends Controller
                 'email'   => $userData['email'],
             ]);
 
-            // ── Redirect based on role ────────────────────────────────────
-            $role = $userData['role'] ?? 'job_seeker';
-
-            return match ($role) {
-                'employer'   => redirect()->route('employer.dashboard')
-                                    ->with('success', 'Welcome back, ' . $userData['first_name'] . '!'),
-                default      => redirect()->route('jobs.index')
-                                    ->with('success', 'Welcome back, ' . $userData['first_name'] . '!'),
-            };
+            // ── Always redirect to job seeker dashboard ────────────────────
+            return redirect()->route('seeker.dashboard')
+                ->with('success', 'Welcome back, ' . $userData['first_name'] . '!');
 
         } catch (\Exception $e) {
             Log::error('Web magic link authentication error: ' . $e->getMessage());

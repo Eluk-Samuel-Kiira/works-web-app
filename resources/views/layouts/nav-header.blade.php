@@ -29,8 +29,8 @@
             <a class="nav-link nav-item-link" href="{{ route('companies') }}">Companies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="javascript:void(0)" onclick="comingSoon()">
-              Career Advice
+            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="{{ route('seeker.dashboard') }}">
+              CV Enhancement
               <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
             </a>
           </li>
@@ -67,7 +67,7 @@
             <span>{{ session('web_user.first_name') }}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-            <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('seeker.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
             <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-person"></i> My Profile</a></li>
             @if(session('web_user.role') === 'employer')
             <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-briefcase"></i> My Jobs</a></li>
@@ -135,8 +135,8 @@
       <li class="mb-1"><a href="{{ route('jobs.index') }}" target="_blank" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Find Jobs</a></li>
       <li class="mb-1"><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Companies</a></li>
       <li class="mb-1">
-        <a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">
-          Career Advice
+        <a href="{{ route('seeker.dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">
+          CV Enhancement
           <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
         </a>
       </li>
