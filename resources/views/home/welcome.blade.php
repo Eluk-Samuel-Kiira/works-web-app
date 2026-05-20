@@ -161,24 +161,28 @@
 </section>
 
 {{-- ═══════════════════════════════════════════════════════
-     TRUSTED BY SECTION
+     TRUSTED BY SECTION - Compact
 ═══════════════════════════════════════════════════════ --}}
-<div class="border-bottom py-4" style="background: #ffffff;">
+<div class="border-bottom py-3 bg-white">
   <div class="container-xl px-3 px-md-4">
-    <p class="small text-uppercase text-muted text-center mb-3" style="letter-spacing: 0.1em;">Trusted by companies across Uganda</p>
-    <div class="d-flex flex-wrap justify-content-center gap-2 px-2">
+    <p class="small text-uppercase text-muted text-center mb-2" style="letter-spacing: 0.1em; font-size: 10px;">Trusted by companies across Uganda</p>
+    <div class="d-flex flex-wrap justify-content-center gap-1 px-2">
       @foreach([
         ['🏢', 'Stanbic Bank'],
         ['📱', 'MTN Uganda'],
         ['✈️', 'Uganda Airlines'],
         ['🏥', 'Nakasero Hospital'],
         ['🛒', 'Jumia Uganda'],
-        ['🏦', 'Centenary Bank']
+        ['🏦', 'Centenary Bank'],
+        ['⚡', 'Umeme'],
+        ['🏛️', 'NSSF Uganda']
       ] as [$icon, $company])
-        <span class="trust-badge d-inline-flex align-items-center gap-2 bg-light border rounded-pill px-3 py-2">
-          <span class="fs-6">{{ $icon }}</span>
-          <span class="fw-normal small">{{ $company }}</span>
-        </span>
+        <a href="javascript:void(0)" onclick="comingSoon()" 
+           class="d-inline-flex align-items-center gap-1 bg-light border rounded-pill px-2 py-1 text-decoration-none"
+           style="transition: all 0.2s ease;">
+          <span style="font-size: 12px;">{{ $icon }}</span>
+          <span class="fw-normal text-dark" style="font-size: 11px;">{{ $company }}</span>
+        </a>
       @endforeach
     </div>
   </div>
@@ -224,85 +228,7 @@
   </div>
 </section>
 
-<style>
-  /* Trust Badges - 2 per line on mobile */
-  .trust-badge {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    transition: all 0.2s ease;
-  }
-  
-  .trust-badge:hover {
-    background: #ffffff;
-    border-color: var(--bs-primary);
-    transform: translateY(-2px);
-  }
-  
-  /* Mobile: 2 items per row */
-  @media (max-width: 576px) {
-    .trust-badge {
-      width: calc(50% - 0.5rem);
-      justify-content: center;
-    }
-  }
-  
-  /* Color utilities */
-  .bg-light-primary { background-color: rgba(var(--bs-primary-rgb), 0.1); }
-  .bg-light-success { background-color: rgba(var(--bs-success-rgb), 0.1); }
-  .bg-light-warning { background-color: rgba(var(--bs-warning-rgb), 0.1); }
-  .bg-light-info { background-color: rgba(var(--bs-info-rgb), 0.1); }
-  .bg-light-danger { background-color: rgba(var(--bs-danger-rgb), 0.1); }
-  
-  .text-primary { color: var(--bs-primary) !important; }
-  .text-success { color: var(--bs-success) !important; }
-  .text-warning { color: var(--bs-warning) !important; }
-  .text-info { color: var(--bs-info) !important; }
-  .text-danger { color: var(--bs-danger) !important; }
-  
-  .hover-lift {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
-  }
-  
-  /* Mobile optimizations */
-  @media (max-width: 576px) {
-    .card-body {
-      padding: 0.875rem !important;
-    }
-    
-    .rounded-2.bg-light-${color} {
-      padding: 0.375rem !important;
-    }
-    
-    .bi {
-      font-size: 1rem !important;
-    }
-    
-    h6 {
-      font-size: 0.8rem !important;
-    }
-    
-    .text-muted.small {
-      font-size: 0.7rem !important;
-      line-height: 1.4;
-    }
-  }
-  
-  /* Tablet adjustments */
-  @media (min-width: 577px) and (max-width: 768px) {
-    .card-body {
-      padding: 1rem !important;
-    }
-    
-    h6 {
-      font-size: 0.85rem !important;
-    }
-  }
-</style>
+
 
 {{-- ═══════════════════════════════════════════════════════
      CV ENHANCEMENT SECTION (id="cv-enhancement")
