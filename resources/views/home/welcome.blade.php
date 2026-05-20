@@ -27,7 +27,7 @@
         </p>
 
         {{-- Search Bar --}}
-        <form action="{{ route('jobs.index') }}" method="GET" class="bg-white rounded-3 shadow-sm p-2 d-flex flex-column flex-sm-row gap-2 align-items-stretch mb-4">
+        <form action="{{ route('jobs.search') }}" method="GET" class="bg-white rounded-3 shadow-sm p-2 d-flex flex-column flex-sm-row gap-2 align-items-stretch mb-4">
           <div class="d-flex align-items-center flex-grow-1 px-2">
             <i class="bi bi-search text-muted me-2"></i>
             <input type="text" name="keyword" class="form-control border-0 p-0 shadow-none" placeholder="Job title, skill or keyword">
@@ -45,7 +45,11 @@
         <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
           <span class="text-white-50 small">Popular:</span>
           @foreach(['Driver', 'Sales Rep', 'Delivery', 'Software Dev', 'Nurse', 'Teacher'] as $tag)
-            <a href="{{ route('jobs.index', ['keyword' => $tag]) }}" class="badge bg-white bg-opacity-15 text-white text-decoration-none rounded-pill px-3 py-1" style="font-size: 11px;">{{ $tag }}</a>
+            <a href="{{ route('jobs.index', ['keyword' => $tag]) }}" 
+              class="badge bg-white text-primary text-decoration-none rounded-pill px-3 py-1" 
+              style="font-size: 11px; background: rgba(255,255,255,0.95) !important; color: #1e3a8a !important; font-weight: 500;">
+              {{ $tag }}
+            </a>
           @endforeach
         </div>
 
