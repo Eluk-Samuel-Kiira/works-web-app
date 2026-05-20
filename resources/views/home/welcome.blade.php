@@ -1,144 +1,119 @@
-@extends('layouts.home')
-@section('title', __('Stardena Works - AI-Powered Job Platform'))
-@section('home-content')
+@extends('layouts.jobs')
+@section('title', 'Stardena Works - AI-Powered Job Platform')
+@section('meta_description', 'Find jobs in Uganda, get AI-powered CV enhancement, and connect with top employers on Stardena Works.')
 
-
-{{-- ═══════════════════════════════════════════════════════
-     NOTIFICATION BAR
-═══════════════════════════════════════════════════════ --}}
-{{--
-<div style="background:linear-gradient(90deg,#4f6ef7,#7c3aed);padding:9px 0;">
-  <div class="container">
-    <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
-      <span class="badge bg-white text-primary fw-bold px-2" style="font-size:10px;">🚀 NEW</span>
-      <span style="font-size:13px;color:rgba(255,255,255,.9)">AI-powered CV Tailoring is live — get matched to the right job in seconds!</span>
-      <a href="javascript:void(0);" onclick="comingSoon()" style="color:#fff;font-size:13px;font-weight:700;text-decoration:underline;">Try it Free →</a>
-    </div>
-  </div>
-</div>
---}}
+@section('job-content')
 
 {{-- ═══════════════════════════════════════════════════════
-     HERO
+     HERO SECTION
 ═══════════════════════════════════════════════════════ --}}
-<section class="hero-mesh" style="border-bottom:1px solid var(--border);">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-
-  <div class="container py-4 py-lg-6" style="display:flex;align-items:center;">    
-    <div class="row align-items-center g-4 g-lg-5 w-100">
-
-      {{-- Left --}}
-      <div class="col-lg-6 fade-up">
-        <div class="pill-badge mb-4">
-          <span class="pill-dot"></span>
-          AI-Powered Talent Matching · Uganda &amp; Africa
+<section class="bg-primary py-5 py-lg-7" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);">
+  <div class="container-xl px-3 px-md-4">
+    <div class="row align-items-center g-4 g-lg-5">
+      
+      {{-- Left Column --}}
+      <div class="col-lg-6 text-center text-lg-start">
+        <div class="d-inline-flex align-items-center gap-2 bg-white bg-opacity-15 rounded-pill px-3 py-1 mb-4">
+          <span class="badge bg-warning text-dark px-2 py-1 rounded-pill" style="font-size: 10px;">AI-Powered</span>
+          <span class="text-white small">Uganda &amp; Africa</span>
         </div>
 
-        <h1 class="hero-h1 mb-4">
-          Hire the <span class="gradient-text">Top 1%</span><br>
-          of Talent,<br>AI &#8202;Verified
+        <h1 class="display-4 fw-bold text-white mb-3" style="font-size: clamp(1.75rem, 5vw, 2.5rem);">
+          Hire the <span style="color: #fcd34d;">Top 1%</span><br>of Talent, AI Verified
         </h1>
 
-        <p style="font-size:1rem;line-height:1.7;color:var(--muted);max-width:480px;margin-bottom:2rem;">
+        <p class="text-white-50 mb-4" style="font-size: 1rem; line-height: 1.6;">
           Stardena Works connects employers with skilled workers using AI. Find full-time jobs, quick gigs, or scan millions of CVs — all in one place.
         </p>
 
-        {{-- Search --}}
-        <div class="search-glass mb-4">
-          <form action="{{ route('jobs.index') }}" method="GET">
-            <div class="d-flex flex-column flex-sm-row gap-2 align-items-stretch">
-              <div class="d-flex align-items-center flex-grow-1 px-3" style="min-width:0">
-                <i class="bi bi-search me-2" style="color:var(--muted);flex-shrink:0"></i>
-                <input type="text" name="keyword" placeholder="Job title, skill or keyword">
-              </div>
-              <div class="search-divider d-none d-sm-block"></div>
-              <div class="d-flex align-items-center flex-grow-1 px-3" style="min-width:0">
-                <i class="bi bi-geo-alt me-2" style="color:var(--muted);flex-shrink:0"></i>
-                <input type="text" name="location" placeholder="Kampala, Uganda">
-              </div>
-              <button type="submit"
-                      style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:10px 24px;font-weight:600;font-size:14px;white-space:nowrap;flex-shrink:0;">
-                Search Jobs
-              </button>
-            </div>
-          </form>
-        </div>
+        {{-- Search Bar --}}
+        <form action="{{ route('jobs.index') }}" method="GET" class="bg-white rounded-3 shadow-sm p-2 d-flex flex-column flex-sm-row gap-2 align-items-stretch mb-4">
+          <div class="d-flex align-items-center flex-grow-1 px-2">
+            <i class="bi bi-search text-muted me-2"></i>
+            <input type="text" name="keyword" class="form-control border-0 p-0 shadow-none" placeholder="Job title, skill or keyword">
+          </div>
+          <div class="d-flex align-items-center flex-grow-1 px-2 border-top border-sm-top-0 border-sm-start pt-2 pt-sm-0">
+            <i class="bi bi-geo-alt text-muted me-2"></i>
+            <input type="text" name="location" class="form-control border-0 p-0 shadow-none" placeholder="Kampala, Uganda">
+          </div>
+          <button type="submit" class="btn btn-primary fw-semibold px-4" style="background: #1e40af; border: none;">
+            Search Jobs
+          </button>
+        </form>
 
-        {{-- Popular tags --}}
+        {{-- Popular Tags --}}
         <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
-          <span style="font-size:12px;font-weight:600;color:var(--muted)">Popular:</span>
-          @foreach(['Driver','Sales Rep','Delivery','Software Dev','Nurse','Teacher'] as $tag)
-            <a href="{{ route('jobs.index', ['keyword' => $tag]) }}" class="pop-tag text-decoration-none">{{ $tag }}</a>
+          <span class="text-white-50 small">Popular:</span>
+          @foreach(['Driver', 'Sales Rep', 'Delivery', 'Software Dev', 'Nurse', 'Teacher'] as $tag)
+            <a href="{{ route('jobs.index', ['keyword' => $tag]) }}" class="badge bg-white bg-opacity-15 text-white text-decoration-none rounded-pill px-3 py-1" style="font-size: 11px;">{{ $tag }}</a>
           @endforeach
         </div>
 
-        {{-- Social proof --}}
+        {{-- Social Proof --}}
         <div class="d-flex align-items-center gap-3">
           <div class="d-flex">
-            @foreach(['men/48','women/73','men/55','men/83'] as $p)
-              <img src="https://randomuser.me/api/portraits/{{ $p }}.jpg"
-                   class="rounded-circle" width="36" height="36"
-                   style="border:2px solid var(--ink-2);margin-right:-10px;object-fit:cover;">
+            @foreach(['men/48', 'women/73', 'men/55', 'men/83'] as $p)
+              <img src="https://randomuser.me/api/portraits/{{ $p }}.jpg" class="rounded-circle border border-2 border-white" width="36" height="36" style="margin-right: -8px; object-fit: cover;">
             @endforeach
           </div>
           <div>
-            <div class="text-warning mb-1" style="font-size:12px">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            <div class="text-warning mb-1" style="font-size: 11px;">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
             </div>
-            <small style="color:var(--muted);font-size:12px">Trusted by <strong style="color:#fff">10,000+</strong> workers &amp; employers</small>
+            <small class="text-white-50">Trusted by <strong class="text-white">10,000+</strong> workers &amp; employers</small>
           </div>
         </div>
       </div>
 
-      {{-- Right — Live AI panel --}}
-      <div class="col-lg-6 d-none d-lg-block fade-up" style="animation-delay:.15s">
-        <div class="glass-card p-4">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <span style="font-size:12px;font-weight:600;color:var(--muted)">AI MATCH DASHBOARD</span>
-            <span class="pill-badge" style="padding:4px 10px;font-size:11px;">
-              <span class="pill-dot"></span> Live
-            </span>
-          </div>
+      {{-- Right Column - AI Match Panel --}}
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="card border-0 shadow-lg rounded-4" style="background: #f8faff;">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">
+                <i class="bi bi-robot me-1"></i> AI MATCH DASHBOARD
+              </span>
+              <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
+                <span class="badge bg-success rounded-circle me-1" style="width: 6px; height: 6px; padding: 0;"></span> Live
+              </span>
+            </div>
 
-          {{-- Score card --}}
-          <div style="background:linear-gradient(135deg,rgba(79,110,247,.25),rgba(124,58,237,.2));border:1px solid rgba(79,110,247,.3);border-radius:12px;padding:20px;" class="mb-3">
-            <div class="d-flex align-items-center justify-content-between">
-              <div>
-                <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">AI Match Score</div>
-                <div style="font-weight:700;font-size:15px;color:#fff;">Software Engineer · Kampala</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:6px;">3 skills verified · CV tailored · Instantly applied</div>
+            {{-- Score Card --}}
+            <div class="bg-primary bg-opacity-10 rounded-3 p-3 mb-3" style="border-left: 4px solid #2563eb;">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="small text-muted mb-1">AI Match Score</div>
+                  <div class="fw-bold text-primary">Software Engineer · Kampala</div>
+                  <div class="small text-muted mt-1">3 skills verified · CV tailored</div>
+                </div>
+                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 55px; height: 55px; font-size: 18px;">92%</div>
               </div>
-              <div class="score-ring"><span>92%</span></div>
             </div>
-          </div>
 
-          {{-- Job rows --}}
-          @foreach([
-            ['M','bg-primary','MTN Uganda','Sales Manager · UGX 2.5M/mo','New','rgba(79,110,247,.2)','#818cf8'],
-            ['A','rgba(239,68,68,.8)','Airtel Uganda','Customer Support · Full-time','Match','rgba(34,197,94,.15)','#4ade80'],
-            ['S','rgba(34,197,94,.8)','Stanbic Bank','IT Officer · UGX 3.8M/mo','Hot','rgba(245,158,11,.15)','#fcd34d'],
-          ] as [$letter,$bg,$name,$sub,$badge,$badgeBg,$badgeColor])
-          <div class="d-flex align-items-center gap-3 mb-2" style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div class="d-flex align-items-center justify-content-center fw-bold text-white rounded-3 flex-shrink-0"
-                 style="width:40px;height:40px;background:{{ $bg }};font-size:15px;">{{ $letter }}</div>
-            <div class="flex-grow-1" style="min-width:0">
-              <div style="font-weight:600;font-size:14px;color:#fff;">{{ $name }}</div>
-              <div style="font-size:12px;color:var(--muted);">{{ $sub }}</div>
+            {{-- Job Rows --}}
+            @foreach([
+              ['M', 'MTN Uganda', 'Sales Manager · UGX 2.5M/mo', 'New', '#e8f0fe', '#2563eb'],
+              ['A', 'Airtel Uganda', 'Customer Support · Full-time', 'Match', '#e6f4ea', '#16a34a'],
+              ['S', 'Stanbic Bank', 'IT Officer · UGX 3.8M/mo', 'Hot', '#fff3e0', '#f59e0b'],
+            ] as [$letter, $name, $sub, $badge, $bgBadge, $colorBadge])
+            <div class="d-flex align-items-center gap-3 mb-2 p-2 rounded-3" style="background: #f0f4f9;">
+              <div class="d-flex align-items-center justify-content-center fw-bold text-white rounded-3 flex-shrink-0" style="width: 40px; height: 40px; background: #2563eb; font-size: 16px;">{{ $letter }}</div>
+              <div class="flex-grow-1">
+                <div class="fw-semibold" style="font-size: 14px;">{{ $name }}</div>
+                <div class="small text-muted">{{ $sub }}</div>
+              </div>
+              <span class="badge rounded-pill px-3 py-1" style="background: {{ $bgBadge }}; color: {{ $colorBadge }}; font-size: 10px;">{{ $badge }}</span>
             </div>
-            <span style="background:{{ $badgeBg }};color:{{ $badgeColor }};font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;white-space:nowrap;">{{ $badge }}</span>
-          </div>
-          @endforeach
+            @endforeach
 
-          <div class="d-flex gap-2 mt-3">
-            <button onclick="comingSoon()" style="flex:1;background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:10px;font-weight:600;font-size:13px;">
-              <i class="bi bi-robot me-1"></i> Tailor My CV
-            </button>
-            <button onclick="comingSoon()" style="flex:1;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80;border-radius:10px;padding:10px;font-weight:600;font-size:13px;">
-              <i class="bi bi-whatsapp me-1"></i> Apply via WhatsApp
-            </button>
+            <div class="d-flex gap-2 mt-3">
+              <button onclick="scrollToCVSection()" class="btn btn-primary rounded-pill flex-grow-1" style="background: linear-gradient(135deg, #2563eb, #1e3a8a); border: none;">
+                <i class="bi bi-magic me-1"></i> Tailor My CV
+              </button>
+              <button onclick="comingSoon()" class="btn btn-outline-success rounded-pill flex-grow-1">
+                <i class="bi bi-whatsapp me-1"></i> Apply via WhatsApp
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -148,33 +123,33 @@
 </section>
 
 {{-- ═══════════════════════════════════════════════════════
-     STATS
+     STATS SECTION
 ═══════════════════════════════════════════════════════ --}}
-<section class="stats-section py-5" style="background:var(--ink-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="container">
+<section class="py-4 py-lg-5 border-bottom" style="background: #f8faff;">
+  <div class="container-xl px-3 px-md-4">
     <div class="row g-3 text-center">
-      <div class="col-6 col-md-3 fade-up">
-        <div class="stat-card">
-          <div class="stat-num blue mb-1">15K+</div>
-          <div style="font-size:12px;font-weight:600;color:var(--muted)">Registered Workers</div>
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 p-3">
+          <div class="stat-num display-6 fw-bold text-primary mb-1">15K+</div>
+          <div class="small text-muted">Registered Workers</div>
         </div>
       </div>
-      <div class="col-6 col-md-3 fade-up" style="transition-delay:.08s">
-        <div class="stat-card">
-          <div class="stat-num purple mb-1">2.4K+</div>
-          <div style="font-size:12px;font-weight:600;color:var(--muted)">Companies Hiring</div>
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 p-3">
+          <div class="stat-num display-6 fw-bold text-primary mb-1">2.4K+</div>
+          <div class="small text-muted">Companies Hiring</div>
         </div>
       </div>
-      <div class="col-6 col-md-3 fade-up" style="transition-delay:.16s">
-        <div class="stat-card">
-          <div class="stat-num green mb-1">8.7K+</div>
-          <div style="font-size:12px;font-weight:600;color:var(--muted)">Jobs Filled</div>
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 p-3">
+          <div class="stat-num display-6 fw-bold text-primary mb-1">8.7K+</div>
+          <div class="small text-muted">Jobs Filled</div>
         </div>
       </div>
-      <div class="col-6 col-md-3 fade-up" style="transition-delay:.24s">
-        <div class="stat-card">
-          <div class="stat-num amber mb-1">500+</div>
-          <div style="font-size:12px;font-weight:600;color:var(--muted)">Quick Gigs Today</div>
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 p-3">
+          <div class="stat-num display-6 fw-bold text-primary mb-1">500+</div>
+          <div class="small text-muted">Quick Gigs Today</div>
         </div>
       </div>
     </div>
@@ -182,47 +157,47 @@
 </section>
 
 {{-- ═══════════════════════════════════════════════════════
-     TRUSTED BY
+     TRUSTED BY SECTION
 ═══════════════════════════════════════════════════════ --}}
-<div style="background:var(--ink);padding:28px 0;border-bottom:1px solid var(--border);">
-  <div class="container text-center">
-    <p style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:16px;">Trusted by companies across Uganda</p>
+<div class="border-bottom py-4" style="background: #ffffff;">
+  <div class="container-xl px-3 px-md-4 text-center">
+    <p class="small text-uppercase text-muted mb-3" style="letter-spacing: 0.1em;">Trusted by companies across Uganda</p>
     <div class="d-flex flex-wrap justify-content-center gap-2">
-      <span class="trust-chip">🏢 Stanbic Bank</span>
-      <span class="trust-chip">📱 MTN Uganda</span>
-      <span class="trust-chip">✈️ Uganda Airlines</span>
-      <span class="trust-chip">🏥 Nakasero Hospital</span>
-      <span class="trust-chip">🛒 Jumia Uganda</span>
+      @foreach(['🏢 Stanbic Bank', '📱 MTN Uganda', '✈️ Uganda Airlines', '🏥 Nakasero Hospital', '🛒 Jumia Uganda'] as $company)
+        <span class="badge bg-light border text-dark rounded-pill px-4 py-2 fw-normal">{{ $company }}</span>
+      @endforeach
     </div>
   </div>
 </div>
 
 {{-- ═══════════════════════════════════════════════════════
-     FEATURES
+     FEATURES SECTION
 ═══════════════════════════════════════════════════════ --}}
-<section class="py-5 py-lg-6 fade-up" style="background:var(--ink);">
-  <div class="container">
+<section class="py-5 py-lg-6">
+  <div class="container-xl px-3 px-md-4">
     <div class="text-center mb-5">
-      <div class="section-eyebrow mb-2">What We Offer</div>
-      <h2 class="section-h2 mb-2">Everything you need to<br>work or hire smarter</h2>
-      <p style="color:var(--muted);font-size:.9375rem">From quick gig alerts on WhatsApp to AI-ranked talent shortlists</p>
+      <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-2">What We Offer</span>
+      <h2 class="h2 fw-bold mb-2" style="color: #1e2a3e;">Everything you need to<br>work or hire smarter</h2>
+      <p class="text-muted">From quick gig alerts on WhatsApp to AI-ranked talent shortlists</p>
     </div>
     <div class="row g-3">
       @foreach([
-        ['bi-briefcase',   'rgba(79,110,247,.15)',  '#818cf8', 'Job Listings & Direct Apply',   'Browse thousands of verified jobs. Apply directly — no email chains.'],
-        ['bi-clock',       'rgba(34,197,94,.12)',   '#4ade80', 'Quick Gigs — Earn Today',        'Delivery, cleaning, tutoring, coding. Find hourly work near you. Get paid same day.'],
-        ['bi-stars',       'rgba(245,158,11,.12)',  '#fcd34d', 'AI CV Tailoring',                'Upload your CV and our AI rewrites it to match any job description perfectly.'],
-        ['bi-person-search','rgba(239,68,68,.12)',  '#f87171', 'AI Talent Scanner',              'Scan millions of CVs in minutes. Our AI ranks the best-fit candidates.'],
-        ['bi-whatsapp',    'rgba(34,197,94,.12)',   '#4ade80', 'Apply via WhatsApp',             'Receive alerts, apply, and track applications through WhatsApp — no app needed.'],
-        ['bi-bell',        'rgba(99,179,237,.12)',  '#93c5fd', 'Smart Job Alerts',               'Set preferences once. Get personalized alerts when matching jobs are posted.'],
-      ] as [$icon,$bg,$color,$title,$desc])
+        ['briefcase', 'Job Listings & Direct Apply', 'Browse thousands of verified jobs. Apply directly — no email chains.'],
+        ['clock', 'Quick Gigs — Earn Today', 'Delivery, cleaning, tutoring, coding. Find hourly work near you.'],
+        ['stars', 'AI CV Tailoring', 'Upload your CV and our AI rewrites it to match any job description.'],
+        ['person-search', 'AI Talent Scanner', 'Scan millions of CVs in minutes. AI ranks the best-fit candidates.'],
+        ['whatsapp', 'Apply via WhatsApp', 'Receive alerts, apply, and track applications through WhatsApp.'],
+        ['bell', 'Smart Job Alerts', 'Set preferences once. Get personalized alerts when matching jobs post.'],
+      ] as [$icon, $title, $desc])
       <div class="col-md-6 col-lg-4">
-        <div class="glass-card p-4 h-100 hover-lift">
-          <div class="feat-icon mb-3" style="background:{{ $bg }};">
-            <i class="bi {{ $icon }}" style="color:{{ $color }};"></i>
+        <div class="card border-0 shadow-sm rounded-3 h-100 hover-lift">
+          <div class="card-body p-4">
+            <div class="rounded-2 bg-primary bg-opacity-10 d-inline-flex p-2 mb-3">
+              <i class="bi bi-{{ $icon }} fs-4 text-primary"></i>
+            </div>
+            <h6 class="fw-bold mb-2">{{ $title }}</h6>
+            <p class="text-muted small mb-0">{{ $desc }}</p>
           </div>
-          <h6 style="font-weight:700;color:#fff;margin-bottom:8px;">{{ $title }}</h6>
-          <p style="color:var(--muted);font-size:13px;line-height:1.6;margin:0;">{{ $desc }}</p>
         </div>
       </div>
       @endforeach
@@ -231,127 +206,100 @@
 </section>
 
 {{-- ═══════════════════════════════════════════════════════
+     CV ENHANCEMENT SECTION (id="cv-enhancement")
+═══════════════════════════════════════════════════════ --}}
+@include('home.cv-charge')
+
+    
+    {{-- Campaign Banner --}}
+    {{--
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+      <div class="card-body p-4 p-lg-5 text-center text-white">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div class="text-start">
+            <span class="badge bg-white text-warning rounded-pill px-3 py-2 mb-2">🚀 SPECIAL LAUNCH OFFER</span>
+            <h3 class="fw-bold mb-2">Get 50% off your first 3 months</h3>
+            <p class="mb-0 opacity-90">Use code: <strong class="bg-white bg-opacity-20 px-2 py-1 rounded">STARDENA50</strong> at checkout</p>
+          </div>
+          <button onclick="signupToBegin()" class="btn btn-light fw-semibold rounded-pill px-5 py-3 shadow-lg" style="color: #f97316;">
+            Sign Up Now <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+        <div class="row mt-4 pt-3 g-3 text-center">
+          <div class="col-6 col-md-3">
+            <div class="bg-white bg-opacity-15 rounded-3 p-2">
+              <i class="bi bi-file-text fs-4"></i>
+              <div class="small fw-semibold">CV Templates</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="bg-white bg-opacity-15 rounded-3 p-2">
+              <i class="bi bi-graph-up fs-4"></i>
+              <div class="small fw-semibold">ATS Score</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="bg-white bg-opacity-15 rounded-3 p-2">
+              <i class="bi bi-envelope-paper fs-4"></i>
+              <div class="small fw-semibold">Cover Letters</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="bg-white bg-opacity-15 rounded-3 p-2">
+              <i class="bi bi-person-check fs-4"></i>
+              <div class="small fw-semibold">Interview Prep</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    --}}
+
+  </div>
+</section>
+
+{{-- ═══════════════════════════════════════════════════════
      HOW IT WORKS
 ═══════════════════════════════════════════════════════ --}}
-<section class="py-5 py-lg-6" style="background:var(--ink-2);border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="text-center mb-5 fade-up">
-      <div class="section-eyebrow mb-2">How It Works</div>
-      <h2 class="section-h2 mb-2">Up and running in minutes</h2>
-      <p style="color:var(--muted);">Simple steps for workers and employers.</p>
+<section class="py-5 py-lg-6 border-top" style="background: #f8faff;">
+  <div class="container-xl px-3 px-md-4">
+    <div class="text-center mb-5">
+      <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-2">How It Works</span>
+      <h2 class="h2 fw-bold mb-2">Up and running in minutes</h2>
+      <p class="text-muted">Simple steps for workers and employers.</p>
     </div>
     <div class="row g-4">
-      {{-- Workers --}}
-      <div class="col-lg-6 fade-up">
-        <div class="d-flex align-items-center gap-2 mb-4">
-          <span style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;font-size:12px;font-weight:700;padding:5px 14px;border-radius:100px;">For Workers</span>
-        </div>
-        <div class="d-flex flex-column gap-3">
-          @foreach([
-            ['1','#4f6ef7','bi-person-plus','Register Free','Create your profile in minutes'],
-            ['2','#7c3aed','bi-stars','AI Matches You','Get matched to the best opportunities'],
-            ['3','#22c55e','bi-check-circle','Apply &amp; Get Hired','One-click apply via WhatsApp'],
-          ] as [$n,$color,$icon,$title,$sub])
-          <div class="glass-card p-4 d-flex gap-4 align-items-start">
-            <div class="step-num" style="background:{{ $color }}1a;border:1px solid {{ $color }}44;color:{{ $color }};">{{ $n }}</div>
-            <div>
-              <i class="bi {{ $icon }} mb-2 d-block" style="font-size:1.5rem;color:{{ $color }};"></i>
-              <div style="font-weight:700;color:#fff;margin-bottom:4px;">{!! $title !!}</div>
-              <div style="font-size:13px;color:var(--muted);">{{ $sub }}</div>
-            </div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-      {{-- Employers --}}
-      <div class="col-lg-6 fade-up" style="transition-delay:.1s">
-        <div class="d-flex align-items-center gap-2 mb-4">
-          <span style="background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3);font-size:12px;font-weight:700;padding:5px 14px;border-radius:100px;">For Employers</span>
-        </div>
-        <div class="d-flex flex-column gap-3">
-          @foreach([
-            ['1','#ef4444','bi-pencil-square','Post a Job','Describe the role — AI writes the ad'],
-            ['2','#4f6ef7','bi-search','AI Pre-Screens','See only top verified candidates'],
-            ['3','#a78bfa','bi-people','Hire in Days','Interview a shortlist of top candidates'],
-          ] as [$n,$color,$icon,$title,$sub])
-          <div class="glass-card p-4 d-flex gap-4 align-items-start">
-            <div class="step-num" style="background:{{ $color }}1a;border:1px solid {{ $color }}44;color:{{ $color }};">{{ $n }}</div>
-            <div>
-              <i class="bi {{ $icon }} mb-2 d-block" style="font-size:1.5rem;color:{{ $color }};"></i>
-              <div style="font-weight:700;color:#fff;margin-bottom:4px;">{{ $title }}</div>
-              <div style="font-size:13px;color:var(--muted);">{{ $sub }}</div>
-            </div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{{-- ═══════════════════════════════════════════════════════
-     AI SECTION
-═══════════════════════════════════════════════════════ --}}
-<section class="py-5 py-lg-6 fade-up" style="background:var(--ink);border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="row align-items-center g-5">
       <div class="col-lg-6">
-        <div class="pill-badge mb-4"><i class="bi bi-stars me-1"></i> Powered by AI</div>
-        <h2 class="section-h2 mb-3">Stop reading 500 CVs.<br>Let AI do it in 5 mins.</h2>
-        <p style="color:var(--muted);line-height:1.7;margin-bottom:1.75rem;">Our AI Talent Scanner reads, ranks, and explains every candidate. You get a shortlist — not a pile of documents.</p>
-        <ul class="list-unstyled mb-4 d-flex flex-column gap-3">
-          @foreach([
-            'AI conducts voice/chat pre-screening with every applicant',
-            'Semantic matching — finds great talent even with non-standard CVs',
-            'Instant rejection with constructive feedback',
-            'Candidates ranked with explainable AI match score',
-          ] as $feat)
-          <li class="d-flex gap-3 align-items-start">
-            <i class="bi bi-check-circle-fill text-success flex-shrink-0" style="margin-top:2px;"></i>
-            <span style="font-size:14px;color:var(--muted);">{{ $feat }}</span>
-          </li>
-          @endforeach
-        </ul>
-        <div class="d-flex gap-2 flex-wrap">
-          <button onclick="comingSoon()" style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:11px 24px;font-weight:600;font-size:14px;">Post a Job Now</button>
-          <button onclick="comingSoon()" style="background:transparent;border:1px solid var(--border);color:#fff;border-radius:10px;padding:11px 24px;font-weight:600;font-size:14px;">Watch Demo</button>
+        <div class="card border-0 shadow-sm rounded-3 p-4 mb-3">
+          <span class="badge bg-primary w-auto mb-3 px-3 py-2 rounded-pill" style="width: fit-content;">For Workers</span>
+          <div class="d-flex gap-4 mb-3">
+            <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">1</div>
+            <div><i class="bi bi-person-plus fs-4 text-primary"></i><div class="fw-bold">Register Free</div><div class="small text-muted">Create your profile in minutes</div></div>
+          </div>
+          <div class="d-flex gap-4 mb-3">
+            <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">2</div>
+            <div><i class="bi bi-stars fs-4 text-primary"></i><div class="fw-bold">AI Matches You</div><div class="small text-muted">Get matched to the best opportunities</div></div>
+          </div>
+          <div class="d-flex gap-4">
+            <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">3</div>
+            <div><i class="bi bi-check-circle fs-4 text-primary"></i><div class="fw-bold">Apply & Get Hired</div><div class="small text-muted">One-click apply via WhatsApp</div></div>
+          </div>
         </div>
       </div>
-
       <div class="col-lg-6">
-        <div class="glass-card p-4">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <div>
-              <span class="section-eyebrow">AI Match Dashboard</span>
-              <div style="font-weight:700;color:#fff;margin-top:4px;">Live Candidate Rankings</div>
-              <div style="font-size:12px;color:var(--muted);">Top matches for: <strong style="color:#818cf8">Marketing Manager · Kampala</strong></div>
-            </div>
+        <div class="card border-0 shadow-sm rounded-3 p-4 mb-3">
+          <span class="badge bg-success w-auto mb-3 px-3 py-2 rounded-pill" style="width: fit-content;">For Employers</span>
+          <div class="d-flex gap-4 mb-3">
+            <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">1</div>
+            <div><i class="bi bi-pencil-square fs-4 text-success"></i><div class="fw-bold">Post a Job</div><div class="small text-muted">Describe the role — AI writes the ad</div></div>
           </div>
-          @foreach([
-            ['women/30','Sarah Achieng','5 yrs experience · FMCG background','96%','var(--green)'],
-            ['men/59','Wamala Peterson','4 yrs experience · Telecom sector','88%','#818cf8'],
-            ['women/16','Lydia Nakato','3 yrs experience · Banking sector','81%','#fcd34d'],
-          ] as [$portrait,$name,$sub,$score,$color])
-          <div class="cand-row mb-2">
-            <div class="d-flex gap-3 align-items-center">
-              <img src="https://randomuser.me/api/portraits/{{ $portrait }}.jpg"
-                   class="rounded-circle flex-shrink-0" width="44" height="44" style="object-fit:cover;">
-              <div class="flex-grow-1" style="min-width:0">
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                  <span style="font-weight:600;font-size:14px;color:#fff;">{{ $name }}</span>
-                  <span style="font-size:12px;font-weight:700;color:{{ $color }};">{{ $score }}</span>
-                </div>
-                <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">{{ $sub }}</div>
-                <div class="match-track"><div class="match-fill" style="width:{{ $score }};background:{{ $color }};"></div></div>
-              </div>
-            </div>
+          <div class="d-flex gap-4 mb-3">
+            <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">2</div>
+            <div><i class="bi bi-search fs-4 text-success"></i><div class="fw-bold">AI Pre-Screens</div><div class="small text-muted">See only top verified candidates</div></div>
           </div>
-          @endforeach
-          <div style="background:rgba(79,110,247,.08);border:1px solid rgba(79,110,247,.2);border-radius:8px;padding:12px;margin-top:12px;">
-            <div class="d-flex gap-2 align-items-center">
-              <i class="bi bi-info-circle" style="color:#818cf8;flex-shrink:0;"></i>
-              <small style="color:var(--muted);">AI scanned <strong style="color:#fff">347 CVs</strong> and shortlisted <strong style="color:#fff">3 candidates</strong> in <strong style="color:#fff">4 minutes</strong></small>
-            </div>
+          <div class="d-flex gap-4">
+            <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">3</div>
+            <div><i class="bi bi-people fs-4 text-success"></i><div class="fw-bold">Hire in Days</div><div class="small text-muted">Interview a shortlist of top candidates</div></div>
           </div>
         </div>
       </div>
@@ -360,40 +308,51 @@
 </section>
 
 {{-- ═══════════════════════════════════════════════════════
-     CTA
+     CTA SECTION
 ═══════════════════════════════════════════════════════ --}}
-<section class="cta-section py-5 py-lg-6">
-  <div class="container text-center">
-    <div class="pill-badge mb-4 mx-auto" style="width:fit-content">🇺🇬 Built in Uganda, for Africa</div>
-    <h2 class="section-h2 mb-3">Start your journey today</h2>
-    <p style="color:var(--muted);font-size:.9375rem;margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto;">
-      Join thousands of workers and employers on Stardena Works — the smart way to hire and be hired.
-    </p>
+<section class="py-5 py-lg-6 bg-primary" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">
+  <div class="container-xl px-3 px-md-4 text-center">
+    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 mb-3">🇺🇬 Built in Uganda, for Africa</span>
+    <h2 class="h2 fw-bold text-white mb-3">Start your journey today</h2>
+    <p class="text-white-50 mb-4" style="max-width: 480px; margin: 0 auto;">Join thousands of workers and employers on Stardena Works — the smart way to hire and be hired.</p>
     <div class="d-flex flex-wrap gap-3 justify-content-center">
-      <button onclick="comingSoon()" style="background:linear-gradient(135deg,#4f6ef7,#7c3aed);border:none;color:#fff;border-radius:10px;padding:13px 28px;font-weight:700;font-size:14px;">
+      <button onclick="signupToBegin()" class="btn btn-light fw-semibold rounded-pill px-5 py-3">
         <i class="bi bi-person me-2"></i>I'm a Worker
       </button>
-      <button onclick="comingSoon()" style="background:transparent;border:1px solid var(--border);color:#fff;border-radius:10px;padding:13px 28px;font-weight:700;font-size:14px;">
+      <button onclick="signupToBegin()" class="btn btn-outline-light fw-semibold rounded-pill px-5 py-3">
         <i class="bi bi-building me-2"></i>I'm an Employer
       </button>
-      <button onclick="comingSoon()" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80;border-radius:10px;padding:13px 28px;font-weight:700;font-size:14px;">
+      <button onclick="comingSoon()" class="btn btn-success fw-semibold rounded-pill px-5 py-3">
         <i class="bi bi-whatsapp me-2"></i>Apply on WhatsApp
       </button>
     </div>
   </div>
 </section>
 
-{{-- ── Scroll-triggered fade-up ── --}}
+
+
 <script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: .12 });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  function comingSoon() {
+    const modal = new bootstrap.Modal(document.getElementById('comingSoonModal'));
+    modal.show();
+  }
+
+  function signupToBegin() {
+    // Redirect to registration page
+    window.location.href = '{{ route("seeker.dashboard") }}';
+  }
+
+  function scrollToCVSection() {
+    const section = document.getElementById('cv-enhancement');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   // Stat counter animation
   const statObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
       const targets = { '15K+': 15000, '2.4K+': 2400, '8.7K+': 8700, '500+': 500 };
       document.querySelectorAll('.stat-num').forEach(el => {
         const raw = el.textContent.trim();
@@ -406,12 +365,12 @@
         const timer = setInterval(() => {
           count += step;
           if (count >= target) { count = target; clearInterval(timer); }
-          el.textContent = (count / divisor).toFixed(count < target ? 1 : 0).replace('.0','') + suffix;
+          el.textContent = (count / divisor).toFixed(count < target ? 1 : 0).replace('.0', '') + suffix;
         }, 25);
       });
       statObserver.disconnect();
     });
-  }, { threshold: .5 });
+  }, { threshold: 0.5 });
   const statsSection = document.querySelector('.stats-section');
   if (statsSection) statObserver.observe(statsSection);
 </script>
