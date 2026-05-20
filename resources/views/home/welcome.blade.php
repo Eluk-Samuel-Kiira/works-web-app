@@ -160,18 +160,28 @@
      TRUSTED BY SECTION
 ═══════════════════════════════════════════════════════ --}}
 <div class="border-bottom py-4" style="background: #ffffff;">
-  <div class="container-xl px-3 px-md-4 text-center">
-    <p class="small text-uppercase text-muted mb-3" style="letter-spacing: 0.1em;">Trusted by companies across Uganda</p>
-    <div class="d-flex flex-wrap justify-content-center gap-2">
-      @foreach(['🏢 Stanbic Bank', '📱 MTN Uganda', '✈️ Uganda Airlines', '🏥 Nakasero Hospital', '🛒 Jumia Uganda'] as $company)
-        <span class="badge bg-light border text-dark rounded-pill px-4 py-2 fw-normal">{{ $company }}</span>
+  <div class="container-xl px-3 px-md-4">
+    <p class="small text-uppercase text-muted text-center mb-3" style="letter-spacing: 0.1em;">Trusted by companies across Uganda</p>
+    <div class="d-flex flex-wrap justify-content-center gap-2 px-2">
+      @foreach([
+        ['🏢', 'Stanbic Bank'],
+        ['📱', 'MTN Uganda'],
+        ['✈️', 'Uganda Airlines'],
+        ['🏥', 'Nakasero Hospital'],
+        ['🛒', 'Jumia Uganda'],
+        ['🏦', 'Centenary Bank']
+      ] as [$icon, $company])
+        <span class="trust-badge d-inline-flex align-items-center gap-2 bg-light border rounded-pill px-3 py-2">
+          <span class="fs-6">{{ $icon }}</span>
+          <span class="fw-normal small">{{ $company }}</span>
+        </span>
       @endforeach
     </div>
   </div>
 </div>
 
 {{-- ═══════════════════════════════════════════════════════
-     FEATURES SECTION
+     FEATURES SECTION (Icons + Title on same line)
 ═══════════════════════════════════════════════════════ --}}
 <section class="py-5 py-lg-6">
   <div class="container-xl px-3 px-md-4">
@@ -180,23 +190,28 @@
       <h2 class="h2 fw-bold mb-2" style="color: #1e2a3e;">Everything you need to<br>work or hire smarter</h2>
       <p class="text-muted">From quick gig alerts on WhatsApp to AI-ranked talent shortlists</p>
     </div>
+    
     <div class="row g-3">
       @foreach([
-        ['briefcase', 'Job Listings & Direct Apply', 'Browse thousands of verified jobs. Apply directly — no email chains.'],
-        ['clock', 'Quick Gigs — Earn Today', 'Delivery, cleaning, tutoring, coding. Find hourly work near you.'],
-        ['stars', 'AI CV Tailoring', 'Upload your CV and our AI rewrites it to match any job description.'],
-        ['person-search', 'AI Talent Scanner', 'Scan millions of CVs in minutes. AI ranks the best-fit candidates.'],
-        ['whatsapp', 'Apply via WhatsApp', 'Receive alerts, apply, and track applications through WhatsApp.'],
-        ['bell', 'Smart Job Alerts', 'Set preferences once. Get personalized alerts when matching jobs post.'],
-      ] as [$icon, $title, $desc])
-      <div class="col-md-6 col-lg-4">
+        ['briefcase', 'Job Listings & Direct Apply', 'Browse thousands of verified jobs. Apply directly — no email chains.', 'primary'],
+        ['clock', 'Quick Gigs — Earn Today', 'Delivery, cleaning, tutoring, coding. Find hourly work near you.', 'warning'],
+        ['magic', 'AI CV Tailoring', 'Upload your CV and our AI rewrites it to match any job description.', 'success'],
+        ['robot', 'AI Talent Scanner', 'Scan millions of CVs in minutes. AI ranks the best-fit candidates.', 'info'],
+        ['whatsapp', 'Apply via WhatsApp', 'Receive alerts, apply, and track applications through WhatsApp.', 'success'],
+        ['bell', 'Smart Job Alerts', 'Set preferences once. Get personalized alerts when matching jobs post.', 'danger'],
+      ] as [$icon, $title, $desc, $color])
+      <div class="col-sm-6 col-lg-4">
         <div class="card border-0 shadow-sm rounded-3 h-100 hover-lift">
-          <div class="card-body p-4">
-            <div class="rounded-2 bg-primary bg-opacity-10 d-inline-flex p-2 mb-3">
-              <i class="bi bi-{{ $icon }} fs-4 text-primary"></i>
+          <div class="card-body p-3 p-md-4">
+            {{-- Icon + Title on same line --}}
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div class="rounded-2 bg-light-{{ $color }} d-inline-flex p-2 flex-shrink-0">
+                <i class="bi bi-{{ $icon }} fs-5 text-{{ $color }}"></i>
+              </div>
+              <h6 class="fw-bold mb-0" style="line-height: 1.3;">{{ $title }}</h6>
             </div>
-            <h6 class="fw-bold mb-2">{{ $title }}</h6>
-            <p class="text-muted small mb-0">{{ $desc }}</p>
+            {{-- Description below --}}
+            <p class="text-muted small mb-0 ms-0 mt-2">{{ $desc }}</p>
           </div>
         </div>
       </div>
@@ -204,6 +219,86 @@
     </div>
   </div>
 </section>
+
+<style>
+  /* Trust Badges - 2 per line on mobile */
+  .trust-badge {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+  }
+  
+  .trust-badge:hover {
+    background: #ffffff;
+    border-color: var(--bs-primary);
+    transform: translateY(-2px);
+  }
+  
+  /* Mobile: 2 items per row */
+  @media (max-width: 576px) {
+    .trust-badge {
+      width: calc(50% - 0.5rem);
+      justify-content: center;
+    }
+  }
+  
+  /* Color utilities */
+  .bg-light-primary { background-color: rgba(var(--bs-primary-rgb), 0.1); }
+  .bg-light-success { background-color: rgba(var(--bs-success-rgb), 0.1); }
+  .bg-light-warning { background-color: rgba(var(--bs-warning-rgb), 0.1); }
+  .bg-light-info { background-color: rgba(var(--bs-info-rgb), 0.1); }
+  .bg-light-danger { background-color: rgba(var(--bs-danger-rgb), 0.1); }
+  
+  .text-primary { color: var(--bs-primary) !important; }
+  .text-success { color: var(--bs-success) !important; }
+  .text-warning { color: var(--bs-warning) !important; }
+  .text-info { color: var(--bs-info) !important; }
+  .text-danger { color: var(--bs-danger) !important; }
+  
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 0.875rem !important;
+    }
+    
+    .rounded-2.bg-light-${color} {
+      padding: 0.375rem !important;
+    }
+    
+    .bi {
+      font-size: 1rem !important;
+    }
+    
+    h6 {
+      font-size: 0.8rem !important;
+    }
+    
+    .text-muted.small {
+      font-size: 0.7rem !important;
+      line-height: 1.4;
+    }
+  }
+  
+  /* Tablet adjustments */
+  @media (min-width: 577px) and (max-width: 768px) {
+    .card-body {
+      padding: 1rem !important;
+    }
+    
+    h6 {
+      font-size: 0.85rem !important;
+    }
+  }
+</style>
 
 {{-- ═══════════════════════════════════════════════════════
      CV ENHANCEMENT SECTION (id="cv-enhancement")
