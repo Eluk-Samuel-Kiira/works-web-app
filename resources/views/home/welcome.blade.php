@@ -111,9 +111,9 @@
             @endforeach
 
             <div class="d-flex gap-2 mt-3">
-              <button onclick="scrollToCVSection()" class="btn btn-primary rounded-pill flex-grow-1" style="background: linear-gradient(135deg, #2563eb, #1e3a8a); border: none;">
+              <a href="{{ url('/#cv-enhancement') }}" class="btn btn-primary rounded-pill flex-grow-1" style="background: linear-gradient(135deg, #2563eb, #1e3a8a); border: none;">
                 <i class="bi bi-magic me-1"></i> Tailor My CV
-              </button>
+              </a>
               <button onclick="comingSoon()" class="btn btn-outline-success rounded-pill flex-grow-1">
                 <i class="bi bi-whatsapp me-1"></i> Apply via WhatsApp
               </button>
