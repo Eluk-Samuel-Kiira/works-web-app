@@ -132,7 +132,7 @@
     @endif
 
     <ul class="list-unstyled ps-0">
-      <li class="mb-1"><a href="{{ route('jobs.index') }}" target="_blank" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Find Jobs</a></li>
+      <li class="mb-1"><a href="{{ route('jobs.index') }}"  class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Find Jobs</a></li>
       <li class="mb-1"><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Companies</a></li>
       <li class="mb-1">
         <a href="{{ url('/#cv-enhancement') }}" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">
@@ -142,7 +142,7 @@
       </li>
       <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Post a Job</a></li>
       <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Pricing</a></li>
-      <li class="mb-1"><a href="{{ route('blog.index') }}" target="_blank" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Blogs</a></li>
+      <li class="mb-1"><a href="{{ route('blog.index') }}"  class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Blogs</a></li>
       
       @if(session('web_user'))
       <!-- Dashboard Links for Mobile -->
