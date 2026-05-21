@@ -360,7 +360,7 @@
                                 <span class="fw-semibold small">How to Apply</span>
                             </div>
                             <p class="text-body-secondary small mb-0 ms-0 apply-procedure-text" style="padding-left: 32px;">
-                                {{ $job['application_procedure'] }}
+                                {!! $job['application_procedure'] !!}
                             </p>
                         </div>
                     </div>
