@@ -17,7 +17,7 @@
 @section('title',            "{$jobTitle} at {$companyName} | Stardena Works")
 @section('meta_description', $metaDesc)
 @section('canonical',        $canonical)
-@section('robots',           $isExpired ? 'noindex, follow' : 'index, follow')
+@section('robots',           'index, follow')
 @section('og_type',          'article')
 @section('og_title',         "{$jobTitle} at {$companyName}")
 @section('og_description',   $metaDesc)
@@ -94,22 +94,26 @@
 
   @if(($job['is_expired'] ?? false) || ($job['is_inactive'] ?? false))
   <div class="d-flex justify-content-center mx-0">
-    <div class="w-100" style="max-width: 66.666667%;">
-      <div class="bg-warning-subtle border border-warning rounded-3 p-2 p-md-3 mb-4 mt-3">
-        <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-exclamation-triangle text-warning fs-6 fs-md-5"></i>
-          <div>
-            <div class="fw-semibold text-warning-emphasis small small-md base">This job has expired</div>
-            <div class="text-body-secondary small small-md">
-              The application deadline has passed. 
-              <a href="{{ route('jobs.index') }}" class="text-primary small small-md">Browse similar jobs →</a>
-            </div>
+      <div class="w-100" style="max-width: 66.666667%;">
+          <div class="bg-warning-subtle border border-warning rounded-3 p-2 p-md-3 mb-4 mt-3">
+              <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-exclamation-triangle text-warning fs-6 fs-md-5"></i>
+                  <div>
+                      <div class="fw-semibold text-warning-emphasis small">
+                          This job advert has closed
+                      </div>
+                      <div class="text-body-secondary small">
+                          Applications for <strong>{{ $jobTitle }}</strong> at
+                          <strong>{{ $companyName }}</strong> are no longer being accepted.
+                          <a href="{{ route('jobs.index') }}" class="text-primary">Browse open positions →</a>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
   @endif
+
 
   {{-- ─────────────────────────────────────────────────────
        AD SLOT 1 — LEADERBOARD (above fold, highest CPM)

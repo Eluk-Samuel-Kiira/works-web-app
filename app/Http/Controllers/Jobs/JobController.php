@@ -131,9 +131,22 @@ class JobController extends Controller
         }
     }
 
-    /**
-     * Display a single job.
-     */
+    
+    // ============================================================
+    // DROP-IN REPLACEMENT for the show() method in your WEB app
+    // JobController (the one that fetches from the main API).
+    //
+    // CHANGES vs old version:
+    //  - REMOVED the noindex X-Robots-Tag header entirely.
+    //    Every job page — active, expired, or inactive — is served
+    //    with normal 200 responses. Google indexes them all.
+    //    Expired jobs still show the "This job has expired" banner
+    //    (kept in the blade), but search engines can still crawl
+    //    and index the page for brand/company/title traffic.
+    //  - Kept the 404 guards for truly missing jobs.
+    //  - No other logic changed.
+    // ============================================================
+
     public function show(Request $request, $slug)
     {
         $mainAppUrl = config('api.main_app.api_base');
@@ -151,46 +164,40 @@ class JobController extends Controller
                 ];
             });
 
-            // Check if job exists
+            // Hard 404 — job truly does not exist
             if ($cachedData['status'] === 404 || !$cachedData['data']) {
                 Cache::forget("job_{$slug}");
                 abort(404, 'Job not found');
             }
 
             $job = $cachedData['data'];
-            
-            // Debug: Log the job to see what's coming
-            // Log::info('Job data retrieved', ['slug' => $slug, 'has_data' => !empty($job)]);
-            
-            // If job is empty or doesn't have job_title, something is wrong
+
             if (empty($job['job_title'])) {
                 Log::error('Invalid job data', ['slug' => $slug, 'data' => $job]);
                 abort(404, 'Job not found');
             }
 
-            $similarJobs = $job['similar_jobs'] ?? [];
+            $similarJobs    = $job['similar_jobs'] ?? [];
             $structuredData = app(StructuredDataService::class)->jobPosting($job);
 
-            $isExpired = ($job['deadline'] ?? null) && now()->isAfter(\Carbon\Carbon::parse($job['deadline']));
-            $isActive = ($job['is_active'] ?? true);
-
-            $view = view('jobs.show', compact('job', 'similarJobs', 'structuredData'));
-
-            // Expired or inactive jobs — serve page but tell Google not to index
-            if ($isExpired || !$isActive) {
-                return response($view)->header('X-Robots-Tag', 'noindex, follow');
-            }
-
-            return response($view);
+            // ── Always return 200, always let Google index ──────────────────────
+            // Expired / inactive jobs stay visible for:
+            //   • Brand searches ("MTN cashier Acacia Mall")
+            //   • Company profile traffic
+            //   • Long-tail historical queries
+            //   • Internal linking juice
+            // The blade already shows the "expired" warning banner to users.
+            return response(view('jobs.show', compact('job', 'similarJobs', 'structuredData')));
 
         } catch (\Exception $e) {
             Log::error('Error fetching job: ' . $e->getMessage(), [
-                'slug' => $slug,
-                'trace' => $e->getTraceAsString()
+                'slug'  => $slug,
+                'trace' => $e->getTraceAsString(),
             ]);
             abort(404, 'Job not found');
         }
     }
+    
         
     /**
      * Get featured jobs
