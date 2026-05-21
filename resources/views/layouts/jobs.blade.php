@@ -36,26 +36,43 @@
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ web_asset('front/css/styles.css') }}" />
 
-    <title>@yield('title', 'Stardena Works — Jobs in Uganda')</title>
-    <meta name="description"        content="@yield('meta_description', 'Find the latest jobs in Uganda on Stardena Works.')">
-    <meta name="robots"             content="@yield('robots', 'index, follow')">
+    <title>@yield('title', 'Stardena Works — Jobs in Uganda & East Africa | Free CV Builder')</title>
+    <meta name="description" content="@yield('meta_description', 'Find jobs in Uganda, Kenya, Tanzania, Rwanda, DRC & East Africa. Free CV builder — create a professional CV online in minutes. Apply today on Stardena Works.')">    <meta name="robots"             content="@yield('robots', 'index, follow')">
     <link rel="canonical"           href="@yield('canonical', url()->current())">
 
     {{-- Open Graph --}}
     <meta property="og:type"        content="@yield('og_type', 'website')">
-    <meta property="og:title"       content="@yield('og_title', 'Stardena Works')">
-    <meta property="og:description" content="@yield('og_description', 'Find the latest jobs in Uganda on Stardena Works.')">
+    <meta property="og:title"       content="@yield('og_title', 'Stardena Works — Jobs & Free CV Builder for Africa')">
+    <meta property="og:description" content="@yield('og_description', 'Search jobs across Uganda, Kenya, Tanzania, Rwanda, DRC & Africa. Free CV builder included.')">
     <meta property="og:url"         content="@yield('canonical', url()->current())">
     <meta property="og:image"       content="@yield('og_image', asset('default-logo.png'))">
     <meta property="og:site_name"   content="Stardena Works">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       content="@yield('og_title', 'Stardena Works')">
-    <meta name="twitter:description" content="@yield('og_description', 'Find the latest jobs in Uganda on Stardena Works.')">
+    <meta name="twitter:title"       content="@yield('og_title', 'Stardena Works — Jobs & Free CV Builder for Africa')">
+    <meta name="twitter:description" content="@yield('og_description', 'Search jobs across Uganda, Kenya, Tanzania, Rwanda, DRC & Africa. Free CV builder included.')">
     <meta name="twitter:image"       content="@yield('og_image', asset('default-logo.png'))">
 
     @yield('schema')
+
+    {{-- Keywords --}}
+    <meta name="keywords" content="jobs in Uganda, Uganda jobs, job vacancies Uganda, jobs Kampala, jobs in Kenya, Nairobi jobs, jobs in Tanzania, jobs in Rwanda, jobs in DRC, Congo jobs, jobs in Zambia, jobs in Zimbabwe, East Africa jobs, Central Africa jobs, Southern Africa jobs, free CV builder Uganda, CV builder Africa, free CV maker East Africa, professional CV template Uganda, ATS friendly CV Africa, resume builder East Africa, CV builder Kenya, CV builder Tanzania, CV builder Rwanda, build CV online Africa, free resume maker Africa">
+
+    {{-- Geo targeting --}}
+    <meta name="geo.region"    content="UG">
+    <meta name="geo.placename" content="Uganda, East Africa, Central Africa, Southern Africa">
+    <meta name="geo.position"  content="1.3733;32.2903">
+    <meta name="ICBM"          content="1.3733, 32.2903">
+
+    {{-- OG locale --}}
+    <meta property="og:locale"                 content="en_UG">
+    <meta property="og:locale:alternate"       content="en_KE">
+    <meta property="og:locale:alternate"       content="en_TZ">
+    <meta property="og:locale:alternate"       content="en_RW">
+    <meta property="og:locale:alternate"       content="en_ZM">
+    <meta property="og:locale:alternate"       content="en_ZW">
+    <meta property="og:site_name"              content="Stardena Works">
 
     <!-- Owl Carousel  -->
     <link  href="{{ web_asset('front/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
