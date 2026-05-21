@@ -13,7 +13,8 @@
       
       {{-- Left Column --}}
       <div class="col-lg-6 text-center text-lg-start">
-        <div class="d-inline-flex align-items-center gap-2 bg-white bg-opacity-15 rounded-pill px-3 py-1 mb-4">
+        <div class="d-inline-flex align-items-center gap-2 rounded-pill px-3 py-1 mb-4" 
+            style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.3);">
           <span class="badge bg-warning text-dark px-2 py-1 rounded-pill" style="font-size: 10px;">AI-Powered</span>
           <span class="text-white small">Uganda &amp; Africa</span>
         </div>
