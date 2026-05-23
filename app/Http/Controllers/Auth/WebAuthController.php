@@ -23,30 +23,50 @@ class WebAuthController extends Controller
     // ─────────────────────────────────────────────────────────────────────────
     public function authenticate(Request $request, string $token)
     {
-        // Check if user is already logged in
+        // Log::info('🌐 [WEB] Magic link clicked', [
+        //     'token_prefix' => substr($token, 0, 8) . '...',
+        //     'ip'           => $request->ip(),
+        // ]);
+
         if (session()->has('web_user')) {
             $user = session('web_user');
-            
+            // Log::info('🌐 [WEB] Already logged in — skipping', ['email' => $user['email']]);
             return redirect()->route('seeker.dashboard')
                 ->with('info', 'You are already logged in as ' . $user['first_name'] . '.');
         }
-        
+
         $mainApi = rtrim(config('api.main_app.api_base'), '/');
+        $endpoint = $mainApi . '/auth/verify-token';
+
+        // Log::info('🌐 [WEB] Calling Main to verify token', ['endpoint' => $endpoint]);
 
         try {
             $response = Http::withoutVerifying()
                 ->timeout(15)
-                ->post($mainApi . '/auth/verify-token', ['token' => $token]);
+                ->post($endpoint, ['token' => $token]);
+
+            // Log::info('🌐 [WEB] Main responded', [
+            //     'status' => $response->status(),
+            //     'ok'     => $response->successful(),
+            // ]);
 
             if (!$response->successful()) {
                 $message = $response->json('message', 'This link is invalid or has expired.');
-                return redirect()->route('home.welcome')
-                    ->with('error', $message);
+                Log::warning('🌐 [WEB] Main rejected token', ['message' => $message]);
+                return redirect()->route('home.welcome')->with('error', $message);
             }
 
             $userData = $response->json('user');
+            $apiToken = $response->json('api_token');
 
-            // ── Create a local session for this user ──────────────────────
+            // Confirm token arrived
+            // Log::info('🌐 [WEB] api_token received from Main', [
+            //     'received'     => !empty($apiToken),
+            //     'token_prefix' => $apiToken ? substr($apiToken, 0, 12) . '...' : 'NULL ❌',
+            //     'user_id'      => $userData['id'] ?? null,
+            //     'email'        => $userData['email'] ?? null,
+            // ]);
+
             Session::regenerate();
 
             Session::put('web_user', [
@@ -62,20 +82,25 @@ class WebAuthController extends Controller
                 'country_code' => $userData['country_code'],
             ]);
 
+            Session::put('api_token', $apiToken);
             Session::put('web_user_logged_in_at', now()->toISOString());
 
-            Log::info('Web session created via magic link', [
-                'user_id' => $userData['id'],
-                'email'   => $userData['email'],
-            ]);
+            // Log::info('🌐 [WEB] Session created successfully', [
+            //     'user_id'           => $userData['id'],
+            //     'email'             => $userData['email'],
+            //     'api_token_stored'  => !empty($apiToken),
+            //     'session_id'        => session()->getId(),
+            // ]);
 
-            // ── Always redirect to job seeker dashboard ────────────────────
             return redirect()->route('seeker.dashboard')
                 ->with('success', 'Welcome back, ' . $userData['first_name'] . '!');
 
         } catch (\Exception $e) {
-            Log::error('Web magic link authentication error: ' . $e->getMessage());
-
+            Log::error('🌐 [WEB] Exception during magic link auth', [
+                'error' => $e->getMessage(),
+                'line'  => $e->getLine(),
+                'file'  => $e->getFile(),
+            ]);
             return redirect()->route('home.welcome')
                 ->with('error', 'Something went wrong. Please request a new magic link.');
         }
