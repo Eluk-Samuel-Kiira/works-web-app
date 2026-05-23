@@ -35,7 +35,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="javascript:void(0)" onclick="comingSoon()">Post a Job</a>
+            <a class="nav-link nav-item-link" href="{{ route('seeker.dashboard') }}#job-matching">My Job Matches</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-item-link" href="javascript:void(0)" onclick="comingSoon()">Pricing</a>
@@ -68,15 +68,7 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
             <li><a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('seeker.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-            <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-person"></i> My Profile</a></li>
-            @if(session('web_user.role') === 'employer')
-            <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-briefcase"></i> My Jobs</a></li>
-            <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-plus-circle"></i> Post a Job</a></li>
-            @endif
-            @if(session('web_user.role') === 'job_seeker')
-            <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-file-text"></i> My Applications</a></li>
-            <li><a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="comingSoon()"><i class="bi bi-bookmark"></i> Saved Jobs</a></li>
-            @endif
+            <li><a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('seeker.dashboard') }}#job-matching"><i class="bi bi-person"></i> My Job Matches</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
               <form method="POST" action="{{ route('web.logout') }}" id="logout-form-desktop">
@@ -142,7 +134,7 @@
           <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
         </a>
       </li>
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Post a Job</a></li>
+      <li class="mb-1"><a href="{{ route('seeker.dashboard') }}#job-matching" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">My Job Matches</a></li>
       <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Pricing</a></li>
       <li class="mb-1"><a href="{{ route('blog.index') }}"  class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Blogs</a></li>
       
@@ -151,16 +143,8 @@
       <li class="mt-3 pt-2 border-top">
         <div class="small text-muted px-3 mb-2">ACCOUNT</div>
       </li>
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-person"></i> My Profile</a></li>
-      @if(session('web_user.role') === 'employer')
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-briefcase"></i> My Jobs</a></li>
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-plus-circle"></i> Post a Job</a></li>
-      @endif
-      @if(session('web_user.role') === 'job_seeker')
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-file-text"></i> My Applications</a></li>
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-bookmark"></i> Saved Jobs</a></li>
-      @endif
+      <li class="mb-1"><a href="{{ route('seeker.dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+      <li class="mb-1"><a href="{{ route('seeker.dashboard') }}#job-matching" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;"><i class="bi bi-person"></i> My Job Matches </a></li>
       <li class="mt-3">
         <form method="POST" action="{{ route('web.logout') }}" id="logout-form-mobile">
           @csrf
@@ -292,6 +276,7 @@
     }
   }
 </script>
+
 <script>
   // ── Active nav highlighting ──────────────────────────────
   (function () {
