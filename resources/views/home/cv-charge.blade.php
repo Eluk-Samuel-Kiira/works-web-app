@@ -210,15 +210,15 @@
 </div>
 
 <script>
-  // Exchange rates and pricing data
+
   const EXCHANGE_RATES = {
-      'UG': { code: 'UGX', symbol: 'USh', rate: 3750, name: 'Uganda Shilling', flag: '🇺🇬' },
-      'KE': { code: 'KES', symbol: 'KSh', rate: 130, name: 'Kenyan Shilling', flag: '🇰🇪' },
-      'TZ': { code: 'TZS', symbol: 'TSh', rate: 2600, name: 'Tanzanian Shilling', flag: '🇹🇿' },
-      'RW': { code: 'RWF', symbol: 'FRw', rate: 1300, name: 'Rwandan Franc', flag: '🇷🇼' },
-      'US': { code: 'USD', symbol: '$', rate: 1, name: 'US Dollar', flag: '🇺🇸' },
-      'NG': { code: 'NGN', symbol: '₦', rate: 1500, name: 'Nigerian Naira', flag: '🇳🇬' },
-      'ZA': { code: 'ZAR', symbol: 'R', rate: 19, name: 'South African Rand', flag: '🇿🇦' }
+      'UG': { code: 'UGX', symbol: 'USh', rate: 3750, name: 'Uganda Shilling',      flag: '🇺🇬', countryCode: 'UG' },
+      'KE': { code: 'KES', symbol: 'KSh', rate: 130,  name: 'Kenyan Shilling',      flag: '🇰🇪', countryCode: 'KE' },
+      'TZ': { code: 'TZS', symbol: 'TSh', rate: 2600, name: 'Tanzanian Shilling',   flag: '🇹🇿', countryCode: 'TZ' },
+      'RW': { code: 'RWF', symbol: 'FRw', rate: 1300, name: 'Rwandan Franc',        flag: '🇷🇼', countryCode: 'RW' },
+      'US': { code: 'USD', symbol: '$',   rate: 1,    name: 'US Dollar',            flag: '🇺🇸', countryCode: 'US' },
+      'NG': { code: 'NGN', symbol: '₦',  rate: 1500, name: 'Nigerian Naira',        flag: '🇳🇬', countryCode: 'NG' },
+      'ZA': { code: 'ZAR', symbol: 'R',   rate: 19,   name: 'South African Rand',   flag: '🇿🇦', countryCode: 'ZA' },
   };
 
   const PRICES = { basic: { monthly: 5, yearly: 48 }, pro: { monthly: 12, yearly: 108 }, elite: { yearly: 49 } };
@@ -318,26 +318,69 @@
       new bootstrap.Modal(document.getElementById('paymentModal')).show();
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // WEB APP — Replace the processPayment() function in your pricing blade
+  // This submits to Web's /payment/initiate which proxies to Main → Pesapal
+  // ═══════════════════════════════════════════════════════════════════════════
+
   function processPayment() {
-      const name = document.getElementById('payerName').value;
-      const email = document.getElementById('payerEmail').value;
-      const phone = document.getElementById('payerPhone').value;
-      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-      
-      if (!name || !email) {
-          showToast('Please enter your name and email address', 'warning');
-          return;
-      }
-      
-      // Close modal and show processing
-      bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
-      showToast(`Processing ${selectedPackage.plan} plan payment via ${paymentMethod}...`, 'info');
-      
-      // Simulate payment redirect (replace with actual Pesapal integration)
-      setTimeout(() => {
-          window.location.href = `/payment/pesapal?plan=${selectedPackage.plan}&amount=${selectedPackage.priceUsd}&period=${selectedPackage.period}`;
-      }, 1500);
+    const name   = document.getElementById('payerName')?.value?.trim();
+    const email  = document.getElementById('payerEmail')?.value?.trim();
+    const phone  = document.getElementById('payerPhone')?.value?.trim();
+
+    if (!name || !email) {
+      showToast('Please enter your name and email address.', 'warning');
+      return;
+    }
+    if (!selectedPackage) {
+      showToast('No plan selected. Please choose a plan.', 'warning');
+      return;
+    }
+
+    const [firstName, ...rest] = name.split(' ');
+    const lastName = rest.join(' ') || firstName;
+
+    const btn = document.querySelector('#paymentModal .btn-primary');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Redirecting to Pesapal…';
+    }
+
+    // Build a hidden form and POST it — this triggers a redirect, not fetch
+    // (fetch can't follow cross-origin redirects to Pesapal)
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/payment/initiate';   // Web route
+
+    const fields = {
+        '_token':       document.querySelector('meta[name="csrf-token"]')?.content || '',
+        'plan':         selectedPackage.plan,
+        'period':       selectedPackage.period,
+        'amount_usd':   selectedPackage.priceUsd,
+        'currency':     currentCurrency?.code || 'USD',
+        'amount_local': convertPrice(selectedPackage.priceUsd),
+        'first_name':   firstName,
+        'last_name':    lastName,
+        'email':        email,
+        'phone':        phone,
+        'country_code': currentCurrency?.countryCode || 'UG',
+    };
+
+    Object.entries(fields).forEach(([key, value]) => {
+      const input = document.createElement('input');
+      input.type  = 'hidden';
+      input.name  = key;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    // Close modal, append form, submit
+    bootstrap.Modal.getInstance(document.getElementById('paymentModal'))?.hide();
+    document.body.appendChild(form);
+    form.submit();
   }
+
+
 
   function showToast(message, type) {
       let container = document.getElementById('toastContainer');

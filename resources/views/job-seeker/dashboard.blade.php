@@ -27,6 +27,7 @@
     </div>
 
     {{-- Stats Cards - Matching jobs index styling --}}
+    {{--
     <div class="row g-3 g-lg-4 mb-5">
       <div class="col-6 col-md-3">
         <div class="card border-0 shadow-sm rounded-3 h-100">
@@ -96,6 +97,7 @@
         </div>
       </div>
     </div>
+    --}}
 
     {{-- Main Content Row --}}
     <div class="row g-3 g-lg-4">
@@ -400,7 +402,7 @@
     </div>
 
     {{-- AI Recommendation Section --}}
-    <div class="mt-5">
+    <div class="mt-5" id="job-matching">
       @include('job-seeker.recommended-jobs')
     </div>
 

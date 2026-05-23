@@ -178,3 +178,4 @@ Route::middleware(['web.auth'])->get('/debug-session', function () {
 });
 
 require __DIR__.'/api.php';
+require __DIR__.'/payment.php';
