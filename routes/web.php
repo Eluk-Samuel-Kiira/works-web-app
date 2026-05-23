@@ -155,14 +155,26 @@ Route::get('/login-register', function () {
 
 
 use App\Http\Controllers\JS\ {
-    DashboardController 
-
-    };
+    DashboardController,
+    CVController
+};
 
 // Protected routes — wrap with the middleware
 Route::middleware('web.auth')->group(function () {
     // Seeker Dashboard
     Route::get('/dashboard', [DashboardController::class, 'seekerDashboard'])->name('seeker.dashboard');
+});
+
+
+// WEB APP: routes/web.php - Add this debug route temporarily
+
+Route::middleware(['web.auth'])->get('/debug-session', function () {
+    return response()->json([
+        'has_web_user' => session()->has('web_user'),
+        'has_api_token' => session()->has('api_token'),
+        'web_user' => session('web_user'),
+        'api_token_preview' => session('api_token') ? substr(session('api_token'), 0, 30) . '...' : null,
+    ]);
 });
 
 require __DIR__.'/api.php';

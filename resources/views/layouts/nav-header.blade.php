@@ -124,7 +124,9 @@
           <div class="fw-semibold">{{ session('web_user.full_name') ?? session('web_user.first_name') . ' ' . session('web_user.last_name') }}</div>
           <small class="text-muted">{{ session('web_user.email') }}</small>
           <div class="mt-1">
-            <span class="badge" style="background:rgba(var(--bs-primary-rgb),.15);color:var(--bs-primary);">{{ ucwords(str_replace('_', ' ', session('web_user.role', 'user'))) }}</span>
+            <span class="badge" style="background:rgba(var(--bs-primary-rgb),.15);color:var(--bs-primary);">
+              {{ is_string(session('web_user.role')) ? ucwords(str_replace('_', ' ', session('web_user.role'))) : 'Job Seeker' }}
+            </span>
           </div>
         </div>
       </div>
