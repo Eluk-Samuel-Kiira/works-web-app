@@ -68,7 +68,7 @@
 
     // Configuration
     const API_BASE = '{{ rtrim(config("api.main_app.api_base"), "/") }}';
-    console.log(API_BASE);
+    // console.log(API_BASE);
     const API_TOKEN = '{{ session("api_token") }}';
     const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
 

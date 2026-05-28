@@ -157,24 +157,30 @@
           <li class="nav-item" role="presentation">
             <button class="nav-link active px-3 py-2 fw-semibold" id="activity-tab" data-bs-toggle="tab" 
                     data-bs-target="#activity" type="button" role="tab">
-              <i class="bi bi-activity me-2"></i>Upgrade CV
+                <i class="bi bi-activity me-2"></i>Upgrade CV
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link px-3 py-2 fw-semibold" id="cover-letter-tab" data-bs-toggle="tab" 
+                    data-bs-target="#cover-letter" type="button" role="tab">
+                <i class="bi bi-envelope-paper me-2"></i>Cover Letters
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link px-3 py-2 fw-semibold" id="manual-cv-tab" data-bs-toggle="tab" 
-                    data-bs-target="#manual-cv" type="button" role="tab">
-              <i class="bi bi-send me-2"></i>Manual CV Update
+                  data-bs-target="#manual-cv" type="button" role="tab">
+              <i class="bi bi-pencil-square me-2"></i>Update CV
             </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link px-3 py-2 fw-semibold" id="applications-tab" data-bs-toggle="tab" 
-                    data-bs-target="#applications" type="button" role="tab">
-              <i class="bi bi-send me-2"></i>Applications
+            <button class="nav-link px-3 py-2 fw-semibold" id="myplan-tab" data-bs-toggle="tab" 
+                    data-bs-target="#myplan" type="button" role="tab">
+              <i class="bi bi-star me-2"></i>My Plan
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link px-3 py-2 fw-semibold" id="settings-tab" data-bs-toggle="tab" 
-                    data-bs-target="#settings" type="button" role="tab">
+                  data-bs-target="#settings" type="button" role="tab">
               <i class="bi bi-gear me-2"></i>Settings
             </button>
           </li>
@@ -184,157 +190,30 @@
 
           {{-- Activity Tab --}}
           <div class="tab-pane fade show active" id="activity" role="tabpanel">
-              <div class="card border-0 shadow-sm rounded-3">
-                  {{-- CV Enhancement Card --}}
-                  <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
-                      @php
-                          $hasActiveSubscription = false; // Check from database if user has active subscription
-                          $subscriptionPlan = null; // Get from database
-                      @endphp
-                      
-                      @if($hasActiveSubscription)
-                          {{-- Active Subscription View --}}
-                          <div class="card-body p-4 text-center" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">
-                              <div class="rounded-2 bg-white bg-opacity-20 p-2 d-inline-block mb-3">
-                                  <i class="bi bi-check-circle-fill fs-3 text-white"></i>
-                              </div>
-                              <h5 class="fw-bold mb-1 text-white">🚀 Pro Active</h5>
-                              <p class="small text-white-50 mb-3">{{ ucfirst($subscriptionPlan) }} Plan Active</p>
-                              <div class="mb-3">
-                                  <span class="display-6 fw-bold text-white">Active</span>
-                                  <span class="small text-white-50">until {{ now()->addDays(30)->format('M d, Y') }}</span>
-                              </div>
-                              <button onclick="manageSubscription()" class="btn btn-light text-primary fw-semibold rounded-pill px-4 py-2 w-100 shadow-sm">
-                                  <i class="bi bi-gear me-2"></i>Manage Subscription
-                              </button>
-                          </div>
-                      @else
-                          {{-- No Subscription - Show Upgrade Card --}}
-                          <div class="card-body p-4" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
-                              
-                              {{-- Header Section --}}
-                              <div class="text-center mb-4">
-                                  <span class="badge bg-white text-dark rounded-pill px-3 py-1 mb-2" style="font-size: 10px;">
-                                      ⚡ Limited Time Offer
-                                  </span>
-                                  <div class="rounded-circle bg-white bg-opacity-20 p-2 d-inline-flex mb-2">
-                                      <i class="bi bi-stars fs-2 text-white"></i>
-                                  </div>
-                                  <h4 class="fw-bold mb-1 text-white">Land Your Dream Job <span style="text-decoration: underline; color: #fcd34d;">Faster</span></h4>
-                                  <p class="small text-white-50 mb-0">AI-powered CV enhancement that gets you noticed</p>
-                              </div>
-                              
-                              {{-- Feature Badges Row - Centered --}}
-                              <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
-                                  <span class="badge bg-white text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
-                                      📊 ATS Score
-                                  </span>
-                                  <span class="badge bg-white text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
-                                      ✍️ Cover Letters
-                                  </span>
-                                  <span class="badge bg-white text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
-                                      🎯 Keyword Match
-                                  </span>
-                                  <span class="badge bg-white text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
-                                      💼 Interview Prep
-                                  </span>
-                              </div>
-                              
-                              {{-- Pricing Section - Centered --}}
-                              <div class="text-center mb-4">
-                                  <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
-                                      <span class="fw-bold text-white" style="font-size: 3rem;">$5</span>
-                                      <span class="text-white-50">/month</span>
-                                      <span class="badge bg-warning text-dark rounded-pill px-2 py-1" style="font-size: 9px;">🔥 Save 40%</span>
-                                  </div>
-                                  <p class="small text-white-50 mb-0" style="font-size: 11px;">≈ UGX 18,750 per month</p>
-                              </div>
-                              
-                              {{-- Benefits Grid - Centered with proper structure --}}
-                              <div class="row justify-content-center g-2 mb-4">
-                                  <div class="col-5 col-sm-4">
-                                      <div class="d-flex align-items-center justify-content-center gap-2">
-                                          <i class="bi bi-check-circle-fill text-white" style="font-size: 12px;"></i>
-                                          <span class="small text-white">Unlimited CV reviews</span>
-                                      </div>
-                                  </div>
-                                  <div class="col-5 col-sm-4">
-                                      <div class="d-flex align-items-center justify-content-center gap-2">
-                                          <i class="bi bi-check-circle-fill text-white" style="font-size: 12px;"></i>
-                                          <span class="small text-white">ATS score optimization</span>
-                                      </div>
-                                  </div>
-                                  <div class="col-5 col-sm-4">
-                                      <div class="d-flex align-items-center justify-content-center gap-2">
-                                          <i class="bi bi-check-circle-fill text-white" style="font-size: 12px;"></i>
-                                          <span class="small text-white">Unlimited cover letters</span>
-                                      </div>
-                                  </div>
-                                  <div class="col-5 col-sm-4">
-                                      <div class="d-flex align-items-center justify-content-center gap-2">
-                                          <i class="bi bi-check-circle-fill text-white" style="font-size: 12px;"></i>
-                                          <span class="small text-white">Priority support</span>
-                                      </div>
-                                  </div>
-                              </div>
-                              
-                              {{-- Social Proof - Centered --}}
-                              <div class="d-flex justify-content-center align-items-center gap-4 mb-4">
-                                  <div class="text-center">
-                                      <div class="fw-bold text-white">500+</div>
-                                      <small class="text-white-50" style="font-size: 10px;">Happy Users</small>
-                                  </div>
-                                  <div class="vr bg-white bg-opacity-25" style="height: 30px;"></div>
-                                  <div class="text-center">
-                                      <div class="fw-bold text-white">4.9★</div>
-                                      <small class="text-white-50" style="font-size: 10px;">Rating</small>
-                                  </div>
-                                  <div class="vr bg-white bg-opacity-25" style="height: 30px;"></div>
-                                  <div class="text-center">
-                                      <div class="fw-bold text-white">30-Day</div>
-                                      <small class="text-white-50" style="font-size: 10px;">Guarantee</small>
-                                  </div>
-                              </div>
-                              
-                              {{-- CTA Button - Centered --}}
-                              <div class="text-center mb-3">
-                                  <a href="{{ url('/#cv-enhancement') }}" class="btn btn-light fw-semibold rounded-pill px-5 py-2 shadow-sm" style="color: #f97316; font-size: 14px;">
-                                      <i class="bi bi-lightning-charge me-2"></i>Upgrade Now — Get Hired Faster
-                                  </a>
-                              </div>
-                              
-                              {{-- Trust Message - Centered --}}
-                              <div class="text-center">
-                                  <p class="small text-white-50 mb-0" style="font-size: 10px;">
-                                      <i class="bi bi-lock me-1"></i> Secure payment via Pesapal | Cancel anytime
-                                  </p>
-                              </div>
-                              
-                          </div>
-                      @endif
-                  </div>
+              <div class="card border-0 shadow-sm rounded-3">  
+                @include('job-seeker.partials.cv-enhancement-tab')
               </div>
           </div>
           
-          {{-- Manual CV Tab - inline the component, no AJAX --}}
+          {{-- Cover Letters Tab --}}
+          <div class="tab-pane fade" id="cover-letter" role="tabpanel">
+            @include('job-seeker.partials.cover-letter-tab')
+          </div>
+          
+          {{-- Manual CV Tab --}}
           <div class="tab-pane fade" id="manual-cv" role="tabpanel">
-              <div id="cvEditorContainer">
-                  @include('job-seeker.cv-editor-component')
-              </div>
+            <div id="cvEditorContainer">
+              @include('job-seeker.cv-editor-component')
+            </div>
           </div>
-          
-          {{-- Applications Tab --}}
-          <div class="tab-pane fade" id="applications" role="tabpanel">
+
+          {{-- My Plan Tab --}}
+          <div class="tab-pane fade" id="myplan" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-3">
-              <div class="card-body p-4">
-                <div class="text-center py-5" id="emptyApplications">
-                  <div class="rounded-circle bg-primary bg-opacity-10 p-4 d-inline-block mb-3">
-                    <i class="bi bi-inbox fs-1 text-primary"></i>
-                  </div>
-                  <p class="text-muted mb-3">No applications yet. Start your job search!</p>
-                  <a href="{{ route('jobs.index') }}" class="btn btn-primary rounded-pill px-4">
-                    <i class="bi bi-search me-2"></i>Browse Jobs
-                  </a>
+              <div id="planStatusContainer">
+                <div class="card-body text-center py-5">
+                  <div class="spinner-border text-primary" role="status"></div>
+                  <p class="text-muted mt-2">Loading your plan information...</p>
                 </div>
               </div>
             </div>
@@ -489,6 +368,123 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+</script>
+
+<script>
+// Load plan status when My Plan tab is clicked or on page load
+let planLoaded = false;
+
+document.getElementById('myplan-tab').addEventListener('shown.bs.tab', function() {
+    if (!planLoaded) {
+        loadPlanStatus();
+    }
+});
+
+// Also load on page load if My Plan is active
+if (document.getElementById('myplan').classList.contains('show')) {
+    loadPlanStatus();
+}
+
+async function loadPlanStatus() {
+    const container = document.getElementById('planStatusContainer');
+    
+    try {
+        const API_BASE = '{{ rtrim(config("api.main_app.api_base"), "/") }}';
+        const API_TOKEN = '{{ session("api_token") }}';
+        
+        const response = await fetch(`${API_BASE}/v1/subscription/status`, {
+            headers: {
+                'Authorization': `Bearer ${API_TOKEN}`,
+                'Accept': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            const sub = data.data;
+            
+            if (sub.has_active_subscription) {
+                // Has active subscription
+                container.innerHTML = `
+                    <div class="card-body p-4 text-center" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">
+                        <div class="rounded-2 bg-white bg-opacity-20 d-inline-flex p-3 mb-3">
+                            <i class="bi bi-check-circle-fill fs-2 text-white"></i>
+                        </div>
+                        <h4 class="fw-bold mb-1 text-white">${sub.plan.toUpperCase()} Plan Active</h4>
+                        <p class="text-white-50 small mb-2">${sub.period} subscription</p>
+                        <div class="alert alert-light py-2 px-3 mb-3 d-inline-flex gap-2 rounded-pill" style="background: rgba(255,255,255,0.15); border: none; color: white;">
+                            <i class="bi bi-calendar-check me-1"></i>
+                            Valid until <strong>${sub.expiry_date || 'N/A'}</strong>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a href="{{ url('/#cv-enhancement') }}" class="btn btn-light rounded-pill px-4">
+                                <i class="bi bi-arrow-repeat me-2"></i>Manage
+                            </a>
+                            <button onclick="document.getElementById('activity-tab').click(); setTimeout(() => scrollToUpgrade?.(), 300);" class="btn btn-outline-light rounded-pill px-4">
+                                <i class="bi bi-stars me-2"></i>Upgrade Plan
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-4 border-top">
+                        <h6 class="fw-bold mb-3"><i class="bi bi-graph-up me-2 text-primary"></i>Plan Benefits</h6>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <span class="small">Unlimited CV reviews</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <span class="small">Unlimited cover letters</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <span class="small">Priority support</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <span class="small">ATS optimization</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // No active subscription
+                container.innerHTML = `
+                    <div class="card-body p-4 text-center">
+                        <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex p-3 mb-3">
+                            <i class="bi bi-star fs-2 text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">No Active Plan</h4>
+                        <p class="text-muted small mb-4">Subscribe to unlock AI-powered CV enhancement features.</p>
+                        <button onclick="document.getElementById('activity-tab').click();" class="btn btn-primary rounded-pill px-4">
+                            <i class="bi bi-lightning-charge me-2"></i>View Plans
+                        </button>
+                    </div>
+                `;
+            }
+            planLoaded = true;
+        } else {
+            throw new Error('Failed to load plan');
+        }
+    } catch (error) {
+        container.innerHTML = `
+            <div class="card-body text-center py-5">
+                <i class="bi bi-exclamation-triangle fs-2 text-warning"></i>
+                <p class="text-muted mt-2">Unable to load plan information. Please refresh the page.</p>
+                <button onclick="location.reload()" class="btn btn-sm btn-outline-primary rounded-pill">Retry</button>
+            </div>
+        `;
+    }
+}
 </script>
 
 @endsection
