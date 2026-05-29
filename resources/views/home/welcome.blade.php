@@ -338,8 +338,8 @@
 ═══════════════════════════════════════════════════════ --}}
 <section class="py-5 py-lg-6 bg-primary" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">
   <div class="container-xl px-3 px-md-4 text-center">
-    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 mb-3">🇺🇬 Built in Uganda, for Africa</span>
-    <h2 class="h2 fw-bold text-white mb-3">Start your journey today</h2>
+    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 mb-3">Start your journey today</span>
+    <!-- <h2 class="h2 fw-bold text-white mb-3">Start your journey today</h2> -->
     <p class="text-white-50 mb-4" style="max-width: 480px; margin: 0 auto;">Join thousands of workers and employers on Stardena Works — the smart way to hire and be hired.</p>
     <div class="d-flex flex-wrap gap-3 justify-content-center">
       <button onclick="signupToBegin()" class="btn btn-light fw-semibold rounded-pill px-5 py-3">
@@ -348,7 +348,7 @@
       <button onclick="signupToBegin()" class="btn btn-outline-light fw-semibold rounded-pill px-5 py-3">
         <i class="bi bi-building me-2"></i>I'm an Employer
       </button>
-      <button onclick="comingSoon()" class="btn btn-success fw-semibold rounded-pill px-5 py-3">
+      <button onclick="openSocialModal()" class="btn btn-success fw-semibold rounded-pill px-5 py-3">
         <i class="bi bi-whatsapp me-2"></i>Apply on WhatsApp
       </button>
     </div>
@@ -363,10 +363,7 @@
     modal.show();
   }
 
-  function signupToBegin() {
-    // Redirect to registration page
-    window.location.href = '{{ route("seeker.dashboard") }}';
-  }
+
 
   function scrollToCVSection() {
     const section = document.getElementById('cv-enhancement');

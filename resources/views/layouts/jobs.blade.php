@@ -266,9 +266,13 @@
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">For Job Seekers</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Browse Jobs</a></li>
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Categories</a></li>
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Job Alerts</a></li>
+            <li class="mb-2"><a href="/jobs" class="text-light small">Browse Jobs</a></li>
+            <li class="mb-2"><a href="/jobs/#job-category" class="text-light small">Categories</a></li>
+            <li class="mb-2">
+              <a href="{{ route('seeker.dashboard') }}?tab=settings" class="text-light small">
+                <i class="bi bi-bell me-1"></i> Job Alerts
+              </a>
+            </li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
@@ -307,6 +311,30 @@
   <!-- ------------------------------------- -->
   <!-- Footer End -->
   <!-- ------------------------------------- -->
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check URL parameter for tab
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabToOpen = urlParams.get('tab');
+        
+        if (tabToOpen) {
+            // Find the button that controls the tab
+            const targetButton = document.querySelector(`#dashboardTabs button[data-bs-target="#${tabToOpen}"]`);
+            
+            if (targetButton) {
+                // Use Bootstrap's Tab API to activate the tab
+                const tab = new bootstrap.Tab(targetButton);
+                tab.show();
+                
+                // Update URL without reload to remove the parameter
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, '', newUrl);
+            }
+        }
+    });
+  </script>
 
   <style>
     /* ---- Scroll to top ---- */
@@ -356,6 +384,7 @@
         if (window.scrollY > 300) btn.classList.add('show');
         else btn.classList.remove('show');
     });
+    
   </script>
 
   <script  src="{{ web_asset('front/js/vendor.min.js') }}"></script>
