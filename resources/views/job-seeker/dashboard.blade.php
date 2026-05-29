@@ -153,38 +153,68 @@
       <div class="col-lg-8">
         
         {{-- Tabs Navigation --}}
-        <ul class="nav nav-tabs border-bottom gap-3 mb-4" id="dashboardTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active px-3 py-2 fw-semibold" id="activity-tab" data-bs-toggle="tab" 
+        <ul class="nav nav-tabs border-bottom gap-1 gap-md-3 mb-4" id="dashboardTabs" role="tablist" style="flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; -webkit-overflow-scrolling: touch;">
+          <li class="nav-item flex-shrink-0" role="presentation">
+            <button class="nav-link active px-2 px-md-3 py-2 fw-semibold" id="activity-tab" data-bs-toggle="tab" 
                     data-bs-target="#activity" type="button" role="tab">
-                <i class="bi bi-activity me-2"></i>Upgrade CV
+              <i class="bi bi-activity me-1 me-md-2"></i>
+              <span class="d-none d-sm-inline">Upgrade CV</span>
+              <span class="d-inline d-sm-none">Upgrade</span>
             </button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link px-3 py-2 fw-semibold" id="cover-letter-tab" data-bs-toggle="tab" 
+          <li class="nav-item flex-shrink-0" role="presentation">
+            <button class="nav-link px-2 px-md-3 py-2 fw-semibold" id="cover-letter-tab" data-bs-toggle="tab" 
                     data-bs-target="#cover-letter" type="button" role="tab">
-                <i class="bi bi-envelope-paper me-2"></i>Cover Letters
+              <i class="bi bi-envelope-paper me-1 me-md-2"></i>
+              <span class="d-none d-sm-inline">Cover Letters</span>
+              <span class="d-inline d-sm-none">Letters</span>
             </button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link px-3 py-2 fw-semibold" id="manual-cv-tab" data-bs-toggle="tab" 
+          <li class="nav-item flex-shrink-0" role="presentation">
+            <button class="nav-link px-2 px-md-3 py-2 fw-semibold" id="manual-cv-tab" data-bs-toggle="tab" 
                   data-bs-target="#manual-cv" type="button" role="tab">
-              <i class="bi bi-pencil-square me-2"></i>Update CV
+              <i class="bi bi-pencil-square me-1 me-md-2"></i>
+              <span class="d-none d-sm-inline">Update CV</span>
+              <span class="d-inline d-sm-none">Update CV</span>
             </button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link px-3 py-2 fw-semibold" id="myplan-tab" data-bs-toggle="tab" 
+          <li class="nav-item flex-shrink-0" role="presentation">
+            <button class="nav-link px-2 px-md-3 py-2 fw-semibold" id="myplan-tab" data-bs-toggle="tab" 
                     data-bs-target="#myplan" type="button" role="tab">
-              <i class="bi bi-star me-2"></i>My Plan
+              <i class="bi bi-star me-1 me-md-2"></i>
+              <span class="d-none d-sm-inline">My Plan</span>
+              <span class="d-inline d-sm-none">My Plan</span>
             </button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link px-3 py-2 fw-semibold" id="settings-tab" data-bs-toggle="tab" 
+          <li class="nav-item flex-shrink-0" role="presentation">
+            <button class="nav-link px-2 px-md-3 py-2 fw-semibold" id="settings-tab" data-bs-toggle="tab" 
                   data-bs-target="#settings" type="button" role="tab">
-              <i class="bi bi-gear me-2"></i>Settings
+              <i class="bi bi-gear me-1 me-md-2"></i>
+              <span class="d-none d-sm-inline">Settings</span>
+              <span class="d-inline d-sm-none">Settings</span>
             </button>
           </li>
         </ul>
+
+        <style>
+          /* Mobile tab scrolling */
+          @media (max-width: 576px) {
+            #dashboardTabs {
+              scrollbar-width: thin;
+            }
+            #dashboardTabs::-webkit-scrollbar {
+              height: 2px;
+            }
+            #dashboardTabs::-webkit-scrollbar-track {
+              background: #e2e8f0;
+              border-radius: 10px;
+            }
+            #dashboardTabs::-webkit-scrollbar-thumb {
+              background: #cbd5e1;
+              border-radius: 10px;
+            }
+          }
+        </style>
 
         <div class="tab-content">
 
@@ -222,58 +252,7 @@
 
           {{-- Settings Tab --}}
           <div class="tab-pane fade" id="settings" role="tabpanel">
-            <div class="card border-0 shadow-sm rounded-3">
-              <div class="card-body p-4">
-                <form id="profileSettingsForm">
-                  <h6 class="fw-bold mb-3">Personal Information</h6>
-                  <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                      <label class="form-label small fw-semibold">First Name</label>
-                      <input type="text" class="form-control rounded-2" value="{{ session('web_user.first_name') }}">
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label small fw-semibold">Last Name</label>
-                      <input type="text" class="form-control rounded-2" value="{{ session('web_user.last_name') }}">
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label small fw-semibold">Email Address</label>
-                      <input type="email" class="form-control rounded-2 bg-light" value="{{ session('web_user.email') }}" readonly disabled>
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label small fw-semibold">Phone Number</label>
-                      <input type="tel" class="form-control rounded-2" placeholder="+256 XXX XXX XXX">
-                    </div>
-                  </div>
-                  
-                  <h6 class="fw-bold mb-3">Notification Preferences</h6>
-                  <div class="mb-3">
-                    <div class="form-check form-switch mb-2">
-                      <input class="form-check-input" type="checkbox" id="emailNotif" checked>
-                      <label class="form-check-label" for="emailNotif">Email job recommendations</label>
-                    </div>
-                    <div class="form-check form-switch mb-2">
-                      <input class="form-check-input" type="checkbox" id="appNotif" checked>
-                      <label class="form-check-label" for="appNotif">Application status updates</label>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="newsNotif">
-                      <label class="form-check-label" for="newsNotif">News and announcements</label>
-                    </div>
-                  </div>
-
-                  <hr>
-                  
-                  <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">
-                      <i class="bi bi-check-lg me-2"></i>Save Changes
-                    </button>
-                    <button type="button" class="btn btn-outline-danger rounded-pill px-4" onclick="logoutConfirm()">
-                      <i class="bi bi-box-arrow-right me-2"></i>Logout
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
+              @include('job-seeker.partials.setting-component')
           </div>
 
         </div>

@@ -298,7 +298,7 @@
             <!-- Success View -->
             <div id="successView" style="display:none;text-align:center;padding:1.5rem 0;">
                 <div style="width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:28px;">✉</div>
-                <p style="font-size:20px;font-weight:700;color:#0f172a;margin:0 0 8px;">Check Your Inbox</p>
+                <p style="font-size:20px;font-weight:700;color:#0f172a;margin:0 0 8px;">Check Your E/Gmail Inbox</p>
                 <p id="successMessage" style="font-size:13px;color:#64748b;margin:0 0 20px;"></p>
                 <p style="font-size:13px;color:#64748b;">Didn't receive it? <a href="javascript:void(0)" onclick="resendLink()" style="color:var(--bs-primary);font-weight:600;">Resend link</a></p>
                 <a href="/" class="btn-submit" style="display:inline-block;width:auto;padding:10px 24px;margin-top:20px;text-decoration:none;">Back to Home</a>

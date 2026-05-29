@@ -4,19 +4,20 @@
 ════════════════════════════════════════════════════════════════════ --}}
 <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
 
-  <div class="card-header bg-white border-bottom p-4">
-    <div class="d-flex align-items-center gap-3 flex-wrap">
-      <div class="rounded-2 bg-primary bg-opacity-10 p-2">
-        <i class="bi bi-robot fs-4 text-primary"></i>
+  <div class="card-header bg-white border-bottom p-3 p-md-4">
+    <div class="d-flex align-items-center gap-2 gap-md-3 flex-nowrap">
+      <div class="rounded-2 bg-primary bg-opacity-10 p-2 flex-shrink-0">
+        <i class="bi bi-robot fs-5 fs-md-4 text-primary"></i>
       </div>
-      <div>
-        <h6 class="fw-bold mb-0">Job Recommendations</h6>
-        <small class="text-muted" id="recSubtitle">Personalised matches based on your CV</small>
+      <div class="flex-grow-1 min-width-0">
+        <h6 class="fw-bold mb-0 text-truncate">Job Recommendations</h6>
+        <small class="text-muted text-truncate d-block" id="recSubtitle" style="font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Personalised matches based on your CV</small>
       </div>
-      <div class="ms-auto d-flex align-items-center gap-2">
-        <span class="badge bg-primary rounded-pill px-3 py-2" id="recModeBadge" style="display:none!important"></span>
-        <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="refreshRecommendations()" id="recRefreshBtn" style="display:none">
-          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+      <div class="flex-shrink-0 d-flex align-items-center gap-2">
+        <span class="badge bg-primary rounded-pill px-2 px-md-3 py-1 py-md-2" id="recModeBadge" style="display:none!important"></span>
+        <button class="btn btn-sm btn-outline-primary rounded-pill px-2 px-md-3" onclick="refreshRecommendations()" id="recRefreshBtn" style="display:none">
+          <i class="bi bi-arrow-clockwise me-0 me-md-1"></i>
+          <span class="d-none d-md-inline">Refresh</span>
         </button>
       </div>
     </div>
