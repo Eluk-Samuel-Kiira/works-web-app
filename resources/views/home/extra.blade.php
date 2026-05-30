@@ -809,8 +809,6 @@
             return;
         }
         
-        
-
         const plan = paymentPlans.find(p => p.name === planName);
         if (!plan) return;
         
@@ -837,88 +835,45 @@
         new bootstrap.Modal(document.getElementById('paymentModal')).show();
     };
 
-    window.processSeekerPayment = async function() {
-        const name  = document.getElementById('payerName')?.value?.trim();
+    window.processSeekerPayment = function() {
+        const name = document.getElementById('payerName')?.value?.trim();
         const email = document.getElementById('payerEmail')?.value?.trim();
         const phone = document.getElementById('payerPhone')?.value?.trim();
-
-        // Clear previous errors
+        
         document.getElementById('payerNameErr')?.classList.add('d-none');
         document.getElementById('payerEmailErr')?.classList.add('d-none');
-
-        // Client-side validation
+        
         let valid = true;
-        if (!name)                    { showError('payerNameErr',  'Full name is required');    valid = false; }
+        if (!name) { showError('payerNameErr', 'Full name is required'); valid = false; }
         if (!email || !email.includes('@')) { showError('payerEmailErr', 'Valid email is required'); valid = false; }
         if (!valid) return;
-
-        const btn = document.getElementById('payNowBtn');
-        const originalBtnHtml = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing…';
-
+        
         const nameParts = name.split(' ');
         const firstName = nameParts[0];
-        const lastName  = nameParts.slice(1).join(' ') || firstName;
-        const plan      = paymentPlans.find(p => p.name === selectedPackage.plan);
-
-        const payload = {
-            plan:         selectedPackage.plan,
-            period:       selectedPackage.period,
-            amount_usd:   selectedPackage.priceUsd,
-            currency:     currentCurrency?.code || 'USD',
-            amount_local: plan?.local_price || selectedPackage.priceUsd,
-            first_name:   firstName,
-            last_name:    lastName,
-            email:        email,
-            phone:        phone || '',
-            country_code: currentCurrency?.country_code || 'UG',
+        const lastName = nameParts.slice(1).join(' ') || firstName;
+        const plan = paymentPlans.find(p => p.name === selectedPackage.plan);
+        
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/payment/initiate';
+        
+        const fields = {
+            '_token': CSRF, 'plan': selectedPackage.plan, 'period': selectedPackage.period,
+            'amount_usd': selectedPackage.priceUsd, 'currency': currentCurrency?.code || 'USD',
+            'amount_local': plan?.local_price || selectedPackage.priceUsd,
+            'first_name': firstName, 'last_name': lastName, 'email': email, 'phone': phone || '',
+            'country_code': currentCurrency?.country_code || 'UG',
         };
-
-        try {
-            const res = await fetch('/payment/initiate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type':  'application/json',
-                    'Accept':        'application/json',   // ← triggers JSON error responses
-                    'X-CSRF-TOKEN':  CSRF,
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                // Laravel validation errors come as { errors: { field: ['msg'] } }
-                if (data.errors) {
-                    const firstError = Object.values(data.errors).flat()[0];
-                    showToast(firstError, 'error');
-
-                    // Show field-level errors if present
-                    if (data.errors.first_name || data.errors.last_name) showError('payerNameErr',  data.errors.first_name?.[0] || data.errors.last_name?.[0]);
-                    if (data.errors.email)                                showError('payerEmailErr', data.errors.email[0]);
-                } else {
-                    showToast(data.message || 'Payment initiation failed. Please try again.', 'error');
-                }
-                return;
-            }
-
-            if (data.success && data.redirect_url) {
-                // Close modal then redirect to Pesapal
-                bootstrap.Modal.getInstance(document.getElementById('paymentModal'))?.hide();
-                showToast('Redirecting to payment gateway…', 'info');
-                setTimeout(() => { window.location.href = data.redirect_url; }, 600);
-            } else {
-                showToast(data.message || 'Unexpected error. Please try again.', 'error');
-            }
-
-        } catch (err) {
-            console.error('Payment error:', err);
-            showToast('Network error. Please check your connection and try again.', 'error');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = originalBtnHtml;
-        }
+        
+        Object.entries(fields).forEach(([key, value]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden'; input.name = key; input.value = value;
+            form.appendChild(input);
+        });
+        
+        bootstrap.Modal.getInstance(document.getElementById('paymentModal'))?.hide();
+        document.body.appendChild(form);
+        form.submit();
     };
 
     @endif

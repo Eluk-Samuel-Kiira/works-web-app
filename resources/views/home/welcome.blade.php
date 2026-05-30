@@ -229,58 +229,49 @@
   </div>
 </section>
 
-
-
-{{-- ═══════════════════════════════════════════════════════
-     CV ENHANCEMENT SECTION (id="cv-enhancement")
-═══════════════════════════════════════════════════════ --}}
-@include('home.cv-charge')
-
-    
+<section id="cv-enhancement-dashboard" class="py-5 py-lg-6">
+  <div class="container-xl px-3 px-md-4">
     {{-- Campaign Banner --}}
-    {{--
-    <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">
       <div class="card-body p-4 p-lg-5 text-center text-white">
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
           <div class="text-start">
-            <span class="badge bg-white text-warning rounded-pill px-3 py-2 mb-2">🚀 SPECIAL LAUNCH OFFER</span>
-            <h3 class="fw-bold mb-2">Get 50% off your first 3 months</h3>
-            <p class="mb-0 opacity-90">Use code: <strong class="bg-white bg-opacity-20 px-2 py-1 rounded">STARDENA50</strong> at checkout</p>
+            <span class="badge bg-warning text-dark rounded-pill px-3 py-2 mb-2">🚀 SPECIAL LAUNCH OFFER</span>
+            <h3 class="fw-bold mb-2 text-white">Get 50% off your first 3 months</h3>
+            <p class="mb-0 text-white-50">Use code: <strong class="bg-dark bg-opacity-30 px-2 py-1 rounded text-white">STARDENA50</strong> at checkout</p>
           </div>
-          <button onclick="signupToBegin()" class="btn btn-light fw-semibold rounded-pill px-5 py-3 shadow-lg" style="color: #f97316;">
+          <button onclick="signupToBegin()" class="btn btn-warning fw-semibold rounded-pill px-5 py-3 shadow-lg" style="color: #1e3a8a;">
             Sign Up Now <i class="bi bi-arrow-right ms-2"></i>
           </button>
         </div>
         <div class="row mt-4 pt-3 g-3 text-center">
           <div class="col-6 col-md-3">
-            <div class="bg-white bg-opacity-15 rounded-3 p-2">
-              <i class="bi bi-file-text fs-4"></i>
-              <div class="small fw-semibold">CV Templates</div>
+            <div class="bg-dark bg-opacity-30 rounded-3 p-3">
+              <i class="bi bi-file-text fs-3 text-white"></i>
+              <div class="small fw-semibold text-white mt-1">CV Templates</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
-            <div class="bg-white bg-opacity-15 rounded-3 p-2">
-              <i class="bi bi-graph-up fs-4"></i>
-              <div class="small fw-semibold">ATS Score</div>
+            <div class="bg-dark bg-opacity-30 rounded-3 p-3">
+              <i class="bi bi-graph-up fs-3 text-white"></i>
+              <div class="small fw-semibold text-white mt-1">ATS Score</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
-            <div class="bg-white bg-opacity-15 rounded-3 p-2">
-              <i class="bi bi-envelope-paper fs-4"></i>
-              <div class="small fw-semibold">Cover Letters</div>
+            <div class="bg-dark bg-opacity-30 rounded-3 p-3">
+              <i class="bi bi-envelope-paper fs-3 text-white"></i>
+              <div class="small fw-semibold text-white mt-1">Cover Letters</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
-            <div class="bg-white bg-opacity-15 rounded-3 p-2">
-              <i class="bi bi-person-check fs-4"></i>
-              <div class="small fw-semibold">Interview Prep</div>
+            <div class="bg-dark bg-opacity-30 rounded-3 p-3">
+              <i class="bi bi-person-check fs-3 text-white"></i>
+              <div class="small fw-semibold text-white mt-1">Interview Prep</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    --}}
-
   </div>
 </section>
 
@@ -354,7 +345,6 @@
     </div>
   </div>
 </section>
-
 
 
 <script>

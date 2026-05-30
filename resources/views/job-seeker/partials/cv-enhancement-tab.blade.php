@@ -1053,11 +1053,65 @@ ${esc(letter)}
 </script>
 
 <style>
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.dropdown-item.active { background-color: rgba(var(--bs-primary-rgb), 0.1) !important; color: var(--bs-primary) !important; }
+.shadow-xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+#plansContainer .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+#plansContainer .card:hover { transform: translateY(-4px); }
+
+/* Enhanced styles for the active subscription area - matching pricing cards */
 .enhance-tab-pane { animation: enhFadeIn .2s ease; }
 @keyframes enhFadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-#cvEnhanceTabs .nav-link { color:#4b5563; font-size:13px; }
-#cvEnhanceTabs .nav-link.active { background:var(--bs-primary); color:#fff; }
-#cvEnhanceTabs .nav-link:hover:not(.active) { background:rgba(var(--bs-primary-rgb),.07); }
+
+#cvEnhanceTabs .nav-link { 
+    color: #4b5563; 
+    font-size: 13px; 
+    background: transparent;
+    transition: all 0.2s ease;
+}
+#cvEnhanceTabs .nav-link.active { 
+    background: linear-gradient(135deg, #1e3a8a, #2563eb); 
+    color: #fff; 
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+}
+#cvEnhanceTabs .nav-link:hover:not(.active) { 
+    background: rgba(37, 99, 235, 0.08); 
+    color: #1e3a8a;
+}
+
+/* Make cards consistent with pricing page */
+.enhance-tab-pane .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.enhance-tab-pane .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Gradient backgrounds for sections (matching the pricing section style) */
+.bg-gradient-subtle {
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+}
+
+/* Modal styling consistency */
+.modal-content {
+    border: none;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
 .history-item:last-child { border-bottom: none !important; }
-.cv-preview { font-family:'Courier New',Courier,monospace; font-size:12px; line-height:1.5; white-space:pre-wrap; }
+.cv-preview { font-family: 'Courier New', Courier, monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; }
+
+/* Dropzone styling */
+.border-dashed {
+    border-style: dashed !important;
+}
+.border-dashed:hover {
+    background: #f0f4ff !important;
+    border-color: #2563eb !important;
+}
 </style>

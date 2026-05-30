@@ -21,6 +21,16 @@ Route::get('/coming-soon', function () {
 })->name('coming-soon');
 
 
+// Pricing Tags 
+Route::get('/post-featured-jobs', function () {
+    return view('employer.feature-jobs');
+})->name('featured.addons');
+
+Route::get('/job-seeker-cv-pricing', function () {
+    return view('home.cv-charge');
+})->name('home.cv-charge');
+
+
 // ads.txt for Google AdSense
 Route::get('/ads.txt', function () {
     $content = "google.com, pub-3587587638253109, DIRECT, f08c47fec0942fa0\n";
