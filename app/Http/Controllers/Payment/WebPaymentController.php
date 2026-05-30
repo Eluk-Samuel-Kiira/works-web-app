@@ -26,8 +26,9 @@ class WebPaymentController extends Controller
     // ─────────────────────────────────────────────────────────────────────
     public function initiate(Request $request)
     {
+        // If AJAX, return JSON validation errors instead of redirect
         $validated = $request->validate([
-            'plan'         => 'required|string|in:basic,pro,elite',
+            'plan'         => 'required|string|in:seeker_basic,seeker_pro,seeker_elite',
             'period'       => 'required|string|in:monthly,yearly',
             'amount_usd'   => 'required|numeric|min:1',
             'currency'     => 'required|string|size:3',
@@ -49,24 +50,45 @@ class WebPaymentController extends Controller
 
             if (!$response->successful() || empty($data['redirect_url'])) {
                 Log::error('[WebPayment] Initiate failed', ['response' => $data]);
-                return back()->with('error', $data['message'] ?? 'Payment initiation failed. Please try again.');
+
+                // Return JSON if AJAX, otherwise redirect back
+                if ($request->expectsJson() || $request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $data['message'] ?? 'Payment initiation failed. Please try again.'
+                    ], 422);
+                }
+                return back()->with('error', $data['message'] ?? 'Payment initiation failed.');
             }
 
-            // Store reference in session so callback page can poll status
-            Session::put('payment_reference',    $data['merchant_reference']);
-            Session::put('payment_plan',         $validated['plan']);
+            Session::put('payment_reference',      $data['merchant_reference']);
+            Session::put('payment_plan',           $validated['plan']);
             Session::put('payment_order_tracking', $data['order_tracking_id']);
 
             Log::info('[WebPayment] Redirecting to Pesapal', [
-                'reference'   => $data['merchant_reference'],
-                'redirect_url'=> $data['redirect_url'],
+                'reference'    => $data['merchant_reference'],
+                'redirect_url' => $data['redirect_url'],
             ]);
 
-            // Redirect customer to Pesapal payment page
+            // Return redirect URL as JSON for AJAX caller
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success'      => true,
+                    'redirect_url' => $data['redirect_url'],
+                ]);
+            }
+
             return redirect()->away($data['redirect_url']);
 
         } catch (\Exception $e) {
             Log::error('[WebPayment] Initiate exception', ['error' => $e->getMessage()]);
+
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Something went wrong. Please try again.'
+                ], 500);
+            }
             return back()->with('error', 'Something went wrong. Please try again.');
         }
     }

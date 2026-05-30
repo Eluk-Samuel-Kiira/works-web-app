@@ -17,7 +17,7 @@
         </p>
       </div>
       <div class="d-flex gap-2">
-        <a href="{{ url('/#cv-enhancement') }}" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+        <a href="{{ route('home.cv-charge') }}" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
           <i class="bi bi-stars me-2"></i> Upgrade CV
         </a>
         <a href="{{ route('jobs.index') }}" class="btn btn-outline-primary rounded-pill px-4 py-2">
@@ -25,79 +25,6 @@
         </a>
       </div>
     </div>
-
-    {{-- Stats Cards - Matching jobs index styling --}}
-    {{--
-    <div class="row g-3 g-lg-4 mb-5">
-      <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm rounded-3 h-100">
-          <div class="card-body p-3 p-xl-4">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="text-muted small text-uppercase fw-semibold">Applications</span>
-              <div class="rounded-2 bg-primary bg-opacity-10 p-2">
-                <i class="bi bi-send text-primary"></i>
-              </div>
-            </div>
-            <div class="d-flex align-items-baseline gap-1">
-              <span class="fw-bold fs-2 text-primary" id="stat-applications">0</span>
-              <span class="text-muted small">total</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm rounded-3 h-100">
-          <div class="card-body p-3 p-xl-4">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="text-muted small text-uppercase fw-semibold">Interviews</span>
-              <div class="rounded-2 bg-success bg-opacity-10 p-2">
-                <i class="bi bi-calendar-check text-success"></i>
-              </div>
-            </div>
-            <div class="d-flex align-items-baseline gap-1">
-              <span class="fw-bold fs-2 text-success" id="stat-interviews">0</span>
-              <span class="text-muted small">scheduled</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm rounded-3 h-100">
-          <div class="card-body p-3 p-xl-4">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="text-muted small text-uppercase fw-semibold">Profile Views</span>
-              <div class="rounded-2 bg-info bg-opacity-10 p-2">
-                <i class="bi bi-eye text-info"></i>
-              </div>
-            </div>
-            <div class="d-flex align-items-baseline gap-1">
-              <span class="fw-bold fs-2 text-info" id="stat-views">0</span>
-              <span class="text-muted small">this week</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm rounded-3 h-100">
-          <div class="card-body p-3 p-xl-4">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="text-muted small text-uppercase fw-semibold">Saved Jobs</span>
-              <div class="rounded-2 bg-warning bg-opacity-10 p-2">
-                <i class="bi bi-bookmark text-warning"></i>
-              </div>
-            </div>
-            <div class="d-flex align-items-baseline gap-1">
-              <span class="fw-bold fs-2 text-warning" id="stat-saved">0</span>
-              <span class="text-muted small">jobs</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    --}}
 
     {{-- Main Content Row --}}
     <div class="row g-3 g-lg-4">
@@ -155,23 +82,7 @@
         {{-- Tabs Navigation --}}
         <ul class="nav nav-tabs border-bottom gap-1 gap-md-3 mb-4" id="dashboardTabs" role="tablist" style="flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; -webkit-overflow-scrolling: touch;">
           <li class="nav-item flex-shrink-0" role="presentation">
-            <button class="nav-link active px-2 px-md-3 py-2 fw-semibold" id="activity-tab" data-bs-toggle="tab" 
-                    data-bs-target="#activity" type="button" role="tab">
-              <i class="bi bi-activity me-1 me-md-2"></i>
-              <span class="d-none d-sm-inline">Upgrade CV</span>
-              <span class="d-inline d-sm-none">Upgrade</span>
-            </button>
-          </li>
-          <li class="nav-item flex-shrink-0" role="presentation">
-            <button class="nav-link px-2 px-md-3 py-2 fw-semibold" id="cover-letter-tab" data-bs-toggle="tab" 
-                    data-bs-target="#cover-letter" type="button" role="tab">
-              <i class="bi bi-envelope-paper me-1 me-md-2"></i>
-              <span class="d-none d-sm-inline">Cover Letters</span>
-              <span class="d-inline d-sm-none">Letters</span>
-            </button>
-          </li>
-          <li class="nav-item flex-shrink-0" role="presentation">
-            <button class="nav-link px-2 px-md-3 py-2 fw-semibold" id="manual-cv-tab" data-bs-toggle="tab" 
+            <button class="nav-link active px-2 px-md-3 py-2 fw-semibold" id="manual-cv-tab" data-bs-toggle="tab" 
                   data-bs-target="#manual-cv" type="button" role="tab">
               <i class="bi bi-pencil-square me-1 me-md-2"></i>
               <span class="d-none d-sm-inline">Update CV</span>
@@ -217,21 +128,9 @@
         </style>
 
         <div class="tab-content">
-
-          {{-- Activity Tab --}}
-          <div class="tab-pane fade show active" id="activity" role="tabpanel">
-              <div class="card border-0 shadow-sm rounded-3">  
-                @include('job-seeker.partials.cv-enhancement-tab')
-              </div>
-          </div>
-          
-          {{-- Cover Letters Tab --}}
-          <div class="tab-pane fade" id="cover-letter" role="tabpanel">
-            @include('job-seeker.partials.cover-letter-tab')
-          </div>
           
           {{-- Manual CV Tab --}}
-          <div class="tab-pane fade" id="manual-cv" role="tabpanel">
+          <div class="tab-pane fade show active" id="manual-cv" role="tabpanel">
             <div id="cvEditorContainer">
               @include('job-seeker.cv-editor-component')
             </div>

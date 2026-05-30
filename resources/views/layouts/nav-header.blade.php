@@ -29,7 +29,7 @@
             <a class="nav-link nav-item-link" href="{{ route('companies') }}">Companies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="{{ url('/#cv-enhancement') }}">
+            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="{{ route('home.cv-charge') }}">
               Optimize My CV
               <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
             </a>
@@ -38,7 +38,7 @@
             <a class="nav-link nav-item-link" href="{{ route('seeker.dashboard') }}#job-matching">My Job Matches</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-item-link" href="javascript:void(0)" onclick="comingSoon()">Pricing</a>
+            <a class="nav-link nav-item-link" href="{{ route('featured.addons') }}">Post a Job</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-item-link" href="{{ route('blog.index') }}">Blogs</a>
@@ -129,13 +129,13 @@
       <li class="mb-1"><a href="{{ route('jobs.index') }}"  class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Find Jobs</a></li>
       <li class="mb-1"><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Companies</a></li>
       <li class="mb-1">
-        <a href="{{ url('/#cv-enhancement') }}" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">
+        <a href="{{ route('home.cv-charge') }}" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">
           Optimize My CV
           <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
         </a>
       </li>
       <li class="mb-1"><a href="{{ route('seeker.dashboard') }}#job-matching" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">My Job Matches</a></li>
-      <li class="mb-1"><a href="javascript:void(0)" onclick="comingSoon()" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Pricing</a></li>
+      <li class="mb-1"><a href="{{ route('featured.addons') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Post a Job</a></li>
       <li class="mb-1"><a href="{{ route('blog.index') }}"  class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Blogs</a></li>
       
       @if(session('web_user'))
