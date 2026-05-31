@@ -55,10 +55,10 @@
             </div>
             <div style="min-width: 0; flex: 1;">
               <div class="fw-semibold small mb-1">Post a Job</div>
-              <a href="mailto:stardenaworks26@gmail.com" 
+              <a href="mailto:jobpost@stardenaworks.com"
                 class="text-body-secondary small text-decoration-none"
                 style="word-break: break-all; overflow-wrap: break-word;">
-                stardenaworks26@gmail.com
+                jobpost@stardenaworks.com
               </a>
             </div>
           </div>

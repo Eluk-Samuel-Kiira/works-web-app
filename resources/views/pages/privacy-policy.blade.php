@@ -25,7 +25,7 @@
         <h1 class="h3 fw-semibold mb-1">Privacy Policy</h1>
         <p class="text-muted small mb-5">Last updated: {{ date('F j, Y') }}</p>
 
-        <p class="text-body-secondary">Stardena Works ("we", "our", or "us") operates <strong>works.stardena.org</strong> — a job listing platform connecting job seekers with employers across Uganda and Africa. This policy explains how we collect, use, and protect your information.</p>
+        <p class="text-body-secondary">Stardena Works ("we", "our", or "us") operates <strong>stardenaworks.com</strong> — a job listing platform connecting job seekers with employers across Africa. This policy explains how we collect, use, and protect your information.</p>
 
         <h2 class="h5 fw-semibold mt-5 mb-3 pb-2 border-bottom">1. Information We Collect</h2>
         <p class="text-body-secondary">We may collect the following information:</p>
@@ -73,7 +73,7 @@
           <li class="mb-2">Request deletion of your personal data</li>
           <li class="mb-2">Withdraw consent at any time</li>
         </ul>
-        <p class="text-body-secondary">To exercise any of these rights, contact us at <a href="mailto:privacy@stardena.org">privacy@stardena.org</a>.</p>
+        <p class="text-body-secondary">To exercise any of these rights, contact us at <a href="mailto:stardenaworks26@gmail.com">stardenaworks26@gmail.com</a>.</p>
 
         <h2 class="h5 fw-semibold mt-5 mb-3 pb-2 border-bottom">8. Security</h2>
         <p class="text-body-secondary">We implement appropriate technical and organisational measures to protect your information against unauthorised access, alteration, disclosure, or destruction. However, no internet transmission is 100% secure.</p>
@@ -88,7 +88,7 @@
         <p class="text-body-secondary">For any privacy-related questions or requests:</p>
         <div class="bg-body-secondary rounded-3 p-4 mt-3">
           <p class="mb-1"><strong>Stardena Works</strong></p>
-          <p class="mb-1 text-body-secondary">Email: <a href="mailto:privacy@stardena.org">privacy@stardena.org</a></p>
+          <p class="mb-1 text-body-secondary">Email: <a href="mailto:stardenaworks26@gmail.com">stardenaworks26@gmail.com</a></p>
           <p class="mb-0 text-body-secondary">Website: <a href="https://stardena.org" target="_blank">stardena.org</a></p>
         </div>
 
