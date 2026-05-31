@@ -9,14 +9,7 @@
       gtag('js', new Date());
       gtag('config', 'G-VT1BQTKZZ5');
     </script>
-
-    <script src="https://cdn.cookiehub.eu/c2/53aa6329.js"></script>
-    <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function(event) {
-        var cpm = {};
-        window.cookiehub.load(cpm);
-        });
-    </script>
+    
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3587587638253109"
      crossorigin="anonymous"></script>
