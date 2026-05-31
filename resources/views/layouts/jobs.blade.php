@@ -12,7 +12,16 @@
       gtag('config', 'G-VT1BQTKZZ5');
     </script>
 
-    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SVWSLQ2GVZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-SVWSLQ2GVZ');
+    </script>
+
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3587587638253109"
      crossorigin="anonymous"></script>
