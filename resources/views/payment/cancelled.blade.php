@@ -28,7 +28,7 @@
       </div>
       
       <div class="d-flex gap-2 justify-content-center flex-wrap">
-        <a href="{{ url('/#cv-enhancement') }}" class="btn btn-primary rounded-pill px-4">
+        <a href="{{ url('\') }}" class="btn btn-primary rounded-pill px-4">
           <i class="bi bi-arrow-repeat me-2"></i>Try Again
         </a>
         <a href="{{ route('seeker.dashboard') }}" class="btn btn-outline-secondary rounded-pill px-4">
