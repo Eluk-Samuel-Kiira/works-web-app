@@ -48,20 +48,49 @@ Route::get('/about',          fn() => view('pages.about'))->name('about');
 Route::get('/contact',        fn() => view('pages.contact'))->name('contact');
 Route::get('/terms-of-service', fn() => view('pages.terms'))->name('terms-of-service');
 
+
+
 Route::post('/contact', function (\Illuminate\Http\Request $request) {
-    $request->validate([
+    $validated = $request->validate([
         'name'    => 'required|string|max:100',
         'email'   => 'required|email',
-        'subject' => 'nullable|string',
+        'subject' => 'nullable|string|max:200',
         'message' => 'required|string|min:10|max:2000',
     ]);
 
-    // Log it for now — add Mail::to() when you set up email
-    \Log::info('Contact form submission', $request->only(['name', 'email', 'subject', 'message']));
-
-    return back()->with('success', 'Thank you! We will get back to you within 24 hours.');
+    // Get MAIN API URL from config
+    $mainApiBase = rtrim(config('api.main_app.api_base'), '/');
+    
+    // Send to MAIN API - it will handle storage and email
+    try {
+        $response = Http::timeout(30)
+            ->post($mainApiBase . '/v1/contact', $validated);
+        
+        if ($response->successful()) {
+            \Log::info('Contact form sent to MAIN API', [
+                'email' => $validated['email'],
+                'response' => $response->json()
+            ]);
+            
+            return back()->with('success', 'Thank you! We will get back to you within 24 hours.');
+        } else {
+            \Log::warning('Contact form MAIN API failed', [
+                'email' => $validated['email'],
+                'status' => $response->status(),
+                'response' => $response->body()
+            ]);
+            
+            return back()->with('error', 'Unable to send message. Please try again later.');
+        }
+    } catch (\Exception $e) {
+        \Log::error('Contact form API error', [
+            'email' => $validated['email'],
+            'error' => $e->getMessage()
+        ]);
+        
+        return back()->with('error', 'Unable to send message. Please try again later.');
+    }
 })->name('contact.send');
-
 
 // Category landing pages
 Route::get('/jobs/category/{slug}', [JobCategoryController::class, 'category'])->name('jobs.category');

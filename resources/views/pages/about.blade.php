@@ -50,26 +50,26 @@
         <div class="row g-3 mb-5">
           <div class="col-6 col-md-3">
             <div class="text-center p-3 bg-body-secondary rounded-3">
-              <div class="fw-bold text-primary" style="font-size:1.75rem">500+</div>
+              <div class="fw-bold text-primary" style="font-size:1.75rem">2000+</div>
               <div class="text-muted small">Jobs posted</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="text-center p-3 bg-body-secondary rounded-3">
-              <div class="fw-bold text-primary" style="font-size:1.75rem">100+</div>
+              <div class="fw-bold text-primary" style="font-size:1.75rem">500+</div>
               <div class="text-muted small">Employers</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="text-center p-3 bg-body-secondary rounded-3">
-              <div class="fw-bold text-primary" style="font-size:1.75rem">10+</div>
+              <div class="fw-bold text-primary" style="font-size:1.75rem">100+</div>
               <div class="text-muted small">Industries</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="text-center p-3 bg-body-secondary rounded-3">
-              <div class="fw-bold text-primary" style="font-size:1.75rem">UG</div>
-              <div class="text-muted small">Based in Uganda</div>
+              <div class="fw-bold text-primary" style="font-size:1.75rem">Africa</div>
+              <div class="text-muted small">Based in Africa</div>
             </div>
           </div>
         </div>

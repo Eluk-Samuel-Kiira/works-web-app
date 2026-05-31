@@ -31,7 +31,7 @@
         </div>
 
         <h2 class="h5 fw-semibold mt-5 mb-3 pb-2 border-bottom">1. Introduction</h2>
-        <p class="text-body-secondary">Welcome to Stardena Works ("we", "our", or "us"). Stardena Works is a job listing platform connecting job seekers with employers across Uganda and Africa. These Terms govern your use of our website at <strong>works.stardena.org</strong>.</p>
+        <p class="text-body-secondary">Welcome to Stardena Works ("we", "our", or "us"). Stardena Works is a job listing platform connecting job seekers with employers across Uganda and Africa. These Terms govern your use of our website at <strong>stardenaworks.com</strong>.</p>
 
         <h2 class="h5 fw-semibold mt-5 mb-3 pb-2 border-bottom">2. Eligibility</h2>
         <p class="text-body-secondary">You must be at least 18 years old to use our platform. By using Stardena Works, you represent that you meet this age requirement.</p>
@@ -114,7 +114,7 @@
         <p class="text-body-secondary">If you have any questions about these Terms, please contact us:</p>
         <div class="bg-body-secondary rounded-3 p-4 mt-3">
           <p class="mb-1"><strong>Stardena Works</strong></p>
-          <p class="mb-1 text-body-secondary">Email: <a href="mailto:legal@stardena.org">legal@stardena.org</a></p>
+          <p class="mb-1 text-body-secondary">Email: <a href="mailto:stardenaworks26@gmail.com">stardenaworks26@gmail.com</a></p>
           <p class="mb-0 text-body-secondary">Website: <a href="https://stardena.org" target="_blank">stardena.org</a></p>
         </div>
 
