@@ -66,78 +66,178 @@
 
 {{-- Payment Modal --}}
 <div class="modal fade" id="featuredPaymentModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content rounded-4 border-0 shadow-xl">
       <div class="modal-header border-0 p-4 pb-0">
-        <h5 class="modal-title fw-bold">Complete Your Purchase</h5>
+        <div>
+          <h5 class="modal-title fw-bold">Feature Your Job</h5>
+          <p class="text-muted small mb-0">Step <span id="modalStepIndicator">1</span> of 2</p>
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
+
+      {{-- Step progress --}}
+      <div class="px-4 pt-3">
+        <div class="progress" style="height:4px;">
+          <div class="progress-bar bg-warning" id="modalProgressBar" style="width:50%;transition:width .3s ease;"></div>
+        </div>
+      </div>
+
       <div class="modal-body p-4">
-        <div class="row g-4">
-          <div class="col-md-5">
-            <div class="bg-warning bg-opacity-10 rounded-4 p-4 text-center">
-              <div class="rounded-2 bg-warning bg-opacity-20 d-inline-flex p-2 mb-3" id="modalIcon">
-                <i class="bi bi-star-fill fs-2 text-warning"></i>
+
+        {{-- ── STEP 1: Job Details ─────────────────────────────── --}}
+        <div id="modalStep1">
+          <div class="row g-4">
+
+            {{-- Left: Package Summary --}}
+            <div class="col-md-4">
+              <div class="bg-warning bg-opacity-10 rounded-4 p-4 text-center h-100">
+                <div class="rounded-2 bg-warning bg-opacity-20 d-inline-flex p-2 mb-3" id="modalIcon">
+                  <i class="bi bi-star-fill fs-2 text-warning"></i>
+                </div>
+                <h5 class="fw-bold mb-1" id="modalPlanTitle">Featured - 7 Days</h5>
+                <p class="text-muted small mb-2" id="modalPlanDesc"></p>
+                <div class="mb-3">
+                  <span class="display-6 fw-bold text-warning" id="modalPrice"></span>
+                  <span class="text-muted small"> one-time</span>
+                </div>
+                <hr>
+                <ul class="list-unstyled text-start small" id="modalFeatures"></ul>
               </div>
-              <h4 class="fw-bold mb-1" id="modalPlanTitle">Featured - 7 Days</h4>
-              <p class="text-muted small mb-2" id="modalPlanDesc">Boost your job listing for 7 days</p>
-              <div class="mb-3">
-                <span class="display-6 fw-bold text-warning" id="modalPrice">$13</span>
-                <span class="text-muted" id="modalPeriod">one-time</span>
+            </div>
+
+            {{-- Right: Job Details Form --}}
+            <div class="col-md-8">
+              <h6 class="fw-bold mb-3"><i class="bi bi-briefcase me-2 text-warning"></i>Job Details</h6>
+              <p class="text-muted small mb-3">Paste your job posting or upload a file. We'll handle the rest.</p>
+
+              {{-- Tab toggle --}}
+              <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-sm btn-warning rounded-pill px-3 fw-semibold" id="pasteTabBtn" onclick="switchJobTab('paste')">
+                  <i class="bi bi-clipboard me-1"></i>Paste Text
+                </button>
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="uploadTabBtn" onclick="switchJobTab('upload')">
+                  <i class="bi bi-upload me-1"></i>Upload File
+                </button>
               </div>
-              <hr>
-              <ul class="list-unstyled text-start small" id="modalFeatures"></ul>
+
+              {{-- Paste tab --}}
+              <div id="pasteTab">
+                <textarea class="form-control rounded-3" id="jobDetailsText" rows="8"
+                  placeholder="Paste your full job posting here...&#10;&#10;Example:&#10;Job Title: Senior Accountant&#10;Company: ABC Ltd&#10;Location: Kampala, Uganda&#10;&#10;Job Description:&#10;We are looking for...&#10;&#10;Requirements:&#10;• Bachelor's degree...&#10;• 5+ years experience...&#10;&#10;How to Apply:&#10;Send CV to hr@abc.com"></textarea>
+                <div class="d-flex justify-content-between mt-1">
+                  <small class="text-muted">Minimum 100 characters</small>
+                  <small class="text-muted" id="jobTextCount">0 chars</small>
+                </div>
+                <div class="text-danger small mt-1 d-none" id="jobTextErr"></div>
+              </div>
+
+              {{-- Upload tab --}}
+              <div id="uploadTab" class="d-none">
+                <div class="border border-2 border-dashed rounded-3 text-center p-4"
+                     style="border-color:#f59e0b!important;background:#fffbeb;cursor:pointer;"
+                     id="jobFileDropZone"
+                     onclick="document.getElementById('jobFileInput').click()"
+                     ondragover="event.preventDefault();this.style.background='#fef3c7'"
+                     ondragleave="this.style.background='#fffbeb'"
+                     ondrop="handleJobFileDrop(event)">
+                  <input type="file" id="jobFileInput" class="d-none"
+                         accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+                         onchange="handleJobFileSelect(this)">
+                  <i class="bi bi-cloud-arrow-up fs-2 text-warning opacity-75 mb-1 d-block"></i>
+                  <p class="small fw-semibold text-warning mb-0">Click or drag & drop your job file</p>
+                  <p class="small text-muted mb-0">PDF, DOC, DOCX, TXT, JPG, PNG — max 10MB</p>
+                </div>
+                <div id="jobFilePreview" class="d-none mt-2">
+                  <div class="d-flex align-items-center gap-2 p-2 bg-light rounded-2 border">
+                    <i class="bi bi-file-earmark text-warning fs-5"></i>
+                    <span class="small fw-semibold flex-grow-1 text-truncate" id="jobFileName"></span>
+                    <span class="small text-muted" id="jobFileSize"></span>
+                    <button class="btn btn-sm btn-link text-danger p-0" onclick="clearJobFile()">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="text-danger small mt-1 d-none" id="jobFileErr"></div>
+              </div>
+
             </div>
           </div>
-          <div class="col-md-7">
-            <h6 class="fw-bold mb-3">Your Details</h6>
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Full Name</label>
-              <input type="text" class="form-control rounded-3" id="payerName" placeholder="John Doe">
-              <div class="text-danger small mt-1 d-none" id="payerNameErr"></div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Email Address</label>
-              <input type="email" class="form-control rounded-3" id="payerEmail" placeholder="john@example.com">
-              <div class="text-danger small mt-1 d-none" id="payerEmailErr"></div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Phone Number</label>
-              <input type="tel" class="form-control rounded-3" id="payerPhone" placeholder="+256 XXX XXX XXX">
-            </div>
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Job Posting URL (Optional)</label>
-              <input type="url" class="form-control rounded-3" id="jobUrl" placeholder="https://stardenaworks.com/jobs/your-job-slug">
-              <small class="text-muted">We'll feature this specific job after payment</small>
-            </div>
-            <div class="alert alert-info small p-3 rounded-3" style="background: #e8f0fe; border: none;">
-              <i class="bi bi-shield-check me-2"></i>
-              Secured by <strong>Pesapal</strong> — Trusted payment gateway for East Africa
-            </div>
-            <button type="button" class="btn btn-warning rounded-pill w-100 py-2 fw-semibold" id="payNowBtn" onclick="processFeaturedPayment()">
-              <i class="bi bi-lock me-2"></i>Pay with Pesapal
+
+          <div class="d-flex justify-content-end mt-4">
+            <button class="btn btn-warning rounded-pill px-5 py-2 fw-semibold" onclick="goToStep2()">
+              Continue to Payment <i class="bi bi-arrow-right ms-2"></i>
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-{{-- Login Required Modal --}}
-<div class="modal fade" id="featuredLoginRequiredModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 border-0 shadow-xl">
-      <div class="modal-body text-center p-5">
-        <div class="rounded-2 bg-warning bg-opacity-20 d-inline-flex p-3 mb-3">
-          <i class="bi bi-box-arrow-in-right fs-1 text-warning"></i>
+        {{-- ── STEP 2: Payer Details ────────────────────────────── --}}
+        <div id="modalStep2" class="d-none">
+          <div class="row g-4">
+
+            {{-- Left: Package + Job Summary --}}
+            <div class="col-md-4">
+              <div class="bg-warning bg-opacity-10 rounded-4 p-4 h-100">
+                <h6 class="fw-bold mb-3"><i class="bi bi-star-fill text-warning me-2"></i><span id="step2PlanTitle"></span></h6>
+                <div class="mb-3">
+                  <span class="fs-4 fw-bold text-warning" id="step2Price"></span>
+                  <span class="text-muted small"> one-time</span>
+                </div>
+                <hr>
+                <div class="small">
+                  <div class="fw-semibold text-muted mb-1">Job Summary</div>
+                  <div id="step2JobSummary" class="text-muted" style="font-size:11px;line-height:1.5;max-height:120px;overflow:hidden;"></div>
+                </div>
+                <hr>
+                <div class="small text-muted">
+                  <i class="bi bi-shield-check text-success me-1"></i>
+                  Secured by <strong>Pesapal</strong>
+                </div>
+              </div>
+            </div>
+
+            {{-- Right: Contact Details --}}
+            <div class="col-md-8">
+              <h6 class="fw-bold mb-3"><i class="bi bi-person me-2 text-warning"></i>Your Contact Details</h6>
+              <p class="text-muted small mb-3">Where should we send the confirmation and feature activation?</p>
+
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control rounded-3" id="payerName" placeholder="John Doe">
+                <div class="text-danger small mt-1 d-none" id="payerNameErr"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Email Address <span class="text-danger">*</span></label>
+                <input type="email" class="form-control rounded-3" id="payerEmail" placeholder="john@company.com">
+                <div class="text-muted small mt-1">Confirmation + receipt sent here</div>
+                <div class="text-danger small mt-1 d-none" id="payerEmailErr"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Phone Number <span class="text-muted fw-normal">(for mobile money)</span></label>
+                <input type="tel" class="form-control rounded-3" id="payerPhone" placeholder="+256 XXX XXX XXX">
+              </div>
+              <div class="mb-4">
+                <label class="form-label small fw-semibold">Company / Organisation Name</label>
+                <input type="text" class="form-control rounded-3" id="payerCompany" placeholder="ABC Ltd">
+              </div>
+
+              <div class="alert alert-warning small p-3 rounded-3 mb-3" style="background:#fffbeb;border:1px solid #f59e0b20;">
+                <i class="bi bi-info-circle me-2"></i>
+                Your job will be reviewed and featured within <strong>An hour</strong> of payment confirmation.
+              </div>
+
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary rounded-pill px-4" onclick="goToStep1()">
+                  <i class="bi bi-arrow-left me-1"></i>Back
+                </button>
+                <button class="btn btn-warning rounded-pill flex-grow-1 py-2 fw-semibold" id="payNowBtn" onclick="processFeaturedPayment()">
+                  <i class="bi bi-lock me-2"></i>Pay with Pesapal
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <h5 class="fw-bold mb-2">Login Required</h5>
-        <p class="text-muted mb-4">Please sign in to continue with your purchase.</p>
-        <div class="d-flex gap-2">
-          <a href="{{ route('login.register') }}" class="btn btn-primary rounded-pill px-4 flex-grow-1">Sign In</a>
-          <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -166,6 +266,7 @@
     let currentCurrency = null;
     let selectedPackage = null;
 
+    
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
         detectAndSetCurrency();
@@ -431,97 +532,253 @@
         }
     };
 
-    window.openFeaturedPaymentModal = function(planName, priceUsd, period) {
-        if (!IS_LOGGED_IN) {
-            new bootstrap.Modal(document.getElementById('featuredLoginRequiredModal')).show();
+
+
+    // ── State ──────────────────────────────────────────────────────────
+    let jobFile = null;
+    let activeJobTab = 'paste';
+
+    // ── Job tab switcher ───────────────────────────────────────────────
+    window.switchJobTab = function(tab) {
+        activeJobTab = tab;
+        document.getElementById('pasteTab').classList.toggle('d-none', tab !== 'paste');
+        document.getElementById('uploadTab').classList.toggle('d-none', tab !== 'upload');
+        document.getElementById('pasteTabBtn').className = tab === 'paste'
+            ? 'btn btn-sm btn-warning rounded-pill px-3 fw-semibold'
+            : 'btn btn-sm btn-outline-secondary rounded-pill px-3';
+        document.getElementById('uploadTabBtn').className = tab === 'upload'
+            ? 'btn btn-sm btn-warning rounded-pill px-3 fw-semibold'
+            : 'btn btn-sm btn-outline-secondary rounded-pill px-3';
+    };
+
+    // ── File handlers ──────────────────────────────────────────────────
+    window.handleJobFileDrop = function(e) {
+        e.preventDefault();
+        document.getElementById('jobFileDropZone').style.background = '#fffbeb';
+        applyJobFile(e.dataTransfer.files[0]);
+    };
+
+    window.handleJobFileSelect = function(inp) {
+        if (inp.files[0]) applyJobFile(inp.files[0]);
+    };
+
+    function applyJobFile(file) {
+        if (!file) return;
+        const maxSize = 10 * 1024 * 1024;
+        const allowed = ['pdf','doc','docx','txt','jpg','jpeg','png'];
+        const ext = file.name.split('.').pop().toLowerCase();
+
+        if (file.size > maxSize) {
+            showFileErr('jobFileErr', 'File must be under 10MB.');
             return;
         }
-        
+        if (!allowed.includes(ext)) {
+            showFileErr('jobFileErr', 'Only PDF, DOC, DOCX, TXT, JPG, PNG accepted.');
+            return;
+        }
+
+        jobFile = file;
+        document.getElementById('jobFileName').textContent = file.name;
+        document.getElementById('jobFileSize').textContent = formatBytes(file.size);
+        document.getElementById('jobFilePreview').classList.remove('d-none');
+        document.getElementById('jobFileErr').classList.add('d-none');
+    }
+
+    window.clearJobFile = function() {
+        jobFile = null;
+        document.getElementById('jobFileInput').value = '';
+        document.getElementById('jobFilePreview').classList.add('d-none');
+    };
+
+    function formatBytes(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function showFileErr(id, msg) {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = msg; el.classList.remove('d-none'); }
+    }
+
+    // ── Character counter ──────────────────────────────────────────────
+    document.getElementById('jobDetailsText')?.addEventListener('input', function() {
+        document.getElementById('jobTextCount').textContent = this.value.length + ' chars';
+    });
+
+    // ── Step navigation ────────────────────────────────────────────────
+    window.goToStep2 = function() {
+        // Validate step 1
+        let valid = true;
+
+        if (activeJobTab === 'paste') {
+            const text = document.getElementById('jobDetailsText')?.value?.trim();
+            if (!text || text.length < 100) {
+                document.getElementById('jobTextErr').textContent = 'Please paste at least 100 characters of your job posting.';
+                document.getElementById('jobTextErr').classList.remove('d-none');
+                valid = false;
+            } else {
+                document.getElementById('jobTextErr').classList.add('d-none');
+            }
+        } else {
+            if (!jobFile) {
+                showFileErr('jobFileErr', 'Please upload your job posting file.');
+                valid = false;
+            }
+        }
+
+        if (!valid) return;
+
+        // Populate step 2 summary
+        document.getElementById('step2PlanTitle').textContent = document.getElementById('modalPlanTitle').textContent;
+        document.getElementById('step2Price').textContent = document.getElementById('modalPrice').textContent;
+
+        const preview = activeJobTab === 'paste'
+            ? (document.getElementById('jobDetailsText')?.value?.substring(0, 200) + '…')
+            : `📎 ${jobFile.name}`;
+        document.getElementById('step2JobSummary').textContent = preview;
+
+        // Pre-fill if logged in
+        @if(session()->has('web_user'))
+        if (!document.getElementById('payerName').value) {
+            document.getElementById('payerName').value = '{{ session('web_user.first_name') }} {{ session('web_user.last_name') }}';
+            document.getElementById('payerEmail').value = '{{ session('web_user.email') }}';
+            document.getElementById('payerPhone').value = '{{ session('web_user.phone') ?? '' }}';
+        }
+        @endif
+
+        document.getElementById('modalStep1').classList.add('d-none');
+        document.getElementById('modalStep2').classList.remove('d-none');
+        document.getElementById('modalStepIndicator').textContent = '2';
+        document.getElementById('modalProgressBar').style.width = '100%';
+    };
+
+    window.goToStep1 = function() {
+        document.getElementById('modalStep2').classList.add('d-none');
+        document.getElementById('modalStep1').classList.remove('d-none');
+        document.getElementById('modalStepIndicator').textContent = '1';
+        document.getElementById('modalProgressBar').style.width = '50%';
+    };
+
+    // ── Reset modal on open ────────────────────────────────────────────
+    window.openFeaturedPaymentModal = function(planName, priceUsd, period) {
         const plan = featuredPlans.find(p => p.name === planName);
         if (!plan) return;
-        
+
         selectedPackage = { plan: planName, priceUsd: priceUsd, period: period };
-        
+
+        // Reset to step 1
+        goToStep1();
+        document.getElementById('jobDetailsText').value = '';
+        document.getElementById('jobTextCount').textContent = '0 chars';
+        document.getElementById('jobTextErr').classList.add('d-none');
+        document.getElementById('jobFileErr').classList.add('d-none');
+        clearJobFile();
+        switchJobTab('paste');
+
+        // Populate plan info
         document.getElementById('modalPlanTitle').textContent = plan.display_name;
         document.getElementById('modalPlanDesc').textContent = plan.description;
         document.getElementById('modalPrice').textContent = formatPrice(plan.local_price);
-        document.getElementById('modalPeriod').textContent = 'one-time';
-        
-        document.getElementById('modalIcon').innerHTML = `<i class="bi bi-star-fill fs-2 text-warning"></i>`;
-        
-        const featuresList = document.getElementById('modalFeatures');
-        featuresList.innerHTML = plan.features.map(f => `<li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>${escapeHtml(f)}</li>`).join('');
-        
-        // Pre-fill user data
-        @if(session()->has('web_user'))
-        document.getElementById('payerName').value = '{{ session('web_user.first_name') }} {{ session('web_user.last_name') }}';
-        document.getElementById('payerEmail').value = '{{ session('web_user.email') }}';
-        document.getElementById('payerPhone').value = '{{ session('web_user.phone') ?? '' }}';
-        @endif
-        
+        document.getElementById('modalFeatures').innerHTML = plan.features
+            .map(f => `<li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>${escapeHtml(f)}</li>`)
+            .join('');
+
         new bootstrap.Modal(document.getElementById('featuredPaymentModal')).show();
     };
 
-    window.processFeaturedPayment = function() {
-        const name = document.getElementById('payerName')?.value?.trim();
-        const email = document.getElementById('payerEmail')?.value?.trim();
-        const phone = document.getElementById('payerPhone')?.value?.trim();
-        const jobUrl = document.getElementById('jobUrl')?.value?.trim();
-        
+    // ── Payment submission ─────────────────────────────────────────────
+    window.processFeaturedPayment = async function() {
+        const name    = document.getElementById('payerName')?.value?.trim();
+        const email   = document.getElementById('payerEmail')?.value?.trim();
+        const phone   = document.getElementById('payerPhone')?.value?.trim();
+        const company = document.getElementById('payerCompany')?.value?.trim();
+
         document.getElementById('payerNameErr')?.classList.add('d-none');
         document.getElementById('payerEmailErr')?.classList.add('d-none');
-        
+
         let valid = true;
-        if (!name) {
-            const err = document.getElementById('payerNameErr');
-            if (err) { err.textContent = 'Full name is required'; err.classList.remove('d-none'); }
-            valid = false;
-        }
-        if (!email || !email.includes('@')) {
-            const err = document.getElementById('payerEmailErr');
-            if (err) { err.textContent = 'Valid email is required'; err.classList.remove('d-none'); }
-            valid = false;
-        }
+        if (!name)               { showFieldErr('payerNameErr',  'Full name is required');    valid = false; }
+        if (!email || !email.includes('@')) { showFieldErr('payerEmailErr', 'Valid email is required'); valid = false; }
         if (!valid) return;
-        
+
+        const btn = document.getElementById('payNowBtn');
+        const originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing…';
+
         const nameParts = name.split(' ');
         const firstName = nameParts[0];
-        const lastName = nameParts.slice(1).join(' ') || firstName;
-        
-        const plan = featuredPlans.find(p => p.name === selectedPackage.plan);
-        
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/payment/initiate';
-        
-        const fields = {
-            '_token': CSRF_TOKEN,
-            'plan': selectedPackage.plan,
-            'period': selectedPackage.period,
-            'amount_usd': selectedPackage.priceUsd,
-            'currency': currentCurrency?.code || 'USD',
-            'amount_local': plan?.local_price || selectedPackage.priceUsd,
-            'first_name': firstName,
-            'last_name': lastName,
-            'email': email,
-            'phone': phone || '',
-            'country_code': currentCurrency?.country_code || 'UG',
-            'job_url': jobUrl || '',
-            'is_featured_boost': 'true',
-        };
-        
-        Object.entries(fields).forEach(([key, value]) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value;
-            form.appendChild(input);
-        });
-        
-        bootstrap.Modal.getInstance(document.getElementById('featuredPaymentModal'))?.hide();
-        document.body.appendChild(form);
-        form.submit();
+        const lastName  = nameParts.slice(1).join(' ') || firstName;
+        const plan      = featuredPlans.find(p => p.name === selectedPackage.plan);
+
+        // Build FormData so we can attach the file if present
+        const fd = new FormData();
+        fd.append('plan',         selectedPackage.plan);
+        fd.append('period',       selectedPackage.period || 'one_time');
+        fd.append('amount_usd',   selectedPackage.priceUsd);
+        fd.append('currency',     currentCurrency?.code || 'USD');
+        fd.append('amount_local', plan?.local_price || selectedPackage.priceUsd);
+        fd.append('first_name',   firstName);
+        fd.append('last_name',    lastName);
+        fd.append('email',        email);
+        fd.append('phone',        phone || '');
+        fd.append('country_code', currentCurrency?.country_code || 'UG');
+        fd.append('company_name', company || '');
+        fd.append('is_featured_boost', 'true');
+        fd.append('package_display_name', plan?.display_name || selectedPackage.plan);
+        fd.append('package_features',    JSON.stringify(plan?.features || []));
+
+        // Job content
+        if (activeJobTab === 'paste') {
+            fd.append('job_details_text', document.getElementById('jobDetailsText')?.value || '');
+        } else if (jobFile) {
+            fd.append('job_file', jobFile);
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/v1/featured-jobs/initiate`, {
+                method: 'POST',
+                headers: {
+                    'Accept':       'application/json',
+                    'X-App-Key':    '{{ config("api.main_app.service_token") }}',
+                },
+                body: fd,
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                if (data.errors) {
+                    const first = Object.values(data.errors).flat()[0];
+                    showToast(first, 'error');
+                } else {
+                    showToast(data.message || 'Payment initiation failed. Please try again.', 'error');
+                }
+                return;
+            }
+
+            if (data.success && data.redirect_url) {
+                bootstrap.Modal.getInstance(document.getElementById('featuredPaymentModal'))?.hide();
+                showToast('Redirecting to payment gateway…', 'info');
+                setTimeout(() => { window.location.href = data.redirect_url; }, 700);
+            } else {
+                showToast(data.message || 'Unexpected error. Please try again.', 'error');
+            }
+
+        } catch (err) {
+            console.error('Payment error:', err);
+            showToast('Network error. Please check your connection and try again.', 'error');
+        } finally {
+            btn.disabled  = false;
+            btn.innerHTML = originalHtml;
+        }
     };
+
+    function showFieldErr(id, msg) {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = msg; el.classList.remove('d-none'); }
+    }
 
     function showToast(message, type) {
         let container = document.getElementById('toastContainer');

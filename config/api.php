@@ -16,6 +16,7 @@ return [
     'main_app' => [
         'url' => env('MAIN_APP_URL', 'http://127.0.0.1:8000'),
         'api_base' => env('MAIN_APP_URL', 'http://127.0.0.1:8000') . '/api',
+        'service_token' => env('MAIN_APP_SERVICE_TOKEN'),
     ],
     
     // For works-web app
