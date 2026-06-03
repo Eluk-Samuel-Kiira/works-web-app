@@ -258,6 +258,25 @@
   @yield('job-content')
   @include('layouts.social-media')
 
+  {{-- Login Required Modal --}}
+  <div class="modal fade" id="loginChoiceModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-xl">
+        <div class="modal-body text-center p-5">
+          <div class="rounded-2 bg-warning bg-opacity-20 d-inline-flex p-3 mb-3">
+            <i class="bi bi-box-arrow-in-right fs-1 text-warning"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Login Required</h5>
+          <p class="text-muted mb-4">Please sign in to continue with your subscription.</p>
+          <div class="d-flex gap-2">
+            <a href="{{ route('login.register') }}" class="btn btn-primary rounded-pill px-4 flex-grow-1">Sign In</a>
+            <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   
   <!-- ------------------------------------- -->
   <!-- Footer Start - Compact -->
@@ -280,9 +299,10 @@
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">For Employers</h6>
           <ul class="list-unstyled">
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Post a Job</a></li>
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Pricing</a></li>
-            <li class="mb-2"><a href="/coming-soon" onclick="comingSoon()" class="text-light small">Resources</a></li>
+            <li class="mb-2"><a href="{{ route('featured.addons') }}" class="text-light small">Post a Job</a></li>
+            <li class="mb-2"><a href="{{ route('featured.addons') }}" class="text-light small">Pricing</a></li>
+            <li class="mb-2"><a href="/jobs"  class="text-light small">Resources</a></li>
+            <li class="mb-2"><a href="blog.index"  class="text-light small">Blogs</a></li>
           </ul>
         </div>
         <div class="col-md-3 col-6 mb-4 mb-md-0">
@@ -297,15 +317,33 @@
         <div class="col-md-3 col-6 mb-4 mb-md-0">
           <h6 class="fs-4 text-white fw-semibold mb-3">Follow Us</h6>
           <div class="d-flex gap-3">
-            <a href="/coming-soon" onclick="comingSoon()" class="text-light"><i class="bi bi-linkedin"></i></a>
-            <a href="/coming-soon" onclick="comingSoon()" class="text-light"><i class="bi bi-twitter-x"></i></a>
-            <a href="/coming-soon" onclick="comingSoon()" class="text-light"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/company/126473897/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-light"
+              title="Follow us on LinkedIn">
+              <i class="bi bi-linkedin fs-5"></i>
+            </a>
+            <a href="https://x.com/stardena_works" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-light"
+              title="Follow us on X">
+              <i class="bi bi-twitter-x fs-5"></i>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61590522782942" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-light"
+              title="Follow us on Facebook">
+              <i class="bi bi-facebook fs-5"></i>
+            </a>
           </div>
         </div>
       </div>
       <div class="text-center py-3 border-top border-secondary">
         <p class="text-light small mb-0">
-          By<a href="https://stardena.com/" target="_blank" class="text-light"> Stardena</a>
+          By<a href="https://stardena.org/" target="_blank" class="text-light"> Stardena</a>
         </p>
       </div>
     </div>
@@ -316,6 +354,19 @@
 
 
   <script>
+    function signupToBegin() {
+      // Check if user is already logged in
+      const isLoggedIn = {{ session()->has('web_user') ? 'true' : 'false' }};
+      
+      if (isLoggedIn) {
+        // Already logged in - go to dashboard
+        window.location.href = '{{ route("seeker.dashboard") }}';
+      } else {
+        // Not logged in - show login/register modal
+        const loginModal = new bootstrap.Modal(document.getElementById('loginChoiceModal'));
+        loginModal.show();
+      }
+    }
     document.addEventListener('DOMContentLoaded', function() {
         // Check URL parameter for tab
         const urlParams = new URLSearchParams(window.location.search);

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
+
 class StructuredDataService
 {
     // =========================================================
@@ -9,6 +11,14 @@ class StructuredDataService
     // =========================================================
     public function jobPosting(array $job): array
     {
+        // Log the job location data for debugging
+        // Log::info('StructuredDataService: Generating schema for job', [
+        //     'job_id' => $job['id'] ?? null,
+        //     'job_title' => $job['job_title'] ?? null,
+        //     'country' => $job['job_location']['country'] ?? null,
+        //     'district' => $job['job_location']['district'] ?? null,
+        // ]);
+        
         $data = [
             '@context'       => 'https://schema.org/',
             '@type'          => 'JobPosting',
@@ -25,7 +35,7 @@ class StructuredDataService
             'employmentType' => $this->mapEmploymentType(
                                     $job['job_type']['slug'] ?? $job['employment_type'] ?? null
                                 ),
-            'url'            => config('api.web_app.url') . '/jobs/' . ($job['slug'] ?? ''),
+            'url'            => $this->getJobUrl($job),
             'directApply'    => true,
 
             'identifier' => [
@@ -42,25 +52,23 @@ class StructuredDataService
                 'url'    => $job['company']['website'] ?? null,
             ], fn($v) => $v !== null && $v !== ''),
 
+            // ⭐ COUNTRY-SPECIFIC JOB LOCATION
             'jobLocation' => $this->buildJobLocation($job),
         ];
 
-        // ── jobLocationType ───────────────────────────────────────────────────
-        // Google ONLY accepts 'TELECOMMUTE'. On-site / hybrid: omit the field.
+        // ⭐ JOB LOCATION TYPE
         if (($job['location_type'] ?? null) === 'remote') {
-            $data['jobLocationType']                   = 'TELECOMMUTE';
-            $data['applicantLocationRequirements']     = [
+            $data['jobLocationType'] = 'TELECOMMUTE';
+            $data['applicantLocationRequirements'] = [
                 '@type' => 'Country',
-                'name'  => 'Uganda',
+                'name'  => $this->getCountryNameFromJob($job),
             ];
         }
 
-        // ── Salary ────────────────────────────────────────────────────────────
-        // FIX: Was missing baseSalary for 218 items.
-        // Now we always generate at least an estimated salary range.
+        // ⭐ SALARY
         $data['baseSalary'] = $this->buildSalary($job);
 
-        // ── Experience ────────────────────────────────────────────────────────
+        // ⭐ EXPERIENCE REQUIREMENTS
         if (!empty($job['experience_level']['min_years'])) {
             $data['experienceRequirements'] = [
                 '@type'              => 'OccupationalExperienceRequirements',
@@ -68,9 +76,7 @@ class StructuredDataService
             ];
         }
 
-        // ── Education ─────────────────────────────────────────────────────────
-        // FIX: 'credentialCategory' was sending invalid enum values (e.g. "professional_certificate").
-        // Google's valid values: https://schema.org/EducationalOccupationalCredential
+        // ⭐ EDUCATION REQUIREMENTS
         $credentialCategory = $this->mapEducationLevel($job['education_level']['name'] ?? null);
         if ($credentialCategory) {
             $data['educationRequirements'] = [
@@ -79,7 +85,7 @@ class StructuredDataService
             ];
         }
 
-        // ── Category & Industry ───────────────────────────────────────────────
+        // ⭐ CATEGORY & INDUSTRY
         if (!empty($job['job_category']['name'])) {
             $data['occupationalCategory'] = $job['job_category']['name'];
         }
@@ -87,7 +93,7 @@ class StructuredDataService
             $data['industry'] = $job['industry']['name'];
         }
 
-        // ── Skills / Responsibilities / Qualifications ─────────────────────────
+        // ⭐ SKILLS / RESPONSIBILITIES / QUALIFICATIONS
         if (!empty($job['skills'])) {
             $data['skills'] = strip_tags($job['skills']);
         }
@@ -98,7 +104,7 @@ class StructuredDataService
             $data['qualifications'] = strip_tags($job['qualifications']);
         }
 
-        // ── Application URL ───────────────────────────────────────────────────
+        // ⭐ APPLICATION URL
         if (!empty($job['application_procedure'])) {
             preg_match('/(https?:\/\/[^\s]+)/', $job['application_procedure'], $matches);
             if (!empty($matches[0])) {
@@ -106,7 +112,7 @@ class StructuredDataService
             }
         }
 
-        // ── Hiring Contact ────────────────────────────────────────────────────
+        // ⭐ HIRING CONTACT
         if (!empty($job['email']) || !empty($job['telephone'])) {
             $data['hiringContact'] = array_filter([
                 '@type'             => 'ContactPoint',
@@ -117,13 +123,76 @@ class StructuredDataService
             ], fn($v) => $v !== null && $v !== '');
         }
 
+        Log::info('StructuredDataService: Schema generated', [
+            'job_id' => $job['id'] ?? null,
+            'has_location' => isset($data['jobLocation']),
+            'country_in_schema' => $data['jobLocation']['address']['addressCountry'] ?? null,
+        ]);
+
         return array_filter($data, fn($v) => $v !== null && $v !== '' && $v !== []);
     }
 
     // =========================================================
+    // JOB URL BUILDER (Country-specific)
+    // =========================================================
+    private function getJobUrl(array $job): string
+    {
+        $webUrl = rtrim(config('api.web_app.url'), '/');
+        $slug = $job['slug'] ?? '';
+        
+        // Get country code from job location
+        $countryCode = $this->getCountryCodeFromJob($job);
+        
+        if ($countryCode && $countryCode !== 'ug') {
+            // Country-specific URL: /ke/jobs/{slug}
+            return $webUrl . '/' . strtolower($countryCode) . '/jobs/' . $slug;
+        }
+        
+        // Default URL
+        return $webUrl . '/jobs/' . $slug;
+    }
+    
+    // =========================================================
+    // GET COUNTRY CODE FROM JOB
+    // =========================================================
+    private function getCountryCodeFromJob(array $job): ?string
+    {
+        // Check if job has location with country
+        if (!empty($job['job_location']['country'])) {
+            return strtolower($job['job_location']['country']);
+        }
+        
+        // Fallback to Uganda
+        return 'ug';
+    }
+    
+    // =========================================================
+    // GET COUNTRY NAME FROM JOB
+    // =========================================================
+    private function getCountryNameFromJob(array $job): string
+    {
+        $countryNames = [
+            'UG' => 'Uganda',
+            'KE' => 'Kenya',
+            'TZ' => 'Tanzania',
+            'RW' => 'Rwanda',
+            'BI' => 'Burundi',
+            'SS' => 'South Sudan',
+            'CD' => 'DR Congo',
+            'NG' => 'Nigeria',
+            'ZA' => 'South Africa',
+            'GH' => 'Ghana',
+            'ET' => 'Ethiopia',
+            'EG' => 'Egypt',
+        ];
+        
+        $countryCode = $this->getCountryCodeFromJob($job);
+        
+        return $countryNames[strtoupper($countryCode)] ?? 'Uganda';
+    }
+
+    // =========================================================
     // DESCRIPTION BUILDER
-    // Concatenates all rich text sections so Google has more
-    // content to parse for relevance signals.
     // =========================================================
     private function buildDescription(array $job): string
     {
@@ -141,49 +210,44 @@ class StructuredDataService
 
         $combined = implode("\n\n", array_filter($parts));
 
-        // Google requires at least a minimal description
         if (empty($combined)) {
             $combined = ($job['job_title'] ?? 'Job Opportunity')
                       . ' at ' . ($job['company']['name'] ?? 'a company')
-                      . ' in Uganda.';
+                      . ' in ' . $this->getCountryNameFromJob($job) . '.';
         }
 
         return $combined;
     }
 
     // =========================================================
-    // JOB LOCATION BUILDER
-    // FIX: streetAddress and postalCode were missing for 281+ items.
-    // We now always include every field that Google expects,
-    // falling back gracefully so the address is never empty.
+    // JOB LOCATION BUILDER (Country-specific)
     // =========================================================
     private function buildJobLocation(array $job): array
     {
-        // Derive the best street address we have
-        $streetAddress = $job['street_address']
-                      ?? $job['duty_station']
-                      ?? null;
-
-        // Derive locality (city/district)
-        $locality = $job['job_location']['district']
-                 ?? $job['duty_station']
-                 ?? 'Kampala';
-
-        // Postal codes in Uganda are rarely stored — use a known default
-        // per district when available; otherwise use the Kampala GPO code.
-        $postalCode = $job['job_location']['postal_code']
-                   ?? $this->guessPostalCode($locality);
-
+        // Get location data
+        $location = $job['job_location'] ?? [];
+        $countryCode = $location['country'] ?? 'UG';
+        $countryName = $this->getCountryNameFromJob($job);
+        $district = $location['district'] ?? $job['duty_station'] ?? 'Kampala';
+        $streetAddress = $job['street_address'] ?? $job['duty_station'] ?? null;
+        
+        // Log location data for debugging
+        Log::info('Building job location for schema', [
+            'job_id' => $job['id'] ?? null,
+            'country_code' => $countryCode,
+            'country_name' => $countryName,
+            'district' => $district,
+        ]);
+        
         $address = array_filter([
             '@type'           => 'PostalAddress',
             'streetAddress'   => $streetAddress,
-            'addressLocality' => $locality,
-            'addressRegion'   => $job['job_location']['district'] ?? $locality,
-            'addressCountry'  => $job['job_location']['country'] ?? 'UG',
-            'postalCode'      => $postalCode,
+            'addressLocality' => $district,
+            'addressRegion'   => $district,
+            'addressCountry'  => $countryName,
+            'postalCode'      => $this->guessPostalCode($district),
         ], fn($v) => $v !== null && $v !== '');
 
-        // @type must always be present even after filter
         $address['@type'] = 'PostalAddress';
 
         return [
@@ -194,11 +258,6 @@ class StructuredDataService
 
     // =========================================================
     // POSTAL CODE GUESSER
-    // Uganda doesn't have a complete postal code system,
-    // but Google still flags missing postalCode as a warning.
-    // We use the best known code per major district.
-    // This satisfies the validator without being inaccurate —
-    // these are real Ugandan postal codes from Uganda Post.
     // =========================================================
     private function guessPostalCode(string $locality): string
     {
@@ -216,6 +275,12 @@ class StructuredDataService
             'arua'        => '40301',
             'soroti'      => '20301',
             'tororo'      => '20401',
+            'nairobi'     => '00100',
+            'mombasa'     => '80100',
+            'kisumu'      => '40100',
+            'dar es salaam' => '11101',
+            'arusha'      => '23101',
+            'kigali'      => '00000',
         ];
 
         $lower = strtolower(trim($locality));
@@ -226,22 +291,16 @@ class StructuredDataService
             }
         }
 
-        // Default: Kampala GPO — the most common and correct for central Uganda
         return '10101';
     }
 
     // =========================================================
     // SALARY BUILDER
-    // FIX: 218 items had missing baseSalary.
-    // Priority: explicit amount → salary range → industry estimate
-    // → inferred from experience level (last resort).
-    // Google shows salary in rich results which dramatically
-    // increases CTR — this is important for revenue.
     // =========================================================
     private function buildSalary(array $job): array
     {
         $currency = $job['currency'] ?? $job['salary_range']['currency'] ?? 'UGX';
-        $period   = strtoupper($job['payment_period'] ?? 'MONTH');
+        $period = strtoupper($job['payment_period'] ?? 'MONTH');
 
         // 1. Explicit salary amount
         if (!empty($job['salary_amount']) && (float) $job['salary_amount'] > 0) {
@@ -270,37 +329,48 @@ class StructuredDataService
             ];
         }
 
-        // 3. Industry-level estimated salary
-        if (!empty($job['industry']['estimated_salary'])) {
-            $est = (float) $job['industry']['estimated_salary'];
-            return [
-                '@type'    => 'MonetaryAmount',
-                'currency' => 'UGX',
-                'value'    => [
-                    '@type'    => 'QuantitativeValue',
-                    'minValue' => round($est * 0.75),
-                    'maxValue' => round($est * 1.25),
-                    'unitText' => 'MONTH',
-                ],
-            ];
-        }
-
-        // 4. Last resort: infer a reasonable range from experience level.
-        //    These are conservative Uganda market rates (UGX per month).
-        //    Better to show a range than nothing — empty baseSalary
-        //    suppresses the salary badge in Google rich results entirely.
+        // 3. Industry estimate or fallback
+        $countryCode = $this->getCountryCodeFromJob($job);
+        $isKenya = $countryCode === 'ke';
+        $isTanzania = $countryCode === 'tz';
+        
         $experienceName = strtolower($job['experience_level']['name'] ?? 'entry level');
-        [$min, $max] = match(true) {
-            str_contains($experienceName, 'executive')  => [5_000_000, 15_000_000],
-            str_contains($experienceName, 'senior')     => [2_500_000,  7_000_000],
-            str_contains($experienceName, 'mid')        => [1_200_000,  3_500_000],
-            str_contains($experienceName, 'junior')     => [600_000,    1_500_000],
-            default                                     => [300_000,    800_000],  // entry level
-        };
+        
+        if ($isKenya) {
+            // Kenya market rates (KES)
+            [$min, $max] = match(true) {
+                str_contains($experienceName, 'executive') => [150_000, 500_000],
+                str_contains($experienceName, 'senior')    => [80_000,  200_000],
+                str_contains($experienceName, 'mid')       => [50_000,  100_000],
+                str_contains($experienceName, 'junior')    => [25_000,   50_000],
+                default                                    => [15_000,   35_000],
+            };
+            $currency = 'KES';
+        } elseif ($isTanzania) {
+            // Tanzania market rates (TZS)
+            [$min, $max] = match(true) {
+                str_contains($experienceName, 'executive') => [1_500_000, 5_000_000],
+                str_contains($experienceName, 'senior')    => [800_000,   2_000_000],
+                str_contains($experienceName, 'mid')       => [400_000,   1_000_000],
+                str_contains($experienceName, 'junior')    => [200_000,    500_000],
+                default                                    => [100_000,    300_000],
+            };
+            $currency = 'TZS';
+        } else {
+            // Uganda market rates (UGX)
+            [$min, $max] = match(true) {
+                str_contains($experienceName, 'executive') => [5_000_000, 15_000_000],
+                str_contains($experienceName, 'senior')    => [2_500_000,  7_000_000],
+                str_contains($experienceName, 'mid')       => [1_200_000,  3_500_000],
+                str_contains($experienceName, 'junior')    => [600_000,    1_500_000],
+                default                                    => [300_000,    800_000],
+            };
+            $currency = 'UGX';
+        }
 
         return [
             '@type'    => 'MonetaryAmount',
-            'currency' => 'UGX',
+            'currency' => $currency,
             'value'    => [
                 '@type'    => 'QuantitativeValue',
                 'minValue' => $min,
@@ -330,19 +400,6 @@ class StructuredDataService
 
     // =========================================================
     // EDUCATION LEVEL MAPPER
-    // FIX: 260 items had invalid credentialCategory values.
-    //
-    // Google's VALID schema.org values for credentialCategory:
-    //   "bachelor degree"          (not "bachelor_degree")
-    //   "master degree"            (not "master_degree")
-    //   "doctoral degree"          (not "doctorate")
-    //   "associate degree"         (not "associate_degree")
-    //   "high school"              (valid)
-    //   "postgraduate credential"  (for PG diplomas/certs)
-    //   "professional certificate" (NOT valid as enum — use string)
-    //
-    // We use ONLY the schema.org defined enum strings.
-    // Ref: https://schema.org/EducationalOccupationalCredential
     // =========================================================
     private function mapEducationLevel(?string $level): ?string
     {
@@ -369,14 +426,9 @@ class StructuredDataService
                 || str_contains($l, 'o level') || str_contains($l, 'a level')
                 => 'high school',
 
-            // 'Certificate' — this is the tricky one. Google's Rich Result
-            // Test accepts "postgraduate credential" for professional certs.
-            // For basic certificates (e.g. Certificate in Accounting),
-            // "associate degree" is the closest valid enum.
-            str_contains($l, 'certificate')
-                => 'associate degree',
+            str_contains($l, 'certificate') => 'associate degree',
 
-            default => null, // unknown levels: omit the field entirely
+            default => null,
         };
     }
 }

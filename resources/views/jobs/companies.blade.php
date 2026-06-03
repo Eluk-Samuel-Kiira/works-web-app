@@ -38,7 +38,7 @@
       <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-md-between gap-3">
         <div>
           <h1 class="text-white fw-bold mb-1" style="font-size:clamp(1.3rem,3vw,1.9rem)">
-            Companies Hiring in Uganda
+            Companies <span style="color:#fdd835">Hiring</span> in Uganda
           </h1>
           <p class="text-white-50 mb-0 small">
             {{ number_format($pagination['total']) }} organisations actively recruiting
@@ -268,109 +268,6 @@
               modal.show();
           }
         </script>
-        <style>
-          /* Fix horizontal scroll on mobile */
-          body {
-              overflow-x: hidden;
-              width: 100%;
-          }
-
-          .container-xl,
-          .container-fluid,
-          .main-wrapper {
-              overflow-x: hidden;
-              width: 100%;
-              max-width: 100%;
-          }
-
-          /* Company cards container fix */
-          .row.g-3,
-          .row.g-4 {
-              margin-left: 0;
-              margin-right: 0;
-          }
-
-          .row.g-3 > [class*="col-"],
-          .row.g-4 > [class*="col-"] {
-              padding-left: 0.75rem;
-              padding-right: 0.75rem;
-          }
-
-          /* Company card fix */
-          .company-card {
-              width: 100%;
-              max-width: 100%;
-              overflow: hidden;
-          }
-
-          .company-card .card-body {
-              overflow: hidden;
-              word-wrap: break-word;
-              word-break: break-word;
-          }
-
-          /* Logo container fix */
-          .company-card .rounded-2.border {
-              flex-shrink: 0;
-              min-width: 52px;
-          }
-
-          /* Text truncation */
-          .company-card .fw-semibold,
-          .company-card .text-muted {
-              max-width: 100%;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: normal;
-              word-break: break-word;
-          }
-
-          /* Modal fix on mobile */
-          @media (max-width: 576px) {
-              .modal-dialog {
-                  margin: 0.5rem;
-              }
-              
-              .company-card .card-body {
-                  padding: 0.875rem !important;
-              }
-              
-              .company-card .rounded-2.border {
-                  min-width: 44px !important;
-                  width: 44px !important;
-                  height: 44px !important;
-              }
-              
-              .company-card .btn-sm {
-                  padding: 4px 8px !important;
-                  font-size: 10px !important;
-              }
-              
-              .company-card .badge {
-                  font-size: 8px !important;
-                  padding: 3px 6px !important;
-              }
-          }
-
-          /* Ensure images don't overflow */
-          .company-card img {
-              max-width: 100%;
-              height: auto;
-          }
-
-          /* Container padding fix */
-          .container-xl {
-              padding-left: 1rem !important;
-              padding-right: 1rem !important;
-          }
-
-          @media (min-width: 768px) {
-              .container-xl {
-                  padding-left: 1.5rem !important;
-                  padding-right: 1.5rem !important;
-              }
-          }
-        </style>
 
       @endforeach
     </div>
