@@ -112,10 +112,10 @@
             @endforeach
 
             <div class="d-flex gap-2 mt-3">
-              <a href="{{ url('/#cv-enhancement') }}" class="btn btn-primary rounded-pill flex-grow-1" style="background: linear-gradient(135deg, #2563eb, #1e3a8a); border: none;">
+              <a href="{{ route('home.cv-charge') }}" class="btn btn-primary rounded-pill flex-grow-1" style="background: linear-gradient(135deg, #2563eb, #1e3a8a); border: none;">
                 <i class="bi bi-magic me-1"></i> Tailor My CV
               </a>
-              <button onclick="comingSoon()" class="btn btn-outline-success rounded-pill flex-grow-1">
+              <button onclick="signupToBegin()" class="btn btn-outline-success rounded-pill flex-grow-1">
                 <i class="bi bi-whatsapp me-1"></i> Apply via WhatsApp
               </button>
             </div>
@@ -178,7 +178,7 @@
         ['⚡', 'Umeme'],
         ['🏛️', 'NSSF Uganda']
       ] as [$icon, $company])
-        <a href="javascript:void(0)" onclick="comingSoon()" 
+        <a href="javascript:void(0)" onclick="signupToBegin()" 
            class="d-inline-flex align-items-center gap-1 bg-light border rounded-pill px-2 py-1 text-decoration-none"
            style="transition: all 0.2s ease;">
           <span style="font-size: 12px;">{{ $icon }}</span>
@@ -229,7 +229,7 @@
   </div>
 </section>
 
-<section id="cv-enhancement-dashboard" class="py-5 py-lg-6">
+<section id="" class="py-5 py-lg-6">
   <div class="container-xl px-3 px-md-4">
     {{-- Campaign Banner --}}
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">
@@ -278,7 +278,7 @@
 {{-- ═══════════════════════════════════════════════════════
      HOW IT WORKS
 ═══════════════════════════════════════════════════════ --}}
-<section class="py-5 py-lg-6 border-top" style="background: #f8faff;">
+<section class="py-5 py-lg-6 border-top bg-light">
   <div class="container-xl px-3 px-md-4">
     <div class="text-center mb-5">
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-2">How It Works</span>
@@ -286,40 +286,109 @@
       <p class="text-muted">Simple steps for workers and employers.</p>
     </div>
     <div class="row g-4">
+      
+      {{-- For Workers Card --}}
       <div class="col-lg-6">
-        <div class="card border-0 shadow-sm rounded-3 p-4 mb-3">
-          <span class="badge bg-primary w-auto mb-3 px-3 py-2 rounded-pill" style="width: fit-content;">For Workers</span>
-          <div class="d-flex gap-4 mb-3">
-            <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">1</div>
-            <div><i class="bi bi-person-plus fs-4 text-primary"></i><div class="fw-bold">Register Free</div><div class="small text-muted">Create your profile in minutes</div></div>
-          </div>
-          <div class="d-flex gap-4 mb-3">
-            <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">2</div>
-            <div><i class="bi bi-stars fs-4 text-primary"></i><div class="fw-bold">AI Matches You</div><div class="small text-muted">Get matched to the best opportunities</div></div>
-          </div>
-          <div class="d-flex gap-4">
-            <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">3</div>
-            <div><i class="bi bi-check-circle fs-4 text-primary"></i><div class="fw-bold">Apply & Get Hired</div><div class="small text-muted">One-click apply via WhatsApp</div></div>
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+          <div class="card-body p-4">
+            <span class="badge bg-primary mb-4 px-3 py-2 rounded-pill">For Workers</span>
+            
+            {{-- Step 1 --}}
+            <div class="d-flex gap-3 mb-4">
+              <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                <span class="fw-bold text-primary">1</span>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="bi bi-person-plus text-primary fs-5"></i>
+                  <span class="fw-semibold">Register Free</span>
+                </div>
+                <p class="text-muted small mb-0">Create your profile in minutes</p>
+              </div>
+            </div>
+            
+            {{-- Step 2 --}}
+            <div class="d-flex gap-3 mb-4">
+              <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                <span class="fw-bold text-primary">2</span>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="bi bi-stars text-primary fs-5"></i>
+                  <span class="fw-semibold">AI Matches You</span>
+                </div>
+                <p class="text-muted small mb-0">Get matched to the best opportunities</p>
+              </div>
+            </div>
+            
+            {{-- Step 3 --}}
+            <div class="d-flex gap-3">
+              <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                <span class="fw-bold text-primary">3</span>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="bi bi-check-circle text-primary fs-5"></i>
+                  <span class="fw-semibold">Apply &amp; Get Hired</span>
+                </div>
+                <p class="text-muted small mb-0">One-click apply via WhatsApp</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      
+      {{-- For Employers Card --}}
       <div class="col-lg-6">
-        <div class="card border-0 shadow-sm rounded-3 p-4 mb-3">
-          <span class="badge bg-success w-auto mb-3 px-3 py-2 rounded-pill" style="width: fit-content;">For Employers</span>
-          <div class="d-flex gap-4 mb-3">
-            <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">1</div>
-            <div><i class="bi bi-pencil-square fs-4 text-success"></i><div class="fw-bold">Post a Job</div><div class="small text-muted">Describe the role — AI writes the ad</div></div>
-          </div>
-          <div class="d-flex gap-4 mb-3">
-            <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">2</div>
-            <div><i class="bi bi-search fs-4 text-success"></i><div class="fw-bold">AI Pre-Screens</div><div class="small text-muted">See only top verified candidates</div></div>
-          </div>
-          <div class="d-flex gap-4">
-            <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 50px; height: 50px;">3</div>
-            <div><i class="bi bi-people fs-4 text-success"></i><div class="fw-bold">Hire in Days</div><div class="small text-muted">Interview a shortlist of top candidates</div></div>
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+          <div class="card-body p-4">
+            <span class="badge bg-success mb-4 px-3 py-2 rounded-pill">For Employers</span>
+            
+            {{-- Step 1 --}}
+            <div class="d-flex gap-3 mb-4">
+              <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                <span class="fw-bold text-success">1</span>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="bi bi-pencil-square text-success fs-5"></i>
+                  <span class="fw-semibold">Post a Job</span>
+                </div>
+                <p class="text-muted small mb-0">Describe the role — AI writes the ad</p>
+              </div>
+            </div>
+            
+            {{-- Step 2 --}}
+            <div class="d-flex gap-3 mb-4">
+              <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                <span class="fw-bold text-success">2</span>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="bi bi-search text-success fs-5"></i>
+                  <span class="fw-semibold">AI Pre-Screens</span>
+                </div>
+                <p class="text-muted small mb-0">See only top verified candidates</p>
+              </div>
+            </div>
+            
+            {{-- Step 3 --}}
+            <div class="d-flex gap-3">
+              <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                <span class="fw-bold text-success">3</span>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="bi bi-people text-success fs-5"></i>
+                  <span class="fw-semibold">Hire in Days</span>
+                </div>
+                <p class="text-muted small mb-0">Interview a shortlist of top candidates</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      
     </div>
   </div>
 </section>
@@ -348,19 +417,7 @@
 
 
 <script>
-  function comingSoon() {
-    const modal = new bootstrap.Modal(document.getElementById('comingSoonModal'));
-    modal.show();
-  }
 
-
-
-  function scrollToCVSection() {
-    const section = document.getElementById('cv-enhancement');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
 
   // Stat counter animation
   const statObserver = new IntersectionObserver(entries => {

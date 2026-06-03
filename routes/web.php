@@ -16,6 +16,11 @@ Route::get('/jobs/search', [JobController::class, 'search'])->name('jobs.search'
 Route::get('/jobs/{slug}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/jobs/id/{id}', [JobController::class, 'showById'])->name('jobs.show.id');
 
+Route::prefix('{country}')->whereIn('country', ['ke', 'tz', 'rw', 'ug', 'ng', 'za', 'bi', 'ss'])->group(function () {
+    Route::get('/jobs', [JobController::class, 'countryIndex'])->name('jobs.country.index');
+    Route::get('/jobs/{slug}', [JobController::class, 'countryShow'])->name('jobs.country.show');
+});
+
 Route::get('/coming-soon', function () {
     return view('jobs.coming-soon');
 })->name('coming-soon');
@@ -130,46 +135,6 @@ Route::prefix('api/v2')->name('api.v2.')->group(function () {
 
 
 
-// Sitemaps for search engines
-Route::get('/sitemap.xml', function () { 
-    try {
-        $response = Http::timeout(10)->get(config('api.main_app.url') . '/sitemap.xml');
-
-        if ($response->successful()) {
-            return response($response->body(), 200)
-                ->header('Content-Type', 'application/xml')
-                ->header('Cache-Control', 'public, max-age=3600');
-        }
-
-        Log::warning('Sitemap proxy failed: HTTP ' . $response->status());
-        abort(404);
-
-    } catch (\Exception $e) {
-        Log::error('Sitemap proxy error: ' . $e->getMessage());
-        abort(404);
-    }
-});
-
-
-Route::get('/blog-sitemap.xml', function () { 
-    try {
-        $response = Http::timeout(10)->get(config('api.main_app.url') . '/blog-sitemap.xml');
-
-        if ($response->successful()) {
-            return response($response->body(), 200)
-                ->header('Content-Type', 'application/xml')
-                ->header('Cache-Control', 'public, max-age=3600');
-        }
-
-        Log::warning('Sitemap proxy failed: HTTP ' . $response->status());
-        abort(404);
-
-    } catch (\Exception $e) {
-        Log::error('Sitemap proxy error: ' . $e->getMessage());
-        abort(404);
-    }
-});
-
 // Fallback Route (404)
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
@@ -218,3 +183,4 @@ Route::middleware(['web.auth'])->get('/debug-session', function () {
 
 require __DIR__.'/api.php';
 require __DIR__.'/payment.php';
+require __DIR__.'/sitemaps.php';

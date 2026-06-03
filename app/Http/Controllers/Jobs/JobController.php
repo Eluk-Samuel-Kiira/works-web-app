@@ -4,20 +4,27 @@ namespace App\Http\Controllers\Jobs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\ { Log, Artisan, Http, Cache };
+use Illuminate\Support\Facades\ { Log, Http, Cache };
 use App\Services\StructuredDataService;
 
 class JobController extends Controller
 {
-        
+    private $mainAppUrl;
+    
+    public function __construct()
+    {
+        $this->mainAppUrl = rtrim(config('api.main_app.api_base'), '/');
+    }
+    
     /**
      * Display the jobs listing page.
      */
     public function index(Request $request)
     {
-        $mainAppUrl = config('api.main_app.api_base');
+        $mainAppUrl = $this->mainAppUrl;
 
         try {
+            // Build query parameters
             $params = array_filter([
                 'page'     => $request->get('page', 1),
                 'sort'     => $request->get('sort'),
@@ -30,59 +37,40 @@ class JobController extends Controller
                 'type'     => $request->get('type'),
             ]);
 
-            if ($request->has('featured')) {
-                $params['featured'] = $request->get('featured');
+            // Fetch jobs directly from MAIN APP
+            $response = Http::withoutVerifying()
+                ->timeout(30)
+                ->get($mainAppUrl . '/v2/jobs-data-from-main', $params);
+
+            if (!$response->successful()) {
+                throw new \Exception('API request failed: ' . $response->status());
             }
 
-            $isDefaultRequest = !$request->hasAny(['keyword', 'location', 'sort'])
-                                && $request->get('page', 1) == 1;
+            $data = $response->json();
 
-            // Cache key includes page so page 2, 3 etc are cached separately
-            $cacheKey = 'jobs_index_page_' . $request->get('page', 1);
+            // Fetch popular searches
+            $popularSearchesResponse = Http::withoutVerifying()
+                ->timeout(10)
+                ->get($mainAppUrl . '/v2/popular-searches');
 
-            // Fetch data — cached for default requests, live for filtered
-            $data = $isDefaultRequest
-                ? Cache::remember($cacheKey, now()->addMinutes(5), function () use ($mainAppUrl, $params) {
-                    $response = Http::withoutVerifying()->timeout(30)
-                        ->get($mainAppUrl . '/v2/jobs-data-from-main', $params);
-                    return $response->successful() ? $response->json() : null;
-                })
-                : function () use ($mainAppUrl, $params) {
-                    $response = Http::withoutVerifying()->timeout(30)
-                        ->get($mainAppUrl . '/v2/jobs-data-from-main', $params);
-                    return $response->successful() ? $response->json() : null;
-                };
+            $popularSearches = $popularSearchesResponse->successful()
+                ? $popularSearchesResponse->json()
+                : ['Remote', 'NGO', 'Finance', 'Health', 'Education', 'Manager'];
 
-            // Execute closure if not cached path
-            if (is_callable($data)) {
-                $data = $data();
+            // Fetch categories with job counts
+            $categoriesResponse = Http::withoutVerifying()
+                ->timeout(10)
+                ->get($mainAppUrl . '/v2/job-by-category');
+
+            if ($categoriesResponse->successful()) {
+                $cats = $categoriesResponse->json();
+                $categories = isset($cats['data']) ? $cats['data'] : $cats;
+            } else {
+                $categories = [];
             }
 
-            // Popular searches — cache for 1 hour (rarely changes)
-            $popularSearches = Cache::remember('popular_searches', now()->addHour(), function () use ($mainAppUrl) {
-                $response = Http::withoutVerifying()->timeout(10)
-                    ->get($mainAppUrl . '/v2/popular-searches');
-                return $response->successful()
-                    ? $response->json()
-                    : ['Remote', 'NGO', 'Finance', 'Health', 'Education', 'Manager'];
-            });
-
-            // Fetch categories with job counts — cached for 1 hour
-            $categories = Cache::remember('job_categories_with_count', now()->addHour(), function () use ($mainAppUrl) {
-                $response = Http::withoutVerifying()->timeout(10)
-                    ->get($mainAppUrl . '/v2/job-by-category');
-                if ($response->successful()) {
-                    $cats = $response->json();
-                    // Handle both paginated and plain array responses
-                    return isset($cats['data']) ? $cats['data'] : $cats;
-                }
-                return [];
-            });
-
-            // Featured jobs — cache for 10 minutes
-            $featuredJobs = Cache::remember('featured_jobs', now()->addMinutes(10), function () {
-                return $this->getFeaturedJobs();
-            });
+            // Fetch featured jobs
+            $featuredJobs = $this->getFeaturedJobs();
 
             if ($data) {
                 if (isset($data['data'])) {
@@ -111,45 +99,115 @@ class JobController extends Controller
                 ));
             }
 
-            // Data was null — API failed
             throw new \Exception('API returned no data');
 
         } catch (\Exception $e) {
-            Log::error('Exception fetching jobs: ' . $e->getMessage());
+            Log::error('Error fetching jobs: ' . $e->getMessage());
 
             $jobs            = [];
             $featuredJobs    = [];
             $totalJobs       = 0;
             $pagination      = ['current_page' => 1, 'last_page' => 1, 'per_page' => 0, 'total' => 0];
-            $error           = 'Unable to fetch jobs at this time.';
+            $error           = 'Unable to fetch jobs at this time. Please try again later.';
             $popularSearches = ['Remote', 'NGO', 'Finance', 'Health', 'Education', 'Manager'];
+            $categories      = [];
 
             return view('jobs.index', compact(
                 'jobs', 'featuredJobs', 'pagination',
-                'error', 'popularSearches', 'totalJobs'
+                'error', 'popularSearches', 'totalJobs', 'categories'
             ));
         }
     }
 
-    
-    // ============================================================
-    // DROP-IN REPLACEMENT for the show() method in your WEB app
-    // JobController (the one that fetches from the main API).
-    //
-    // CHANGES vs old version:
-    //  - REMOVED the noindex X-Robots-Tag header entirely.
-    //    Every job page — active, expired, or inactive — is served
-    //    with normal 200 responses. Google indexes them all.
-    //    Expired jobs still show the "This job has expired" banner
-    //    (kept in the blade), but search engines can still crawl
-    //    and index the page for brand/company/title traffic.
-    //  - Kept the 404 guards for truly missing jobs.
-    //  - No other logic changed.
-    // ============================================================
+    /**
+     * ⭐ NEW: Country-specific show - handles /ke/jobs/{slug}, /ug/jobs/{slug}, etc.
+     */
+    public function countryShow(Request $request, $country, $slug)
+    {
+        $mainAppUrl = $this->mainAppUrl;
+        
+        // Log for debugging
+        Log::info("Country show request", ['country' => $country, 'slug' => $slug]);
+        
+        try {
+            // Cache individual job for 10 minutes
+            $cachedData = Cache::remember("job_{$slug}", now()->addMinutes(10), function () use ($mainAppUrl, $slug) {
+                $response = Http::withoutVerifying()->timeout(30)
+                    ->get($mainAppUrl . '/v2/jobs-data-from-main/' . $slug);
 
+                return [
+                    'status' => $response->status(),
+                    'data'   => $response->successful() ? $response->json() : null,
+                ];
+            });
+
+            // Hard 404 — job truly does not exist
+            if ($cachedData['status'] === 404 || !$cachedData['data']) {
+                Cache::forget("job_{$slug}");
+                abort(404, 'Job not found');
+            }
+
+            $job = $cachedData['data'];
+
+            if (empty($job['job_title'])) {
+                Log::error('Invalid job data', ['slug' => $slug, 'data' => $job]);
+                abort(404, 'Job not found');
+            }
+
+            // Verify job belongs to this country (optional - good for SEO)
+            $jobCountry = isset($job['job_location']['country']) 
+                ? strtolower($job['job_location']['country']) 
+                : null;
+            
+            $requestedCountry = strtolower($country);
+            
+            if ($jobCountry && $jobCountry !== $requestedCountry) {
+                // Wrong country - redirect to correct country URL
+                $correctSlug = $slug;
+                $correctCountry = $jobCountry;
+                Log::info("Redirecting to correct country", [
+                    'from' => $requestedCountry, 
+                    'to' => $correctCountry,
+                    'slug' => $slug
+                ]);
+                return redirect()->away(url("/{$correctCountry}/jobs/{$slug}"), 301);
+            }
+
+            $similarJobs    = $job['similar_jobs'] ?? [];
+            $structuredData = app(StructuredDataService::class)->jobPosting($job);
+
+            // Return view with country context
+            return response(view('jobs.show', compact('job', 'similarJobs', 'structuredData')));
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching job: ' . $e->getMessage(), [
+                'slug'  => $slug,
+                'trace' => $e->getTraceAsString(),
+            ]);
+            abort(404, 'Job not found');
+        }
+    }
+    
+    /**
+     * Original show method - also handles redirect to country URL if slug has suffix
+     */
     public function show(Request $request, $slug)
     {
-        $mainAppUrl = config('api.main_app.api_base');
+        $mainAppUrl = $this->mainAppUrl;
+        
+        // Check if slug has country suffix and redirect to country-prefixed URL
+        $suffixes = ['-ke', '-tz', '-rw', '-ug', '-ng', '-za', '-bi', '-ss'];
+        foreach ($suffixes as $suffix) {
+            if (str_ends_with($slug, $suffix)) {
+                $countryCode = ltrim($suffix, '-');
+                Log::info("Redirecting slug with suffix to country URL", [
+                    'old_slug' => $slug,
+                    'country' => $countryCode,
+                    'new_url' => url("/{$countryCode}/jobs/{$slug}")
+                ]);
+                return redirect()->away(url("/{$countryCode}/jobs/{$slug}"), 301);
+            }
+        }
 
         try {
             // Cache individual job for 10 minutes
@@ -160,7 +218,6 @@ class JobController extends Controller
                 return [
                     'status' => $response->status(),
                     'data'   => $response->successful() ? $response->json() : null,
-                    'body'   => $response->body(),
                 ];
             });
 
@@ -180,13 +237,6 @@ class JobController extends Controller
             $similarJobs    = $job['similar_jobs'] ?? [];
             $structuredData = app(StructuredDataService::class)->jobPosting($job);
 
-            // ── Always return 200, always let Google index ──────────────────────
-            // Expired / inactive jobs stay visible for:
-            //   • Brand searches ("MTN cashier Acacia Mall")
-            //   • Company profile traffic
-            //   • Long-tail historical queries
-            //   • Internal linking juice
-            // The blade already shows the "expired" warning banner to users.
             return response(view('jobs.show', compact('job', 'similarJobs', 'structuredData')));
 
         } catch (\Exception $e) {
@@ -198,13 +248,12 @@ class JobController extends Controller
         }
     }
     
-        
     /**
      * Get featured jobs
      */
     private function getFeaturedJobs()
     {
-        $mainAppUrl = config('api.main_app.api_base');
+        $mainAppUrl = $this->mainAppUrl;
         
         try {
             $response = Http::withoutVerifying()
@@ -226,12 +275,6 @@ class JobController extends Controller
      */
     public function search(Request $request)
     {
-        // Redirect to index with search parameters
         return redirect()->route('jobs.index', $request->query());
     }
-    
-            
-
-    
-
 }
