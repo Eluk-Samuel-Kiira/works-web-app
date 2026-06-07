@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\ { Log, Artisan, Http, Cache };
 
 class JobCategoryController extends Controller
 {
+    private $mainAppUrl;
+    
+    public function __construct()
+    {
+        $this->mainAppUrl = rtrim(config('api.main_app.api_base'), '/');
+    }
+
     /**
      * Category landing page — /jobs/category/ngo
      */
@@ -152,5 +159,203 @@ class JobCategoryController extends Controller
 
         return view('jobs.companies', compact('companies', 'pagination', 'search'));
     }
+
     
+    /**
+     * Country-specific companies directory
+     * URL: /ke/companies, /ug/companies, /ng/companies
+     */
+    public function countryCompanies(Request $request, $country)
+    {
+        $mainAppUrl = config('api.main_app.api_base');
+        
+        $page   = $request->get('page', 1);
+        $search = $request->get('search', '');
+        
+        $cacheKey = $search ? null : "companies_{$country}_page_" . $page;
+        
+        $fetch = function () use ($mainAppUrl, $page, $search, $country) {
+            $response = Http::withoutVerifying()->timeout(15)
+                ->get($mainAppUrl . '/v2/company-jobs-by-country', array_filter([
+                    'page'          => $page,
+                    'per_page'      => 24,
+                    'search'        => $search ?: null,
+                    'country'       => strtoupper($country),
+                ]));
+            
+            return $response->successful()
+                ? $response->json()
+                : ['data' => [], 'total' => 0, 'current_page' => 1, 'last_page' => 1];
+        };
+        
+        $result = $cacheKey
+            ? Cache::remember($cacheKey, now()->addMinutes(15), $fetch)
+            : $fetch();
+        
+        $companies = $result['data'] ?? [];
+        $pagination = [
+            'current_page' => $result['current_page'] ?? 1,
+            'last_page'    => $result['last_page'] ?? 1,
+            'total'        => $result['total'] ?? 0,
+        ];
+        
+        $countryNames = [
+            'ke' => 'Kenya', 'ug' => 'Uganda', 'ng' => 'Nigeria',
+        ];
+        $countryName = $countryNames[$country] ?? strtoupper($country);
+        
+        return view('jobs.country-companies', compact('companies', 'pagination', 'search', 'country', 'countryName'));
+    }
+
+
+    /**
+     * Country-specific company detail page with jobs
+     * URL: /ke/jobs/company/company-slug
+     */
+    public function countryCompanyJobs(Request $request, $country, $slug)
+    {
+        $mainAppUrl = config('api.main_app.api_base');
+        
+        try {
+            // Fetch company details and jobs
+            $response = Http::withoutVerifying()
+                ->timeout(15)
+                ->get($mainAppUrl . '/v2/company/' . $slug, [
+                    'country' => strtoupper($country)
+                ]);
+            
+            if (!$response->successful()) {
+                abort(404, 'Company not found');
+            }
+            
+            $data = $response->json();
+            $company = $data['company'] ?? [];
+            $similarCompanies = $data['similar_companies'] ?? [];
+            $jobs = $data['jobs']['data'] ?? [];
+            $pagination = $data['jobs']['pagination'] ?? [
+                'current_page' => 1,
+                'last_page' => 1,
+                'total' => 0,
+            ];
+            
+            if (empty($company)) {
+                abort(404, 'Company not found');
+            }
+            
+            $countryNames = [
+                'ke' => 'Kenya', 'ug' => 'Uganda', 'ng' => 'Nigeria',
+            ];
+            $countryName = $countryNames[$country] ?? strtoupper($country);
+            
+            return view('jobs.country-company-jobs', compact(
+                'company', 'similarCompanies', 'jobs', 'pagination', 
+                'country', 'countryName', 'slug'
+            ));
+            
+        } catch (\Exception $e) {
+            Log::error("Error fetching company {$slug} for {$country}: " . $e->getMessage());
+            abort(404, 'Company not found');
+        }
+    }
+
+
+    /**
+     * Country-specific location page - lists jobs by location
+     * URL: /ke/jobs/location/nairobi-jobs-in-ke
+     */
+    public function countryLocation(Request $request, $country, $slug)
+    {
+        $mainAppUrl = $this->mainAppUrl;
+        
+        try {
+            // Fetch location data and jobs
+            $response = Http::withoutVerifying()
+                ->timeout(30)
+                ->get($mainAppUrl . '/v2/jobs-by-location/' . $slug, [
+                    'country' => strtoupper($country),
+                    'page' => $request->get('page', 1),
+                    'sort' => $request->get('sort', 'newest'),
+                ]);
+            
+            if (!$response->successful()) {
+                abort(404, 'Location not found');
+            }
+            
+            $data = $response->json();
+            $location = $data['location'] ?? [];
+            $jobs = $data['jobs']['data'] ?? [];
+            $pagination = $data['jobs']['pagination'] ?? [
+                'current_page' => 1,
+                'last_page' => 1,
+                'total' => 0,
+            ];
+            
+            if (empty($location)) {
+                abort(404, 'Location not found');
+            }
+            
+            // Get similar locations in same country for sidebar
+            $similarLocations = $this->getSimilarLocations($country, $location['id'] ?? null);
+            
+            // Country name for display
+            $countryNames = [
+                'ke' => 'Kenya', 'ug' => 'Uganda', 'ng' => 'Nigeria',
+                'tz' => 'Tanzania', 'rw' => 'Rwanda', 'bi' => 'Burundi',
+                'ss' => 'South Sudan', 'za' => 'South Africa',
+            ];
+            $countryName = $countryNames[$country] ?? strtoupper($country);
+            
+            // Format location name for display
+            $displayLocationName = $location['district'] ?? $location['city'] ?? $location['name'];
+            
+            return view('jobs.country-location', compact(
+                'location', 'jobs', 'pagination', 'country', 'countryName', 
+                'similarLocations', 'slug', 'displayLocationName'
+            ));
+            
+        } catch (\Exception $e) {
+            Log::error("Error fetching location {$slug} for country {$country}: " . $e->getMessage());
+            abort(404, 'Location not found');
+        }
+    }
+
+    /**
+     * Get similar locations in the same country (ONLY 5)
+     */
+    private function getSimilarLocations($country, $currentLocationId = null)
+    {
+        $mainAppUrl = $this->mainAppUrl;
+        $cacheKey = "similar_locations_{$country}";
+        
+        try {
+            $response = Cache::remember($cacheKey, now()->addHours(6), function () use ($mainAppUrl, $country) {
+                $resp = Http::withoutVerifying()
+                    ->timeout(10)
+                    ->get($mainAppUrl . '/v2/locations-by-country', ['country' => strtoupper($country)]);
+                
+                return $resp->successful() ? $resp->json() : [];
+            });
+            
+            // Filter out current location AND limit to 5
+            $filtered = [];
+            if (is_array($response)) {
+                foreach ($response as $loc) {
+                    if (($loc['id'] ?? null) != $currentLocationId) {
+                        $filtered[] = $loc;
+                    }
+                    // Stop after collecting 5
+                    if (count($filtered) >= 5) {
+                        break;
+                    }
+                }
+            }
+            
+            return $filtered;
+            
+        } catch (\Exception $e) {
+            Log::error("Error fetching similar locations: " . $e->getMessage());
+            return [];
+        }
+    }
+            
 }

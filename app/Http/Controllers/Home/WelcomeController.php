@@ -26,5 +26,16 @@ class WelcomeController extends Controller
         return view('home.welcome');
     }
 
+    public function redirectCountryToHome($country)
+    {
+        $validCountries = ['ke', 'ug', 'ng'];
+        
+        if (in_array($country, $validCountries)) {
+            return redirect('/');
+        }
+        
+        abort(404);
+    }
+
 
 }

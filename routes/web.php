@@ -7,19 +7,80 @@ use App\Http\Controllers\Blog\ { BlogApiController };
 use Illuminate\Support\Facades\Http;
 
 
+
+// =============================================
+// COUNTRY ROOT REDIRECTS (must be first!)
+// =============================================
+// Redirect /ke, /ug, /ng to homepage
+Route::get('/{country}', function ($country) {
+    $validCountries = ['ke', 'ug', 'ng'];
+    
+    if (in_array($country, $validCountries)) {
+        // Permanent redirect (301) for SEO
+        return redirect('/', 301);
+    }
+    
+    abort(404);
+})->whereIn('country', ['ke', 'ug', 'ng']);
+
+// =============================================
+// MAIN ROUTES
+// =============================================
 Route::get('/', [WelcomeController::class, 'index'])->name('home.welcome');
 
+// Job routes (without country prefix)
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
 Route::get('/jobs/search', [JobController::class, 'search'])->name('jobs.search');
-
-// Both routes work - one for slug, one for ID as fallback
 Route::get('/jobs/{slug}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/jobs/id/{id}', [JobController::class, 'showById'])->name('jobs.show.id');
 
-Route::prefix('{country}')->whereIn('country', ['ke', 'tz', 'rw', 'ug', 'ng', 'za', 'bi', 'ss'])->group(function () {
+// =============================================
+// COUNTRY-SPECIFIC JOB ROUTES
+// =============================================
+Route::prefix('{country}')->whereIn('country', ['ke', 'ug', 'ng'])->group(function () {
+    // Country-specific jobs listing
     Route::get('/jobs', [JobController::class, 'countryIndex'])->name('jobs.country.index');
+    
+    // Country-specific job detail (slug already contains country suffix)
     Route::get('/jobs/{slug}', [JobController::class, 'countryShow'])->name('jobs.country.show');
+
+    // specific categories 
+    Route::get('/jobs/category/{slug}', [JobController::class, 'countryCategory'])->name('jobs.country.category');
+    
+    // Country-specific location pages (if needed)
+    Route::get('/jobs/location/{slug}', [JobController::class, 'countryLocation'])->name('jobs.country.location');
+
+    Route::get('/companies', [JobCategoryController::class, 'countryCompanies'])->name('jobs.country.companies');
+    Route::get('/jobs/company/{slug}', [JobCategoryController::class, 'countryCompanyJobs'])->name('jobs.country.company');
+
+    Route::get('/jobs/location/{slug}', [JobCategoryController::class, 'countryLocation'])->name('jobs.country.location');
 });
+
+
+// Category landing pages
+Route::get('/jobs/category/{slug}', [JobCategoryController::class, 'category'])->name('jobs.category');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/coming-soon', function () {
     return view('jobs.coming-soon');
@@ -97,8 +158,6 @@ Route::post('/contact', function (\Illuminate\Http\Request $request) {
     }
 })->name('contact.send');
 
-// Category landing pages
-Route::get('/jobs/category/{slug}', [JobCategoryController::class, 'category'])->name('jobs.category');
 
 // Industry landing pages  
 Route::get('/jobs/industry/{slug}', [JobCategoryController::class, 'industry'])->name('jobs.industry');

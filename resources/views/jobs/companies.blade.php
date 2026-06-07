@@ -1,7 +1,7 @@
 @extends('layouts.jobs')
 
-@section('title',            'Companies Hiring in Uganda | Stardena Works')
-@section('meta_description', 'Browse top companies hiring in Uganda. Find company profiles, open positions and apply directly on Stardena Works.')
+@section('title',            'Companies Hiring in Africa | Stardena Works')
+@section('meta_description', 'Browse top companies hiring in Africa. Find company profiles, open positions and apply directly on Stardena Works.')
 @section('canonical',        url('/companies'))
 @section('robots',           'index, follow')
 
@@ -38,7 +38,7 @@
       <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-md-between gap-3">
         <div>
           <h1 class="text-white fw-bold mb-1" style="font-size:clamp(1.3rem,3vw,1.9rem)">
-            Companies <span style="color:#fdd835">Hiring</span> in Uganda
+            Companies <span style="color:#fdd835">Hiring</span> in Africa
           </h1>
           <p class="text-white-50 mb-0 small">
             {{ number_format($pagination['total']) }} organisations actively recruiting

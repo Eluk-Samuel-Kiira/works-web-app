@@ -22,23 +22,68 @@
       <!-- Desktop Menu -->
       <div class="collapse navbar-collapse desktop-menu" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto mb-0 gap-1">
-          <li class="nav-item">
-            <a class="nav-link nav-item-link" href="{{ route('jobs.index') }}">Find Jobs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-item-link" href="{{ route('companies') }}">Companies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-item-link d-flex align-items-center gap-1" href="{{ route('home.cv-charge') }}">
-              Optimize My CV
-              <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
+          
+          <!-- FIND JOBS DROPDOWN -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-item-link dropdown-toggle" href="#" id="jobsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Find Jobs
             </a>
+            <ul class="dropdown-menu" aria-labelledby="jobsDropdown">
+              <li><a class="dropdown-item" href="{{ route('jobs.index') }}">All Jobs</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/ug/jobs">🇺🇬 Uganda Jobs</a></li>
+              <li><a class="dropdown-item" href="/ke/jobs">🇰🇪 Kenya Jobs</a></li>
+              <li><a class="dropdown-item" href="/ng/jobs">🇳🇬 Nigeria Jobs</a></li>
+            </ul>
           </li>
+          
+          <!-- CATEGORIES DROPDOWN -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-item-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+              <li><a class="dropdown-item" href="{{ route('jobs.index') }}">All Categories</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/ug/jobs">🇺🇬 Uganda Categories</a></li>
+              <li><a class="dropdown-item" href="/ke/jobs">🇰🇪 Kenya Categories</a></li>
+              <li><a class="dropdown-item" href="/ng/jobs">🇳🇬 Nigeria Categories</a></li>
+            </ul>
+          </li>
+          
+          <!-- COMPANIES DROPDOWN -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-item-link dropdown-toggle" href="#" id="companiesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Companies
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="companiesDropdown">
+              <li><a class="dropdown-item" href="{{ route('companies') }}">All Companies</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/ug/companies">🇺🇬 Uganda Companies</a></li>
+              <li><a class="dropdown-item" href="/ke/companies">🇰🇪 Kenya Companies</a></li>
+              <li><a class="dropdown-item" href="/ng/companies">🇳🇬 Nigeria Companies</a></li>
+            </ul>
+          </li>
+          
+          <!-- PRICING DROPDOWN (Combines Optimize My CV & Post a Job) -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-item-link dropdown-toggle" href="#" id="pricingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Pricing
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="pricingDropdown">
+              <li>
+                <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('home.cv-charge') }}">
+                  <span>Optimize My CV</span>
+                  <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ route('featured.addons') }}">Post a Job</a></li>
+            </ul>
+          </li>
+          
           <li class="nav-item">
             <a class="nav-link nav-item-link" href="{{ route('seeker.dashboard') }}#job-matching">My Job Matches</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-item-link" href="{{ route('featured.addons') }}">Post a Job</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-item-link" href="{{ route('blog.index') }}">Blogs</a>
@@ -126,17 +171,75 @@
     @endif
 
     <ul class="list-unstyled ps-0">
-      <li class="mb-1"><a href="{{ route('jobs.index') }}"  class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Find Jobs</a></li>
-      <li class="mb-1"><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Companies</a></li>
+      <!-- FIND JOBS DROPDOWN (Mobile) -->
       <li class="mb-1">
-        <a href="{{ route('home.cv-charge') }}" class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">
-          Optimize My CV
-          <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
+        <a class="d-flex align-items-center justify-content-between text-decoration-none py-2 px-3 rounded-2 offcanvas-link" 
+           style="font-size:14px;color:#2a3547;cursor:pointer;" 
+           onclick="toggleMobileDropdown(this)">
+          <span>Find Jobs</span>
+          <i class="bi bi-chevron-down" style="font-size:12px;transition:transform .2s;"></i>
         </a>
+        <ul class="list-unstyled ps-3 mt-1 mobile-dropdown" style="display:none;">
+          <li><a href="{{ route('jobs.index') }}" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">All Jobs</a></li>
+          <li><a href="/ug/jobs" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇺🇬 Uganda Jobs</a></li>
+          <li><a href="/ke/jobs" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇰🇪 Kenya Jobs</a></li>
+          <li><a href="/ng/jobs" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇳🇬 Nigeria Jobs</a></li>
+        </ul>
       </li>
+      
+      <!-- CATEGORIES DROPDOWN (Mobile) -->
+      <li class="mb-1">
+        <a class="d-flex align-items-center justify-content-between text-decoration-none py-2 px-3 rounded-2 offcanvas-link" 
+           style="font-size:14px;color:#2a3547;cursor:pointer;" 
+           onclick="toggleMobileDropdown(this)">
+          <span>Categories</span>
+          <i class="bi bi-chevron-down" style="font-size:12px;transition:transform .2s;"></i>
+        </a>
+        <ul class="list-unstyled ps-3 mt-1 mobile-dropdown" style="display:none;">
+          <li><a href="{{ route('jobs.index') }}" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">All Categories</a></li>
+          <li><a href="/ug/jobs" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇺🇬 Uganda Categories</a></li>
+          <li><a href="/ke/jobs" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇰🇪 Kenya Categories</a></li>
+          <li><a href="/ng/jobs" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇳🇬 Nigeria Categories</a></li>
+        </ul>
+      </li>
+      
+      <!-- COMPANIES DROPDOWN (Mobile) -->
+      <li class="mb-1">
+        <a class="d-flex align-items-center justify-content-between text-decoration-none py-2 px-3 rounded-2 offcanvas-link" 
+           style="font-size:14px;color:#2a3547;cursor:pointer;" 
+           onclick="toggleMobileDropdown(this)">
+          <span>Companies</span>
+          <i class="bi bi-chevron-down" style="font-size:12px;transition:transform .2s;"></i>
+        </a>
+        <ul class="list-unstyled ps-3 mt-1 mobile-dropdown" style="display:none;">
+          <li><a href="{{ route('companies') }}" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">All Companies</a></li>
+          <li><a href="/ug/companies" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇺🇬 Uganda Companies</a></li>
+          <li><a href="/ke/companies" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇰🇪 Kenya Companies</a></li>
+          <li><a href="/ng/companies" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">🇳🇬 Nigeria Companies</a></li>
+        </ul>
+      </li>
+      
+      <!-- PRICING DROPDOWN (Mobile) -->
+      <li class="mb-1">
+        <a class="d-flex align-items-center justify-content-between text-decoration-none py-2 px-3 rounded-2 offcanvas-link" 
+           style="font-size:14px;color:#2a3547;cursor:pointer;" 
+           onclick="toggleMobileDropdown(this)">
+          <span>Pricing</span>
+          <i class="bi bi-chevron-down" style="font-size:12px;transition:transform .2s;"></i>
+        </a>
+        <ul class="list-unstyled ps-3 mt-1 mobile-dropdown" style="display:none;">
+          <li>
+            <a href="{{ route('home.cv-charge') }}" class="d-flex align-items-center justify-content-between text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">
+              <span>Optimize My CV</span>
+              <span style="background:rgba(var(--bs-primary-rgb),.15);border:1px solid rgba(var(--bs-primary-rgb),.3);color:var(--bs-primary);font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;">New</span>
+            </a>
+          </li>
+          <li><a href="{{ route('featured.addons') }}" class="d-block text-decoration-none py-2 px-3 rounded-2" style="font-size:13px;color:#6c757d;">Post a Job</a></li>
+        </ul>
+      </li>
+      
       <li class="mb-1"><a href="{{ route('seeker.dashboard') }}#job-matching" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">My Job Matches</a></li>
-      <li class="mb-1"><a href="{{ route('featured.addons') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Post a Job</a></li>
-      <li class="mb-1"><a href="{{ route('blog.index') }}"  class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Blogs</a></li>
+      <li class="mb-1"><a href="{{ route('blog.index') }}" class="d-block text-decoration-none py-2 px-3 rounded-2 offcanvas-link" style="font-size:14px;color:#2a3547;">Blogs</a></li>
       
       @if(session('web_user'))
       <!-- Dashboard Links for Mobile -->
@@ -192,8 +295,6 @@
   </div>
 </div>
 
-
-
 <style>
   /* ── Sticky header with proper positioning ── */
   .header-fp.header-sticky {
@@ -222,6 +323,29 @@
     padding-top: 0 !important;
   }
 
+  /* Desktop dropdown styling */
+  .dropdown-menu {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+    margin-top: 8px;
+  }
+  
+  .dropdown-item {
+    font-size: 13px;
+    padding: 8px 20px;
+    transition: all .15s;
+  }
+  
+  .dropdown-item:hover {
+    background: rgba(var(--bs-primary-rgb), .08);
+    padding-left: 24px;
+  }
+  
+  .dropdown-divider {
+    margin: 6px 0;
+  }
+
   @media (min-width: 992px) {
     .mobile-menu-button { display: none !important; }
     .desktop-menu { display: flex !important; }
@@ -231,6 +355,21 @@
   @media (max-width: 991.98px) {
     .mobile-menu-button { display: block !important; }
     .desktop-menu { display: none !important; }
+  }
+  
+  /* Mobile dropdown styles */
+  .offcanvas-link:hover {
+    background: rgba(var(--bs-primary-rgb), .05);
+  }
+  
+  .mobile-dropdown li a {
+    transition: all .15s;
+  }
+  
+  .mobile-dropdown li a:hover {
+    background: rgba(var(--bs-primary-rgb), .05);
+    padding-left: 16px !important;
+    color: var(--bs-primary) !important;
   }
 </style>
 
@@ -275,6 +414,26 @@
       alert('Coming Soon!!');
     }
   }
+  
+  // Toggle mobile dropdown
+  function toggleMobileDropdown(element) {
+    const dropdown = element.nextElementSibling;
+    const icon = element.querySelector('.bi-chevron-down, .bi-chevron-up');
+    
+    if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+      dropdown.style.display = 'block';
+      if (icon) {
+        icon.classList.remove('bi-chevron-down');
+        icon.classList.add('bi-chevron-up');
+      }
+    } else {
+      dropdown.style.display = 'none';
+      if (icon) {
+        icon.classList.remove('bi-chevron-up');
+        icon.classList.add('bi-chevron-down');
+      }
+    }
+  }
 </script>
 
 <script>
@@ -298,47 +457,7 @@
   })();
 </script>
 
-<style>
-  /* ── Desktop nav active link ── */
-  .navbar-nav .nav-link.active-nav {
-    color: var(--bs-primary) !important;
-    font-weight: 600;
-    position: relative;
-  }
-  .navbar-nav .nav-link.active-nav::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 3px;
-    background: var(--bs-primary);
-    border-radius: 99px;
-  }
-
-  /* ── Mobile offcanvas active link ── */
-  .mobile-offcanvas .list-unstyled a.active-nav {
-    color: var(--bs-primary) !important;
-    font-weight: 600;
-    border-left: 3px solid var(--bs-primary);
-    padding-left: 10px !important;
-    background: rgba(var(--bs-primary-rgb), 0.05);
-    border-radius: 0 8px 8px 0;
-  }
-</style>
 <script>
-
-  function comingSoon() {
-    const modalElement = document.getElementById('comingSoonModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    } else {
-      alert('Coming Soon!!');
-    }
-  }
-
   // Logout confirmation for both desktop and mobile
   document.getElementById('logout-form-desktop')?.addEventListener('submit', function(e) {
     if (!confirm('Are you sure you want to logout?')) {
