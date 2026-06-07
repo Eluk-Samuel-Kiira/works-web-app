@@ -45,9 +45,9 @@
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
               <li><a class="dropdown-item" href="{{ route('jobs.index') }}">All Categories</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="/ug/jobs">🇺🇬 Uganda Categories</a></li>
-              <li><a class="dropdown-item" href="/ke/jobs">🇰🇪 Kenya Categories</a></li>
-              <li><a class="dropdown-item" href="/ng/jobs">🇳🇬 Nigeria Categories</a></li>
+              <li><a class="dropdown-item" href="/ug/jobs/category/nursing">🇺🇬 Uganda Categories</a></li>
+              <li><a class="dropdown-item" href="/ke/jobs/category/nursing">🇰🇪 Kenya Categories</a></li>
+              <li><a class="dropdown-item" href="/ng/jobs/category/nursing">🇳🇬 Nigeria Categories</a></li>
             </ul>
           </li>
           
