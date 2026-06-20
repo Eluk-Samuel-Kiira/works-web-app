@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Http;
 
 
 
+// Ads
+Route::get('/ads.txt', function () {
+    $content = "ezoic.com, 19390, DIRECT\n";
+    $content .= "google.com, pub-3587587638253109, DIRECT, f08c47fec0942fa0\n";
+    
+    return response($content, 200)
+        ->header('Content-Type', 'text/plain');
+});
+
 // =============================================
 // COUNTRY ROOT REDIRECTS (must be first!)
 // =============================================
