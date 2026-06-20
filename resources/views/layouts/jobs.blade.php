@@ -23,8 +23,24 @@
     </script>
 
 
+    <!-- Google Adsense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3587587638253109"
      crossorigin="anonymous"></script>
+
+    <!-- Ezoic Ads -->
+    <script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
+    <script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
+    <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+    <script>
+        window.ezstandalone = window.ezstandalone || {};
+        ezstandalone.cmd = ezstandalone.cmd || [];
+    </script>
+    <script src="//ezoicanalytics.com/analytics.js"></script>
+
+    <!-- monetag -->
+    <meta name="monetag" content="b5705ff2a229e3bee594236644171e88">
+
+    
 
     <!-- Required meta tags -->
     <meta charset="UTF-8" />

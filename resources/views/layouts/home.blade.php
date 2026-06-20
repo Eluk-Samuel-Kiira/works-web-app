@@ -35,7 +35,8 @@
     </script>
     <script src="//ezoicanalytics.com/analytics.js"></script>
 
-
+    <!-- monetag -->
+    <meta name="monetag" content="b5705ff2a229e3bee594236644171e88">
 
 
     <meta charset="UTF-8" />
