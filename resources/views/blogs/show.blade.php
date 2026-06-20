@@ -85,15 +85,7 @@
   </div>
 
   {{-- ── AD SLOT 1 — Top Leaderboard ──────────────────────────────── --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-xl">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109" data-ad-slot="1832373916"
-           data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+
 
   {{-- ── Two-column layout ──────────────────────────────────────────── --}}
   <div class="container-xl px-3 px-md-4 py-4 py-lg-5" style="overflow: visible;">
@@ -226,13 +218,7 @@
         </article>
 
         {{-- ── AD SLOT 2 — In-content ─────────────────────────────────── --}}
-        <div class="mb-4 text-center">
-          <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-          <ins class="adsbygoogle" style="display:block"
-               data-ad-client="ca-pub-3587587638253109" data-ad-slot="5328765795"
-               data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+
 
         {{-- Author bio --}}
         @if(!empty($author['name']) || !empty($author['title']))
@@ -441,15 +427,7 @@
   </div>
 
   {{-- ── AD SLOT 4 — Pre-CTA ────────────────────────────────────────── --}}
-  <div class="bg-body border-top border-bottom py-2 text-center">
-    <div class="container-xl">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109" data-ad-slot="5963190616"
-           data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+
 
   {{-- ── CTA ──────────────────────────────────────────────────────────── --}}
   <section class="py-5" style="background:linear-gradient(135deg,var(--bs-primary) 0%,#1565c0 100%);">
@@ -472,15 +450,7 @@
   </section>
 
   {{-- ── AD SLOT 5 — Footer ──────────────────────────────────────────── --}}
-  <div class="bg-body border-top py-2 text-center">
-    <div class="container-xl">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle" style="display:block"
-           data-ad-client="ca-pub-3587587638253109" data-ad-slot="9710863933"
-           data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+
 
 </div>{{-- /.main-wrapper --}}
 

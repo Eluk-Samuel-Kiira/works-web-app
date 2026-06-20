@@ -9,18 +9,7 @@
 <div class="main-wrapper">
 
   {{-- AD SLOT 1 --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-fluid">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="8711079786"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
   {{-- Hero --}}
   <div class="bg-primary py-4">

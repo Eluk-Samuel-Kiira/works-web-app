@@ -9,20 +9,7 @@
 <div class="main-wrapper">
 
   {{-- AD SLOT 1 --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-fluid">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <!-- AD SLOT 1 company -->
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="8711079786"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-  </div>
+  
 
   {{-- Hero --}}
   <div class="bg-primary py-4">
@@ -72,19 +59,7 @@
   <div class="container-fluid px-4 py-4">
 
     {{-- AD SLOT 2 --}}
-    <div class="mb-4 text-center">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <!-- AD SLOT 2 company -->
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="7731567855"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
+    
 
     @if(!empty($search))
     <p class="text-muted small mb-3">

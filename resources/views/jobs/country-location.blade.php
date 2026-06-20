@@ -15,18 +15,7 @@
 <div class="main-wrapper">
 
   {{-- AD SLOT 1 — Top Leaderboard --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="1832373916"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
   {{-- Hero --}}
   <div class="bg-primary py-4">
@@ -113,16 +102,7 @@
           @endif
           
           {{-- AD SLOT — Sidebar --}}
-          <div class="mb-4 text-center">
-            <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-3587587638253109"
-                data-ad-slot="1944054556"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-          </div>
+          
           
         </div>
       </div>
@@ -151,20 +131,10 @@
         <div class="row g-3">
           @foreach($jobs as $index => $job)
             
-            {{-- AD SLOT — After every 10 jobs --}}
+            
             @if($index > 0 && $index % 10 === 0)
-            <div class="col-12">
-              <div class="border rounded-3 py-3 px-3 text-center bg-light">
-                <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-                <ins class="adsbygoogle"
-                  style="display:block"
-                  data-ad-client="ca-pub-3587587638253109"
-                  data-ad-slot="8014638881"
-                  data-ad-format="auto"
-                  data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-              </div>
-            </div>
+            {{-- AD SLOT — After every 10 jobs --}}
+
             @endif
             
             <div class="col-12 col-md-6 col-lg-4">
@@ -329,16 +299,7 @@
         @endif
         
         {{-- AD SLOT — Bottom --}}
-        <div class="mt-4 text-center">
-          <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-          <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3587587638253109"
-            data-ad-slot="9822544573"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        
         
       </div>
     </div>

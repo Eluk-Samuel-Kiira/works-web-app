@@ -25,18 +25,7 @@
 <div class="main-wrapper">
 
   {{-- AD SLOT 1 — Top Leaderboard --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="1832373916"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
   {{-- HERO — Country-specific SEARCH --}}
   <section class="bg-primary py-5 py-lg-7">
@@ -157,18 +146,7 @@
   @endif
 
   {{-- AD SLOT 2 — After Featured Jobs --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-3587587638253109"
-          data-ad-slot="8206210573"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
   {{-- ALL JOBS LIST --}}
   <section class="py-4 py-lg-5">
@@ -206,20 +184,9 @@
       <div class="row g-3">
         @foreach($jobs as $index => $job)
 
-          {{-- AD SLOT 3 — After every 10 job listings --}}
           @if($index > 0 && $index % 10 === 0)
-          <div class="col-12">
-            <div class="border rounded-3 py-3 px-3 text-center bg-light">
-              <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-              <ins class="adsbygoogle"
-                  style="display:block"
-                  data-ad-client="ca-pub-3587587638253109"
-                  data-ad-slot="8014638881"
-                  data-ad-format="auto"
-                  data-full-width-responsive="true"></ins>
-              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-          </div>
+          
+          {{-- AD SLOT 3 — After every 10 job listings --}}
           @endif
 
           <div class="col-12 col-md-6 col-lg-4">
@@ -328,18 +295,7 @@
   </section>
 
   {{-- AD SLOT 4 — Before CTA --}}
-  <div class="bg-body border-top border-bottom py-2 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-3587587638253109"
-          data-ad-slot="9822544573"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
   {{-- CTA SECTION --}}
   <section class="bg-primary py-5">
@@ -363,18 +319,7 @@
   </section>
 
   {{-- AD SLOT 5 — Footer Banner --}}
-  <div class="bg-body border-top py-2 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="5875560702"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
 </div>
 @endsection

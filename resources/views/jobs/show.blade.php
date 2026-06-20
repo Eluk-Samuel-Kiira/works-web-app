@@ -119,20 +119,6 @@
        AD SLOT 1 — LEADERBOARD (above fold, highest CPM)
        Replace data-ad-* values with your AdSense config
   ───────────────────────────────────────────────────── --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-xl">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="2596894315"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
-  </div>
 
   {{-- ─────────────────────────────────────────────────────
        MAIN LAYOUT
@@ -310,18 +296,6 @@
              AD SLOT 2 — In-content (after description)
              High viewability: users pause here before scrolling
         ────────────────────────────────────────── --}}
-        <div class="mb-4 text-center">
-          <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-          <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3587587638253109"
-            data-ad-slot="5328765795"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-        </div>
 
 
         {{-- ──────────────────────────────────────────
@@ -560,19 +534,6 @@
           {{-- AD SLOT 3 — Sidebar 300×250
                Best performing ad format. Stays visible as user scrolls content.
           --}}
-          <div class="mb-4 text-center">
-            <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-            <!-- works-mid-list -->
-            <ins class="adsbygoogle"
-              style="display:block"
-              data-ad-client="ca-pub-3587587638253109"
-              data-ad-slot="7466077612"
-              data-ad-format="auto"
-              data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
 
           {{-- Company Info --}}
           @if(isset($job['company']))
@@ -718,21 +679,7 @@
        AD SLOT 4 — Between content & CTA
        High-intent zone: user has finished reading = best CTR
   ───────────────────────────────────────────────────── --}}
-  <div class="bg-body border-top border-bottom py-2 text-center">
-    <div class="container-xl">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <!-- works-pre-cta -->
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="5963190616"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
-  </div>
+
 
 
   {{-- ─────────────────────────────────────────────────────
@@ -784,21 +731,6 @@
        AD SLOT 5 — Footer banner
        Low intrusion, page already consumed, high fill rate
   ───────────────────────────────────────────────────── --}}
-  <div class="bg-body border-top py-2 text-center">
-    <div class="container-xl">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <!-- works-footer -->
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="9710863933"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
-  </div>
 
 </div>{{-- /.main-wrapper --}}
 
