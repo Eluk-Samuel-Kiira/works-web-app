@@ -40,6 +40,8 @@
     <!-- monetag -->
     <meta name="monetag" content="b5705ff2a229e3bee594236644171e88">
     <script src="https://5gvci.com/act/files/tag.min.js?z=11176707" data-cfasync="false" async></script>
+    <script>(function(s){s.dataset.zone='11176761',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
 
     
 
@@ -223,22 +225,6 @@
       }
       .card-compact-sm {
         padding: 1rem !important;
-      }
-    </style>
-    
-    <!-- ads /style -->
-    <style>
-      /* When NO ad is available - HIDDEN completely */
-      ins.adsbygoogle[data-ad-status="unfilled"],
-      ins.adsbygoogle:empty {
-          display: none !important;  /* Completely removes the space */
-      }
-
-      /* When an ad IS available - SHOWS with styling */
-      ins.adsbygoogle[data-ad-status="filled"] {
-          background: #f8f9fa;  /* Light background */
-          border-radius: 8px;   /* Rounded corners */
-          margin: 8px 0;        /* Space around ad */
       }
     </style>
 
