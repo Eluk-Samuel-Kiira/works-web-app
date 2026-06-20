@@ -40,9 +40,13 @@
     <!-- monetag -->
     <meta name="monetag" content="b5705ff2a229e3bee594236644171e88">
     <script src="https://5gvci.com/act/files/tag.min.js?z=11176707" data-cfasync="false" async></script>
+
+    <!-- pop under OnClick (Popunder) -->
     <!-- <script>(function(s){s.dataset.zone='11176761',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script> -->
 
 
+    <script>(function(s){s.dataset.zone='11176879',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='11176882',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     
 
     <!-- Required meta tags -->
