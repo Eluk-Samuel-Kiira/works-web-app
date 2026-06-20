@@ -66,18 +66,7 @@
   </section>
 
   {{-- AD SLOT 1 — Top Leaderboard --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="1832373916"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
   {{-- Featured Post --}}
   <div id="featuredPostContainer" class="py-4 py-lg-5 bg-body-tertiary border-bottom d-none">
@@ -90,18 +79,7 @@
   </div>
 
   {{-- AD SLOT 2 — After Featured --}}
-  <div class="bg-body border-bottom py-1 text-center d-none" id="adAfterFeatured">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="5328765795"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  
 
   {{-- Blog Grid --}}
   <section class="py-4 py-lg-5">
@@ -149,18 +127,6 @@
   </section>
 
   {{-- AD SLOT 3 — Pre-CTA --}}
-  <div class="bg-body border-top border-bottom py-2 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="5963190616"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
 
   {{-- Newsletter Section --}}
   <section class="bg-primary py-5">
@@ -181,18 +147,7 @@
   </section>
 
   {{-- AD SLOT 4 — Footer Banner --}}
-  <div class="bg-body border-top py-2 text-center">
-    <div class="container-xl px-3 px-md-4">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="9710863933"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+
 
 </div>
 

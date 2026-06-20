@@ -16,21 +16,7 @@
 <div class="main-wrapper">
 
   {{-- AD SLOT 1 — Top leaderboard --}}
-  <div class="bg-body border-bottom py-1 text-center">
-    <div class="container-fluid">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <!-- leaderboard-23 -->
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="6147023447"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
-  </div>
+  
 
   {{-- Hero --}}
   <div class="bg-primary py-4">
@@ -96,19 +82,6 @@
           </div>
 
           {{-- AD SLOT — Sidebar --}}
-          <div class="mb-4 text-center">
-            <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-            <!-- Sidebar-slot-1 -->
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-3587587638253109"
-                data-ad-slot="1944054556"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
 
         </div>
       </div>
@@ -266,19 +239,6 @@
         @endif
 
         {{-- AD SLOT — Bottom --}}
-        <div class="mt-4 text-center">
-          <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-          <!-- AD SLOT — Bottom -->
-          <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3587587638253109"
-            data-ad-slot="8012872522"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-        </div>
 
       </div>
     </div>
