@@ -29,6 +29,9 @@
     $subscriptionPlan = null;
     $subscriptionPeriod = null;
     $subscriptionExpiry = null;
+    $isOnTrial = false;
+    $trialDaysLeft = 0;
+    $trialExpiry = null;
     
     if ($API_TOKEN) {
         try {
@@ -52,6 +55,13 @@
                     $subscriptionPlan = $data['data']['plan'] ?? null;
                     $subscriptionPeriod = $data['data']['period'] ?? null;
                     $subscriptionExpiry = $data['data']['expiry_date'] ?? null;
+                    
+                    // Check if on trial
+                    if ($subscriptionPlan === 'seeker_trial' && $subscriptionExpiry) {
+                        $isOnTrial = true;
+                        $trialExpiry = \Carbon\Carbon::parse($subscriptionExpiry);
+                        $trialDaysLeft = max(0, (int) ceil(now()->diffInDays($trialExpiry, false)));
+                    }
                 }
             }
         } catch (Exception $e) {
@@ -61,7 +71,7 @@
 @endphp
 
 {{-- ============================================================= --}}
-{{-- SECTION 1: PRICING PLANS (shown when NOT logged in OR logged in but NOT paid) --}}
+{{-- SECTION: PRICING PLANS (shown when NOT logged in OR logged in but NOT subscribed) --}}
 {{-- ============================================================= --}}
 @if(!$IS_LOGGED_IN || !$hasActiveSubscription)
 
@@ -115,87 +125,41 @@
   </div>
 </section>
 
-{{-- Payment Modal --}}
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content rounded-4 border-0 shadow-xl">
-      <div class="modal-header border-0 p-4 pb-0">
-        <h5 class="modal-title fw-bold">Complete Your Subscription</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body p-4">
-        <div class="row g-4">
-          <div class="col-md-5">
-            <div class="bg-primary bg-opacity-10 rounded-4 p-4 text-center">
-              <div class="rounded-2 bg-primary bg-opacity-20 d-inline-flex p-2 mb-3" id="modalIcon">
-                <i class="bi bi-stars fs-2 text-primary"></i>
-              </div>
-              <h4 class="fw-bold mb-1" id="modalPlanTitle">Pro Plan</h4>
-              <p class="text-muted small mb-2" id="modalPlanDesc">For serious job seekers</p>
-              <div class="mb-3">
-                <span class="display-6 fw-bold text-primary" id="modalPrice">$12</span>
-                <span class="text-muted" id="modalPeriod">/month</span>
-              </div>
-              <hr>
-              <ul class="list-unstyled text-start small" id="modalFeatures"></ul>
-            </div>
-          </div>
-          <div class="col-md-7">
-            <h6 class="fw-bold mb-3">Your Details</h6>
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Full Name</label>
-              <input type="text" class="form-control rounded-3" id="payerName" placeholder="John Doe">
-              <div class="text-danger small mt-1 d-none" id="payerNameErr"></div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Email Address</label>
-              <input type="email" class="form-control rounded-3" id="payerEmail" placeholder="john@example.com">
-              <div class="text-danger small mt-1 d-none" id="payerEmailErr"></div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Phone Number</label>
-              <input type="tel" class="form-control rounded-3" id="payerPhone" placeholder="+256 XXX XXX XXX">
-            </div>
-            <div class="alert alert-info small p-3 rounded-3" style="background: #e8f0fe; border: none;">
-              <i class="bi bi-shield-check me-2"></i>
-              Secured by <strong>Pesapal</strong> — Trusted payment gateway for East Africa
-            </div>
-            <button type="button" class="btn btn-primary rounded-pill w-100 py-2 fw-semibold" id="payNowBtn" onclick="processSeekerPayment()">
-              <i class="bi bi-lock me-2"></i>Pay with Pesapal
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-{{-- Login Required Modal --}}
-<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 border-0 shadow-xl">
-      <div class="modal-body text-center p-5">
-        <div class="rounded-2 bg-warning bg-opacity-20 d-inline-flex p-3 mb-3">
-          <i class="bi bi-box-arrow-in-right fs-1 text-warning"></i>
-        </div>
-        <h5 class="fw-bold mb-2">Login Required</h5>
-        <p class="text-muted mb-4">Please sign in to continue with your subscription.</p>
-        <div class="d-flex gap-2">
-          <a href="{{ route('login.register') }}" class="btn btn-primary rounded-pill px-4 flex-grow-1">Sign In</a>
-          <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+@endif {{-- end pricing section --}}
 
 {{-- ============================================================= --}}
-{{-- SECTION 2: ACTIVE SUBSCRIPTION DASHBOARD (shown when logged in AND paid) --}}
+{{-- SECTION 2: ACTIVE SUBSCRIPTION DASHBOARD (shown when logged in AND subscribed) --}}
 {{-- ============================================================= --}}
-@else
+@if($IS_LOGGED_IN && $hasActiveSubscription)
 
 <section id="cv-enhancement-dashboard" class="py-5 py-lg-6" style="background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); scroll-margin-top: 80px;">
   <div class="container-xl px-3 px-md-4">
+
+    {{-- Trial Banner (shown when on trial) --}}
+    @if($isOnTrial)
+    <div class="alert alert-warning rounded-3 mb-4" style="background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%); border: 1px solid #f59e0b;">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <i class="bi bi-clock-history me-2 text-warning"></i>
+                <span class="fw-semibold">🎉 You're on a Free Trial!</span>
+                <span class="text-muted ms-2">
+                    <span id="trialDaysLeft">{{ $trialDaysLeft }}</span> days remaining
+                </span>
+                <span class="text-muted small d-block">
+                    Expires: {{ $trialExpiry ? $trialExpiry->format('M d, Y') : 'N/A' }}
+                </span>
+            </div>
+            <div>
+                <button class="btn btn-primary btn-sm rounded-pill px-4" onclick="showUpgradeModal()">
+                    <i class="bi bi-arrow-up-circle me-1"></i>Upgrade Now
+                </button>
+            </div>
+        </div>
+        <div class="progress mt-2" style="height:4px;">
+            <div class="progress-bar bg-warning" id="trialProgressBar" style="width:{{ max(0, ($trialDaysLeft / 7) * 100) }}%"></div>
+        </div>
+    </div>
+    @endif
 
     {{-- Welcome Header --}}
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
@@ -203,14 +167,19 @@
         <h1 class="display-6 fw-bold mb-1" style="color: #1e3a8a;">AI CV Enhancement Suite</h1>
         <p class="text-muted mb-0">Professional CV tools powered by artificial intelligence</p>
       </div>
-      <div class="d-flex gap-2">
+      <div class="d-flex gap-2 flex-wrap">
         <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
-          <i class="bi bi-check-circle-fill me-1"></i> Active Plan: {{ ucfirst($subscriptionPlan ?? 'Pro') }}
+          <i class="bi bi-check-circle-fill me-1"></i> Active Plan: {{ ucfirst(str_replace('seeker_', '', $subscriptionPlan ?? 'Pro')) }}
         </span>
         @if($subscriptionExpiry)
         <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2">
-          <i class="bi bi-calendar me-1"></i> Expires: {{ \Carbon\Carbon::parse($subscriptionExpiry)->format('M d, Y') }}
+            <i class="bi bi-calendar me-1"></i> Expires: {{ \Carbon\Carbon::parse($subscriptionExpiry)->format('M d, Y') }}
         </span>
+        @endif
+        @if(!$isOnTrial)
+        <button class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="showUpgradeModal()">
+          <i class="bi bi-arrow-up-circle me-1"></i>Change Plan
+        </button>
         @endif
       </div>
     </div>
@@ -541,6 +510,165 @@
 @endif {{-- end hasActiveSubscription --}}
 
 {{-- ============================================================= --}}
+{{-- MODALS (Always available) --}}
+{{-- ============================================================= --}}
+
+{{-- Payment Modal --}}
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow-xl">
+      <div class="modal-header border-0 p-4 pb-0">
+        <h5 class="modal-title fw-bold">Complete Your Subscription</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row g-4">
+          <div class="col-md-5">
+            <div class="bg-primary bg-opacity-10 rounded-4 p-4 text-center">
+              <div class="rounded-2 bg-primary bg-opacity-20 d-inline-flex p-2 mb-3" id="modalIcon">
+                <i class="bi bi-stars fs-2 text-primary"></i>
+              </div>
+              <h4 class="fw-bold mb-1" id="modalPlanTitle">Pro Plan</h4>
+              <p class="text-muted small mb-2" id="modalPlanDesc">For serious job seekers</p>
+              <div class="mb-3">
+                <span class="display-6 fw-bold text-primary" id="modalPrice">$12</span>
+                <span class="text-muted" id="modalPeriod">/month</span>
+              </div>
+              <hr>
+              <ul class="list-unstyled text-start small" id="modalFeatures"></ul>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <h6 class="fw-bold mb-3">Your Details</h6>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Full Name</label>
+              <input type="text" class="form-control rounded-3" id="payerName" placeholder="John Doe">
+              <div class="text-danger small mt-1 d-none" id="payerNameErr"></div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Email Address</label>
+              <input type="email" class="form-control rounded-3" id="payerEmail" placeholder="john@example.com">
+              <div class="text-danger small mt-1 d-none" id="payerEmailErr"></div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Phone Number</label>
+              <input type="tel" class="form-control rounded-3" id="payerPhone" placeholder="+256 XXX XXX XXX">
+            </div>
+            <div class="alert alert-info small p-3 rounded-3" style="background: #e8f0fe; border: none;">
+              <i class="bi bi-shield-check me-2"></i>
+              Secured by <strong>Pesapal</strong> — Trusted payment gateway for East Africa
+            </div>
+            <button type="button" class="btn btn-primary rounded-pill w-100 py-2 fw-semibold" id="payNowBtn" onclick="processSeekerPayment()">
+              <i class="bi bi-lock me-2"></i>Pay with Pesapal
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- Login Required Modal --}}
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-xl">
+      <div class="modal-body text-center p-5">
+        <div class="rounded-2 bg-warning bg-opacity-20 d-inline-flex p-3 mb-3">
+          <i class="bi bi-box-arrow-in-right fs-1 text-warning"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Login Required</h5>
+        <p class="text-muted mb-4">Please sign in to continue with your subscription.</p>
+        <div class="d-flex gap-2">
+          <a href="{{ route('login.register') }}" class="btn btn-primary rounded-pill px-4 flex-grow-1">Sign In</a>
+          <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- Upgrade Modal (3 plans: Basic, Pro, Elite - NO FREE TRIAL) --}}
+<div class="modal fade" id="upgradeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-xl">
+      <div class="modal-header border-0 p-4 pb-0">
+        <h5 class="modal-title fw-bold">Upgrade Your Plan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="text-center mb-4">
+          <div class="rounded-2 bg-primary bg-opacity-10 d-inline-flex p-3 mb-3">
+            <i class="bi bi-rocket-takeoff fs-1 text-primary"></i>
+          </div>
+          <h6 class="fw-bold">Choose Your Plan</h6>
+          <p class="text-muted small">Select a plan that best fits your needs</p>
+        </div>
+        <div class="row g-3">
+          {{-- Basic Plan --}}
+          <div class="col-4">
+            <div class="card h-100 border-2 rounded-3 text-center p-3" style="border-color: #e5e7eb; cursor:pointer;" onclick="document.getElementById('upgradeModal').querySelector('.btn-close').click(); window.openSeekerPaymentModal('seeker_basic', 5, 'monthly')">
+              <div class="rounded-2 bg-primary bg-opacity-10 d-inline-flex p-2 mb-2">
+                <i class="bi bi-file-text fs-3 text-primary"></i>
+              </div>
+              <h6 class="fw-bold mb-1">Basic</h6>
+              <p class="text-muted small">$5/month</p>
+              <ul class="list-unstyled text-start small">
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> 5 CV reviews</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> 5 rewrites</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> 10 cover letters</li>
+              </ul>
+              <button class="btn btn-outline-primary btn-sm rounded-pill w-100">Select</button>
+            </div>
+          </div>
+
+          {{-- Pro Plan (Popular) --}}
+          <div class="col-4">
+            <div class="card h-100 border-2 rounded-3 text-center p-3" style="border-color: #1e3a8a; background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); cursor:pointer;" onclick="document.getElementById('upgradeModal').querySelector('.btn-close').click(); window.openSeekerPaymentModal('seeker_pro', 12, 'monthly')">
+              <div class="position-relative">
+                <span class="badge bg-warning text-dark rounded-pill px-2 py-1" style="font-size:9px; position:absolute; top:-10px; right:0;">🔥 Popular</span>
+              </div>
+              <div class="rounded-2 bg-primary bg-opacity-20 d-inline-flex p-2 mb-2">
+                <i class="bi bi-stars fs-3 text-primary"></i>
+              </div>
+              <h6 class="fw-bold mb-1 text-primary">Pro</h6>
+              <p class="text-muted small">$12/month</p>
+              <ul class="list-unstyled text-start small">
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> Unlimited reviews</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> Unlimited rewrites</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> Unlimited cover letters</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> PDF download</li>
+              </ul>
+              <button class="btn btn-primary btn-sm rounded-pill w-100">Select</button>
+            </div>
+          </div>
+
+          {{-- Elite Plan --}}
+          <div class="col-4">
+            <div class="card h-100 border-2 rounded-3 text-center p-3" style="border-color: #8b5cf6; background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%); cursor:pointer;" onclick="document.getElementById('upgradeModal').querySelector('.btn-close').click(); window.openSeekerPaymentModal('seeker_elite', 49, 'yearly')">
+              <div class="rounded-2 bg-purple bg-opacity-10 d-inline-flex p-2 mb-2">
+                <i class="bi bi-diamond fs-3 text-purple" style="color: #8b5cf6;"></i>
+              </div>
+              <h6 class="fw-bold mb-1" style="color: #7c3aed;">Elite</h6>
+              <p class="text-muted small">$49/year</p>
+              <ul class="list-unstyled text-start small">
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> Everything in Pro</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> Aptitude test prep</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> Interview scripts</li>
+                <li><i class="bi bi-check-circle-fill text-success me-1" style="font-size:8px;"></i> Career advisor</li>
+              </ul>
+              <button class="btn btn-outline-purple btn-sm rounded-pill w-100" style="color:#7c3aed; border-color:#7c3aed;">Select</button>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <p class="text-muted small mb-0">All plans include AI-powered CV enhancement tools.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- ============================================================= --}}
 {{-- SHARED JAVASCRIPT (works for both sections) --}}
 {{-- ============================================================= --}}
 
@@ -578,6 +706,11 @@
 .cv-preview { font-family: 'Courier New', Courier, monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; }
 </style>
 
+
+
+
+
+
 <script>
 (function() {
     'use strict';
@@ -592,6 +725,12 @@
     // Limits (match backend)
     const LIMITS = { review: 5, rewrite: 2, cover_letter: 10 };
 
+    // ── GLOBALLY AVAILABLE VARIABLES ─────────────────────────────────────
+    let paymentPlans = [];
+    let supportedCurrencies = [];
+    let currentCurrency = { code: 'USD', symbol: '$', name: 'US Dollar', flag: '🇺🇸' };
+    let selectedPackage = null;
+
     // State for active subscription section
     let reviewFile   = null;
     let rewriteFile  = null;
@@ -601,15 +740,179 @@
     let histFilter   = { search: '', type: 'all', status: 'all' };
     let historyLoaded = false;
 
+    // ── SHARED FORMAT PRICE ──────────────────────────────────────────────
+    function formatPrice(amount) {
+        if (!currentCurrency) return `$${Math.round(amount)}`;
+        return `${currentCurrency.symbol} ${Math.round(amount).toLocaleString()}`;
+    }
+
+    // ── SHOW UPGRADE MODAL ──────────────────────────────────────────────
+    window.showUpgradeModal = function() {
+        const modalElement = document.getElementById('upgradeModal');
+        if (!modalElement) {
+            console.warn('Upgrade modal not found');
+            return;
+        }
+        try {
+            let modal = bootstrap.Modal.getInstance(modalElement);
+            if (!modal) {
+                modal = new bootstrap.Modal(modalElement, {
+                    backdrop: true,
+                    keyboard: true,
+                    focus: true
+                });
+            }
+            modal.show();
+        } catch (e) {
+            console.error('Error showing upgrade modal:', e);
+        }
+    };
+
+    // ── PAYMENT MODAL ─────────────────────────────────────────────────────
+    window.openSeekerPaymentModal = function(planName, priceUsd, period) {
+        if (!IS_LOGGED_IN) {
+            new bootstrap.Modal(document.getElementById('loginRequiredModal')).show();
+            return;
+        }
+
+        // If paymentPlans is not available, fetch it first
+        if (!paymentPlans || paymentPlans.length === 0) {
+            fetch(`${API_BASE}/v1/payment-plans?audience=seeker`, {
+                headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${API_TOKEN}` }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.data) {
+                    paymentPlans = data.data.plans || [];
+                    supportedCurrencies = data.data.supported_currencies || [];
+                    currentCurrency = data.data.detected_currency || { code: 'USD', symbol: '$', name: 'US Dollar', flag: '🇺🇸' };
+                    openPaymentModal(planName, priceUsd, period);
+                } else {
+                    showToast('Failed to load payment details. Please refresh and try again.', 'error');
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching plans:', err);
+                showToast('Network error. Please try again.', 'error');
+            });
+            return;
+        }
+
+        openPaymentModal(planName, priceUsd, period);
+    };
+
+    function openPaymentModal(planName, priceUsd, period) {
+        const plan = paymentPlans.find(p => p.name === planName);
+        if (!plan) {
+            showToast('Plan not found. Please refresh and try again.', 'error');
+            return;
+        }
+        
+        selectedPackage = { plan: planName, priceUsd: priceUsd, period: period };
+        
+        document.getElementById('modalPlanTitle').textContent = plan.display_name + ' Plan';
+        document.getElementById('modalPlanDesc').textContent = plan.description;
+        document.getElementById('modalPrice').textContent = formatPrice(plan.local_price);
+        document.getElementById('modalPeriod').textContent = period === 'monthly' ? '/month' : '/year';
+        
+        const iconMap = { 'seeker_basic': 'file-text', 'seeker_pro': 'stars', 'seeker_elite': 'diamond' };
+        const icon = iconMap[planName] || 'stars';
+        document.getElementById('modalIcon').innerHTML = `<i class="bi bi-${icon} fs-2 text-primary"></i>`;
+        
+        const featuresList = document.getElementById('modalFeatures');
+        featuresList.innerHTML = plan.features.map(f => `<li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>${escapeHtml(f)}</li>`).join('');
+        
+        @if(session()->has('web_user'))
+        document.getElementById('payerName').value = '{{ session('web_user.first_name') }} {{ session('web_user.last_name') }}';
+        document.getElementById('payerEmail').value = '{{ session('web_user.email') }}';
+        document.getElementById('payerPhone').value = '{{ session('web_user.phone') ?? '' }}';
+        @endif
+        
+        new bootstrap.Modal(document.getElementById('paymentModal')).show();
+    }
+
+    window.processSeekerPayment = async function() {
+        const name  = document.getElementById('payerName')?.value?.trim();
+        const email = document.getElementById('payerEmail')?.value?.trim();
+        const phone = document.getElementById('payerPhone')?.value?.trim();
+
+        document.getElementById('payerNameErr')?.classList.add('d-none');
+        document.getElementById('payerEmailErr')?.classList.add('d-none');
+
+        let valid = true;
+        if (!name) { showError('payerNameErr', 'Full name is required'); valid = false; }
+        if (!email || !email.includes('@')) { showError('payerEmailErr', 'Valid email is required'); valid = false; }
+        if (!valid) return;
+
+        const btn = document.getElementById('payNowBtn');
+        const originalBtnHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing…';
+
+        const nameParts = name.split(' ');
+        const firstName = nameParts[0];
+        const lastName  = nameParts.slice(1).join(' ') || firstName;
+        const plan      = paymentPlans.find(p => p.name === selectedPackage.plan);
+
+        const payload = {
+            plan:         selectedPackage.plan,
+            period:       selectedPackage.period,
+            amount_usd:   selectedPackage.priceUsd,
+            currency:     currentCurrency?.code || 'USD',
+            amount_local: plan?.local_price || selectedPackage.priceUsd,
+            first_name:   firstName,
+            last_name:    lastName,
+            email:        email,
+            phone:        phone || '',
+            country_code: currentCurrency?.country_code || 'UG',
+        };
+
+        try {
+            const res = await fetch('/payment/initiate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': CSRF,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                if (data.errors) {
+                    const firstError = Object.values(data.errors).flat()[0];
+                    showToast(firstError, 'error');
+                    if (data.errors.first_name || data.errors.last_name) showError('payerNameErr', data.errors.first_name?.[0] || data.errors.last_name?.[0]);
+                    if (data.errors.email) showError('payerEmailErr', data.errors.email[0]);
+                } else {
+                    showToast(data.message || 'Payment initiation failed. Please try again.', 'error');
+                }
+                return;
+            }
+
+            if (data.success && data.redirect_url) {
+                bootstrap.Modal.getInstance(document.getElementById('paymentModal'))?.hide();
+                showToast('Redirecting to payment gateway…', 'info');
+                setTimeout(() => { window.location.href = data.redirect_url; }, 600);
+            } else {
+                showToast(data.message || 'Unexpected error. Please try again.', 'error');
+            }
+
+        } catch (err) {
+            console.error('Payment error:', err);
+            showToast('Network error. Please check your connection and try again.', 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalBtnHtml;
+        }
+    };
+
     // =============================================================
     // SECTION 1: PRICING PLANS (only if not logged in or no subscription)
     // =============================================================
     @if(!$IS_LOGGED_IN || !$hasActiveSubscription)
-    
-    let paymentPlans = [];
-    let supportedCurrencies = [];
-    let currentCurrency = null;
-    let selectedPackage = null;
 
     document.addEventListener('DOMContentLoaded', function() {
         detectAndSetCurrency();
@@ -727,10 +1030,14 @@
         const container = document.getElementById('plansContainer');
         if (!container || !paymentPlans.length) return;
         
-        container.innerHTML = paymentPlans.map(plan => {
+        // Filter out trial plan from display
+        const displayPlans = paymentPlans.filter(p => p.name !== 'seeker_trial');
+        
+        container.innerHTML = displayPlans.map(plan => {
             const price = formatPrice(plan.local_price);
             const period = plan.billing_period === 'monthly' ? '/month' : '/year';
             const yearlyNote = plan.billing_period === 'yearly' ? `<div class="small text-muted mb-2">≈ ${formatPrice(plan.local_price / 12)}/month</div>` : '';
+            
             const popularBadge = plan.is_popular ? `<div class="position-absolute top-0 end-0 bg-warning text-dark fw-bold px-3 py-1 rounded-start-pill" style="font-size: 11px; z-index: 1;">${plan.badge_text || '🔥 MOST POPULAR'}</div>` : '';
             const cardStyle = plan.is_popular ? 'background: linear-gradient(135deg, #1e3a8a, #2563eb);' : '';
             const textColor = plan.is_popular ? 'text-white' : '';
@@ -781,11 +1088,6 @@
         `).join('');
     }
 
-    function formatPrice(amount) {
-        if (!currentCurrency) return `$${Math.round(amount)}`;
-        return `${currentCurrency.symbol} ${Math.round(amount).toLocaleString()}`;
-    }
-
     function updateCurrencyDisplay() {
         const display = document.getElementById('selectedCurrencyDisplay');
         if (display && currentCurrency) {
@@ -803,121 +1105,72 @@
         }
     };
 
-    window.openSeekerPaymentModal = function(planName, priceUsd, period) {
+    // ── TRIAL ACTIVATION ──────────────────────────────────────────────────
+    window.activateTrial = async function(planName) {
         if (!IS_LOGGED_IN) {
             new bootstrap.Modal(document.getElementById('loginRequiredModal')).show();
             return;
         }
-        
-        
-
-        const plan = paymentPlans.find(p => p.name === planName);
-        if (!plan) return;
-        
-        selectedPackage = { plan: planName, priceUsd: priceUsd, period: period };
-        
-        document.getElementById('modalPlanTitle').textContent = plan.display_name + ' Plan';
-        document.getElementById('modalPlanDesc').textContent = plan.description;
-        document.getElementById('modalPrice').textContent = formatPrice(plan.local_price);
-        document.getElementById('modalPeriod').textContent = period === 'monthly' ? '/month' : '/year';
-        
-        const iconMap = { 'seeker_basic': 'file-text', 'seeker_pro': 'stars', 'seeker_elite': 'diamond' };
-        const icon = iconMap[planName] || 'stars';
-        document.getElementById('modalIcon').innerHTML = `<i class="bi bi-${icon} fs-2 text-primary"></i>`;
-        
-        const featuresList = document.getElementById('modalFeatures');
-        featuresList.innerHTML = plan.features.map(f => `<li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>${escapeHtml(f)}</li>`).join('');
-        
-        @if(session()->has('web_user'))
-        document.getElementById('payerName').value = '{{ session('web_user.first_name') }} {{ session('web_user.last_name') }}';
-        document.getElementById('payerEmail').value = '{{ session('web_user.email') }}';
-        document.getElementById('payerPhone').value = '{{ session('web_user.phone') ?? '' }}';
-        @endif
-        
-        new bootstrap.Modal(document.getElementById('paymentModal')).show();
-    };
-
-    window.processSeekerPayment = async function() {
-        const name  = document.getElementById('payerName')?.value?.trim();
-        const email = document.getElementById('payerEmail')?.value?.trim();
-        const phone = document.getElementById('payerPhone')?.value?.trim();
-
-        // Clear previous errors
-        document.getElementById('payerNameErr')?.classList.add('d-none');
-        document.getElementById('payerEmailErr')?.classList.add('d-none');
-
-        // Client-side validation
-        let valid = true;
-        if (!name)                    { showError('payerNameErr',  'Full name is required');    valid = false; }
-        if (!email || !email.includes('@')) { showError('payerEmailErr', 'Valid email is required'); valid = false; }
-        if (!valid) return;
-
-        const btn = document.getElementById('payNowBtn');
-        const originalBtnHtml = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing…';
-
-        const nameParts = name.split(' ');
-        const firstName = nameParts[0];
-        const lastName  = nameParts.slice(1).join(' ') || firstName;
-        const plan      = paymentPlans.find(p => p.name === selectedPackage.plan);
-
-        const payload = {
-            plan:         selectedPackage.plan,
-            period:       selectedPackage.period,
-            amount_usd:   selectedPackage.priceUsd,
-            currency:     currentCurrency?.code || 'USD',
-            amount_local: plan?.local_price || selectedPackage.priceUsd,
-            first_name:   firstName,
-            last_name:    lastName,
-            email:        email,
-            phone:        phone || '',
-            country_code: currentCurrency?.country_code || 'UG',
-        };
 
         try {
-            const res = await fetch('/payment/initiate', {
+            const checkRes = await fetch(`${API_BASE}/v1/payment/trial-status`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${API_TOKEN}`,
+                }
+            });
+            const checkData = await checkRes.json();
+            
+            if (checkData.data?.has_used_trial) {
+                showToast('You have already used your free trial. Please subscribe to continue.', 'warning');
+                return;
+            }
+        } catch (e) {
+            console.error('Error checking trial status:', e);
+        }
+
+        const btn = event?.target;
+        const originalHtml = btn?.innerHTML || '';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Activating...';
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/v1/payment/activate-trial`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type':  'application/json',
-                    'Accept':        'application/json',   // ← triggers JSON error responses
-                    'X-CSRF-TOKEN':  CSRF,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${API_TOKEN}`,
+                    'X-CSRF-TOKEN': CSRF,
                 },
-                body: JSON.stringify(payload),
+                body: JSON.stringify({
+                    plan: 'seeker_trial',
+                    period: 'monthly',
+                }),
             });
 
             const data = await res.json();
 
             if (!res.ok) {
-                // Laravel validation errors come as { errors: { field: ['msg'] } }
-                if (data.errors) {
-                    const firstError = Object.values(data.errors).flat()[0];
-                    showToast(firstError, 'error');
-
-                    // Show field-level errors if present
-                    if (data.errors.first_name || data.errors.last_name) showError('payerNameErr',  data.errors.first_name?.[0] || data.errors.last_name?.[0]);
-                    if (data.errors.email)                                showError('payerEmailErr', data.errors.email[0]);
-                } else {
-                    showToast(data.message || 'Payment initiation failed. Please try again.', 'error');
-                }
+                showToast(data.message || 'Failed to activate trial.', 'error');
                 return;
             }
 
-            if (data.success && data.redirect_url) {
-                // Close modal then redirect to Pesapal
-                bootstrap.Modal.getInstance(document.getElementById('paymentModal'))?.hide();
-                showToast('Redirecting to payment gateway…', 'info');
-                setTimeout(() => { window.location.href = data.redirect_url; }, 600);
-            } else {
-                showToast(data.message || 'Unexpected error. Please try again.', 'error');
+            if (data.success) {
+                showToast('🎉 Free trial activated! You have 7 days to explore all features.', 'success');
+                setTimeout(() => location.reload(), 1500);
             }
-
         } catch (err) {
-            console.error('Payment error:', err);
-            showToast('Network error. Please check your connection and try again.', 'error');
+            console.error('Trial activation error:', err);
+            showToast('Network error. Please try again.', 'error');
         } finally {
-            btn.disabled = false;
-            btn.innerHTML = originalBtnHtml;
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
         }
     };
 
@@ -1182,13 +1435,36 @@
         const label = typeMap[type] || 'Unknown';
         const sc = sColor[item.status] || 'secondary';
 
-        const hasDl = item.has_rewrite || item.has_letter || item.has_feedback;
-        const dlBtns = hasDl ? `
-            <div class="d-flex gap-1 flex-wrap">
-                ${item.has_rewrite ? `<button class="btn btn-outline-success rounded-pill px-2 py-1" onclick="downloadItem(${item.id},'word')" style="font-size:10px;"><i class="bi bi-filetype-docx me-1"></i>Word</button>
-                <button class="btn btn-outline-secondary rounded-pill px-2 py-1" onclick="downloadItem(${item.id},'text')" style="font-size:10px;"><i class="bi bi-filetype-txt me-1"></i>Text</button>` : ''}
-                ${item.has_letter ? `<button class="btn btn-outline-warning rounded-pill px-2 py-1" onclick="downloadLetter(${item.id})" style="font-size:10px;"><i class="bi bi-download me-1"></i>Letter</button>` : ''}
-            </div>` : '';
+        let dlBtns = '';
+        
+        if (type === 'rewrite') {
+            dlBtns = `
+                <div class="d-flex gap-1 flex-wrap">
+                    <button class="btn btn-outline-success rounded-pill px-2 py-1" onclick="downloadItem(${item.id},'word')" style="font-size:10px;border-width:1px;" title="Download as Word">
+                        <i class="bi bi-filetype-docx me-1"></i>Word
+                    </button>
+                    <button class="btn btn-outline-danger rounded-pill px-2 py-1" onclick="downloadItem(${item.id},'pdf')" style="font-size:10px;border-width:1px;" title="Download as PDF">
+                        <i class="bi bi-filetype-pdf me-1"></i>PDF
+                    </button>
+                </div>`;
+        } else if (type === 'cover_letter') {
+            dlBtns = `
+                <div class="d-flex gap-1 flex-wrap">
+                    <button class="btn btn-outline-danger rounded-pill px-2 py-1" onclick="downloadLetter(${item.id},'pdf')" style="font-size:10px;border-width:1px;" title="Download as PDF">
+                        <i class="bi bi-filetype-pdf me-1"></i>PDF
+                    </button>
+                    <button class="btn btn-outline-success rounded-pill px-2 py-1" onclick="downloadLetter(${item.id},'word')" style="font-size:10px;border-width:1px;" title="Download as Word">
+                        <i class="bi bi-filetype-docx me-1"></i>Word
+                    </button>
+                </div>`;
+        } else if (type === 'review') {
+            dlBtns = `
+                <div class="d-flex gap-1 flex-wrap">
+                    <button class="btn btn-outline-danger rounded-pill px-2 py-1" onclick="downloadReview(${item.id},'pdf')" style="font-size:10px;border-width:1px;" title="Download as PDF">
+                        <i class="bi bi-filetype-pdf me-1"></i>PDF
+                    </button>
+                </div>`;
+        }
 
         return `<div class="d-flex align-items-center gap-3 p-3 border-bottom history-item">
             <div class="rounded-2 bg-${color} bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width:40px;height:40px;">
@@ -1227,38 +1503,85 @@
 
     // Download functions
     window.downloadItem = async function(id, format) {
-        toast('Preparing download…', 'info');
+        const formatLabels = { 'word': 'Word', 'pdf': 'PDF' };
+        toast(`Preparing ${formatLabels[format] || format} download…`, 'info');
         try {
             const res = await fetch(`${API_BASE}/v1/cv-enhancement/download/${id}?format=${format}`, {
                 headers: { 'Authorization': `Bearer ${API_TOKEN}` },
             });
-            if (res.status === 401) { toast('Session expired. Please refresh.', 'error'); return; }
-            if (!res.ok) { toast('Download failed.', 'error'); return; }
+            if (res.status === 401) { 
+                toast('Session expired. Please refresh.', 'error'); 
+                return; 
+            }
+            if (!res.ok) { 
+                const errorData = await res.json().catch(() => ({}));
+                toast(errorData.error || 'Download failed.', 'error'); 
+                return; 
+            }
             const blob = await res.blob();
-            const ext = format === 'word' ? 'docx' : (format === 'html' ? 'html' : 'txt');
+            const extMap = { 'word': 'docx', 'pdf': 'pdf' };
+            const ext = extMap[format] || 'txt';
             triggerDownload(blob, `cv_rewrite_${id}.${ext}`);
             toast('Download started!', 'success');
-        } catch (e) { toast('Network error.', 'error'); }
+        } catch (e) { 
+            console.error('Download error:', e);
+            toast('Network error.', 'error'); 
+        }
     };
 
-    window.downloadLetter = async function(letterId) {
+    window.downloadLetter = async function(letterId, format = 'pdf') {
         toast('Preparing cover letter…', 'info');
         try {
-            const res = await fetch(`${API_BASE}/v1/cv-enhancement/cover-letter/download/${letterId}`, {
+            const res = await fetch(`${API_BASE}/v1/cv-enhancement/cover-letter/download/${letterId}?format=${format}`, {
                 headers: { 'Authorization': `Bearer ${API_TOKEN}` },
             });
-            if (!res.ok) { toast('Download failed.', 'error'); return; }
-            triggerDownload(await res.blob(), `cover_letter_${letterId}.txt`);
+            if (!res.ok) { 
+                const errorData = await res.json().catch(() => ({}));
+                toast(errorData.error || 'Download failed.', 'error'); 
+                return; 
+            }
+            const blob = await res.blob();
+            const extMap = { 'pdf': 'pdf', 'word': 'docx' };
+            const ext = extMap[format] || 'txt';
+            triggerDownload(blob, `cover_letter_${letterId}.${ext}`);
             toast('Download started!', 'success');
-        } catch (e) { toast('Network error.', 'error'); }
+        } catch (e) { 
+            console.error('Download error:', e);
+            toast('Network error.', 'error'); 
+        }
+    };
+
+    window.downloadReview = async function(reviewId, format = 'pdf') {
+        toast('Preparing review report…', 'info');
+        try {
+            const res = await fetch(`${API_BASE}/v1/cv-enhancement/review/download/${reviewId}?format=${format}`, {
+                headers: { 'Authorization': `Bearer ${API_TOKEN}` },
+            });
+            if (!res.ok) { 
+                const errorData = await res.json().catch(() => ({}));
+                toast(errorData.error || 'Download failed.', 'error'); 
+                return; 
+            }
+            const blob = await res.blob();
+            const extMap = { 'pdf': 'pdf' };
+            const ext = extMap[format] || 'txt';
+            triggerDownload(blob, `cv_review_${reviewId}.${ext}`);
+            toast('Download started!', 'success');
+        } catch (e) { 
+            console.error('Download error:', e);
+            toast('Network error.', 'error'); 
+        }
     };
 
     function triggerDownload(blob, filename) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url; a.download = filename;
-        document.body.appendChild(a); a.click();
-        a.remove(); URL.revokeObjectURL(url);
+        a.href = url; 
+        a.download = filename;
+        document.body.appendChild(a); 
+        a.click();
+        a.remove(); 
+        URL.revokeObjectURL(url);
     }
 
     // Render result functions
@@ -1305,10 +1628,11 @@
                 <span class="fw-semibold"><i class="bi bi-check-circle-fill text-success me-2"></i>CV Successfully Rewritten</span>
                 <div class="d-flex gap-2">
                     <button class="btn btn-sm btn-success rounded-pill px-3" onclick="downloadItem(${id},'word')"><i class="bi bi-filetype-docx me-1"></i>Word</button>
-                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="downloadItem(${id},'text')"><i class="bi bi-filetype-txt me-1"></i>Text</button>
+                    <button class="btn btn-sm btn-danger rounded-pill px-3" onclick="downloadItem(${id},'pdf')"><i class="bi bi-filetype-pdf me-1"></i>PDF</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="copyText('rewrittenCvText_${id}')"><i class="bi bi-clipboard"></i></button>
                 </div>
             </div>
-            <div class="p-4"><div class="border rounded-2 p-3 bg-white" style="font-family:'Courier New',monospace;font-size:12px;line-height:1.6;max-height:550px;overflow-y:auto;white-space:pre-wrap;">${escapeHtml(text)}</div></div>
+            <div class="p-4"><div id="rewrittenCvText_${id}" class="border rounded-2 p-3 bg-white" style="font-family:'Courier New',monospace;font-size:12px;line-height:1.6;max-height:550px;overflow-y:auto;white-space:pre-wrap;">${escapeHtml(text)}</div></div>
         </div>`;
     }
 
@@ -1326,11 +1650,16 @@
                 <span class="fw-semibold"><i class="bi bi-check-circle-fill text-warning me-2"></i>Cover Letter Generated</span>
                 <div class="d-flex gap-2 align-items-center">
                     ${score ? `<span class="badge bg-${sColor} rounded-pill">Match: ${score}%</span>` : ''}
+                    <button class="btn btn-sm btn-danger rounded-pill px-2" onclick="downloadLetter(${id},'pdf')"><i class="bi bi-filetype-pdf me-1"></i>PDF</button>
                     <button class="btn btn-sm btn-outline-secondary rounded-pill px-2" onclick="copyText('clLetterText_${id}')"><i class="bi bi-clipboard"></i></button>
                 </div>
             </div>
             <div class="p-4">
                 <div id="clLetterText_${id}" class="border rounded-2 p-4 bg-white" style="font-family:Georgia,serif;font-size:13px;line-height:1.8;max-height:550px;overflow-y:auto;white-space:pre-wrap;">${escapeHtml(letter)}</div>
+                <div class="mt-3 d-flex gap-2 justify-content-center flex-wrap">
+                    <button class="btn btn-sm btn-danger rounded-pill px-3" onclick="downloadLetter(${id},'pdf')"><i class="bi bi-filetype-pdf me-1"></i>Download PDF</button>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="copyText('clLetterText_${id}')"><i class="bi bi-clipboard me-1"></i>Copy Letter</button>
+                </div>
             </div>
         </div>`;
     }
@@ -1346,6 +1675,7 @@
     // =============================================================
     // SHARED UTILITIES
     // =============================================================
+
     async function apiCall(endpoint, method = 'GET', body = null) {
         const opts = {
             method,

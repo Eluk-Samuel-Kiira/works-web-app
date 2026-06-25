@@ -74,21 +74,7 @@
 
         {{-- AD every 12 companies --}}
         @if($index > 0 && $index % 12 === 0)
-        <div class="col-12">
-          <div class="border rounded-3 py-1 px-3 text-center bg-body">
-            <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-            <!-- AD every 12 companies -->
-            <ins class="adsbygoogle"
-              style="display:block"
-              data-ad-client="ca-pub-3587587638253109"
-              data-ad-slot="2939878350"
-              data-ad-format="auto"
-              data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
-        </div>
+        
         @endif
 
         {{-- 3 per row on desktop, 2 on tablet, 1 on mobile --}}
@@ -327,18 +313,7 @@
     @endif
 
     {{-- AD SLOT 4 --}}
-    <div class="mt-4 text-center">
-      <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-3587587638253109"
-        data-ad-slot="8447986790"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
+    
 
   </div>
 </div>

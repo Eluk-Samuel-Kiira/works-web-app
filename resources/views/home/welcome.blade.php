@@ -284,7 +284,7 @@
 <section class="py-5 py-lg-6" style="background: linear-gradient(135deg, #f0f4f9 0%, #fffbeb 50%, #f0f4f9 100%); border-top: 1px solid rgba(245, 158, 11, 0.1);">
   <div class="container-xl px-3 px-md-4">
     <div class="text-center mb-5">
-      <span class="badge bg-warning bg-opacity-15 text-warning rounded-pill px-3 py-2 mb-2" style="border: 1px solid rgba(245, 158, 11, 0.3);">How It Works</span>
+      <span class="badge bg-warning bg-opacity-15 text-blue rounded-pill px-3 py-2 mb-2" style="border: 1px solid rgba(202, 184, 153, 0.3);">How It Works</span>
       <h2 class="h2 fw-bold mb-2">Up and running in minutes</h2>
       <p class="text-muted">Simple steps for workers and employers.</p>
     </div>
