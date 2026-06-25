@@ -112,21 +112,7 @@
 
             {{-- AD every 10 jobs --}}
             @if($index > 0 && $index % 10 === 0)
-            <div class="col-12">
-              <div class="border rounded-3 py-1 px-3 text-center bg-body">
-                <p class="text-uppercase text-muted mb-1" style="font-size:9px;letter-spacing:.08em">Advertisement</p>
-                <!-- AD every 10 jobs -->
-                <ins class="adsbygoogle"
-                  style="display:block"
-                  data-ad-client="ca-pub-3587587638253109"
-                  data-ad-slot="1818368370"
-                  data-ad-format="auto"
-                  data-full-width-responsive="true"></ins>
-                <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-              </div>
-            </div>
+            
             @endif
 
             <div class="col-12 col-md-6 col-lg-4">
